@@ -1,0 +1,239 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>บ้านกรงนก | Baan Krong Nok</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;
+ font-family:Arial,sans-serif;
+ background:#f8f6ed;
+ color:#24452d;
+}
+header{
+ background:#174d2c;
+ color:white;
+ padding:18px;
+ text-align:center;
+}
+.logo{font-size:27px;font-weight:bold}
+header p{margin:5px;font-size:13px}
+nav{
+ display:flex;
+ justify-content:space-around;
+ background:white;
+ padding:13px 5px;
+ position:sticky;
+ top:0;
+ z-index:5;
+ box-shadow:0 2px 5px #ddd;
+}
+nav a{
+ color:#245332;
+ text-decoration:none;
+ font-size:13px;
+ font-weight:bold;
+}
+.container{padding:16px;max-width:950px;margin:auto}
+.search{
+ width:100%;
+ padding:13px;
+ border:1px solid #ccc;
+ border-radius:25px;
+ font-size:15px;
+}
+.banner{
+ margin-top:15px;
+ background:linear-gradient(120deg,#174d2c,#71966b);
+ color:white;
+ padding:30px 20px;
+ border-radius:18px;
+ text-align:center;
+}
+.banner h2{font-size:25px}
+.banner p{line-height:1.7}
+h2.section{font-size:20px;margin-top:25px}
+.categories{
+ display:flex;
+ gap:8px;
+ flex-wrap:wrap;
+}
+.categories button{
+ border:0;
+ border-radius:20px;
+ padding:10px 15px;
+ background:#e3ebdc;
+ color:#245332;
+}
+.categories button.active{
+ background:#176b3c;
+ color:white;
+}
+.products{
+ display:grid;
+ grid-template-columns:repeat(2,1fr);
+ gap:12px;
+}
+.product{
+ background:white;
+ border-radius:13px;
+ padding:12px;
+ box-shadow:0 2px 7px #ddd;
+}
+.product-img{
+ height:115px;
+ background:#e9eee2;
+ border-radius:10px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-size:55px;
+}
+.product h3{font-size:15px;margin:10px 0}
+.price{color:#176b3c;font-weight:bold}
+.product button,.order-btn{
+ width:100%;
+ border:0;
+ background:#19834c;
+ color:white;
+ padding:11px;
+ border-radius:20px;
+ margin-top:8px;
+}
+.contact{
+ background:#e8efdf;
+ padding:18px;
+ border-radius:15px;
+ line-height:2;
+ margin-top:20px;
+}
+footer{
+ background:#174d2c;
+ color:white;
+ text-align:center;
+ padding:20px;
+ margin-top:25px;
+}
+@media(min-width:650px){
+ .products{grid-template-columns:repeat(4,1fr)}
+ .product-img{height:150px}
+}
+</style>
+</head>
+<body>
+
+<header>
+ <div class="logo">🐦 บ้านกรงนก</div>
+ <p>กรงนกสวย ๆ สั่งได้ตามใจคุณ</p>
+</header>
+
+<nav>
+ <a href="#home">หน้าแรก</a>
+ <a href="#products">สินค้า</a>
+ <a href="#contact">ติดต่อร้าน</a>
+</nav>
+
+<main class="container">
+
+<section id="home">
+ <input class="search" id="search"
+ placeholder="🔍 ค้นหากรงนกและอุปกรณ์...">
+
+ <div class="banner">
+  <h2>ยินดีต้อนรับสู่บ้านกรงนก</h2>
+  <p>จำหน่ายกรงนกสวยงามทุกชนิด<br>
+  พร้อมอะไหล่และอุปกรณ์ตกแต่งกรงนก</p>
+  <a href="#products" style="color:white">
+   เลือกชมสินค้า ↓
+  </a>
+ </div>
+</section>
+
+<section id="products">
+ <h2 class="section">หมวดหมู่สินค้า</h2>
+ <div class="categories">
+  <button class="active" onclick="filter('ทั้งหมด',this)">ทั้งหมด</button>
+  <button onclick="filter('กรงไม้',this)">กรงไม้</button>
+  <button onclick="filter('กรงเหล็ก',this)">กรงเหล็ก</button>
+  <button onclick="filter('กรงแขวน',this)">กรงแขวน</button>
+  <button onclick="filter('อุปกรณ์',this)">อุปกรณ์</button>
+ </div>
+
+ <h2 class="section">สินค้าแนะนำ</h2>
+ <div class="products" id="productList"></div>
+</section>
+
+<section id="contact" class="contact">
+ <h2>ติดต่อบ้านกรงนก</h2>
+ <p>📞 โทรศัพท์: เพิ่มเบอร์ร้านค้า</p>
+ <p>💬 LINE: เพิ่ม LINE ร้านค้า</p>
+ <p>📘 Facebook: บ้านกรงนก</p>
+ <p>🕒 เวลาทำการ: 08.00 - 20.00 น.</p>
+</section>
+
+</main>
+
+<footer>
+ บ้านกรงนก 🐦<br>
+ ขอบคุณที่เลือกใช้บริการของเรา
+</footer>
+
+<script>
+const products=[
+ {name:"กรงไม้ไทย",category:"กรงไม้",price:2500},
+ {name:"กรงนกแขวน",category:"กรงแขวน",price:3200},
+ {name:"กรงเหล็ก",category:"กรงเหล็ก",price:4500},
+ {name:"กรงหวาย",category:"กรงไม้",price:3800},
+ {name:"ถ้วยน้ำ",category:"อุปกรณ์",price:80},
+ {name:"ถ้วยอาหาร",category:"อุปกรณ์",price:100},
+ {name:"คอนเกาะ",category:"อุปกรณ์",price:150},
+ {name:"อะไหล่กรงนก",category:"อุปกรณ์",price:200}
+];
+
+let current="ทั้งหมด";
+
+function showProducts(){
+ const keyword=document.getElementById("search").value.toLowerCase();
+ const list=document.getElementById("productList");
+ list.innerHTML="";
+
+ products.filter(p=>
+ (current==="ทั้งหมด"||p.category===current)&&
+ p.name.toLowerCase().includes(keyword)
+ ).forEach(p=>{
+  list.innerHTML+=`
+   <div class="product">
+    <div class="product-img">🐦</div>
+    <h3>${p.name}</h3>
+    <div class="price">฿ ${p.price.toLocaleString("th-TH")}</div>
+    <button onclick="order('${p.name}')">
+     สั่งซื้อสินค้า
+    </button>
+   </div>`;
+ });
+}
+
+function filter(category,button){
+ current=category;
+ document.querySelectorAll(".categories button")
+ .forEach(b=>b.classList.remove("active"));
+ button.classList.add("active");
+ showProducts();
+}
+
+function order(name){
+ alert("คุณเลือกสินค้า: "+name+
+ "\nขั้นตอนต่อไปเราจะสร้างระบบสั่งซื้อให้เชื่อมฐานข้อมูล");
+}
+
+document.getElementById("search")
+.addEventListener("input",showProducts);
+
+showProducts();
+</script>
+
+</body>
+</html>
