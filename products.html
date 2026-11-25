@@ -9,36 +9,57 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   font-family: Arial, sans-serif;
   background: #faf8ef;
   color: #17452b;
 }
+
 header {
   background: #174d2b;
   color: white;
-  padding: 20px;
+  padding: 22px 15px;
   text-align: center;
 }
+
+header h1 {
+  margin: 0;
+}
+
+header p {
+  margin-bottom: 0;
+}
+
 nav {
   display: flex;
-  justify-content: space-around;
-  padding: 15px 5px;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 25px;
+  padding: 15px;
   background: white;
 }
+
 nav a {
   color: #174d2b;
   text-decoration: none;
   font-weight: bold;
 }
+
 main {
-  max-width: 1000px;
+  max-width: 1100px;
   margin: auto;
-  padding: 18px;
+  padding: 20px;
 }
-h2 { margin-bottom: 15px; }
+
+h2 {
+  margin-bottom: 18px;
+}
+
 input, select {
   width: 100%;
   padding: 13px;
@@ -48,44 +69,80 @@ input, select {
   font-size: 16px;
   background: white;
 }
+
 .products {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 13px;
+  gap: 15px;
 }
+
 .card {
   background: white;
   border-radius: 14px;
   overflow: hidden;
   box-shadow: 0 2px 7px #ddd;
 }
+
 .card img {
   width: 100%;
-  height: 145px;
+  height: 160px;
   object-fit: cover;
   background: #eee;
 }
-.info { padding: 12px; }
-.info h3 { font-size: 15px; }
+
+.no-image {
+  height: 160px;
+  display: grid;
+  place-items: center;
+  background: #f1f1e8;
+  font-size: 38px;
+}
+
+.info {
+  padding: 13px;
+}
+
+.info h3 {
+  font-size: 16px;
+  margin: 5px 0 8px;
+}
+
 .price {
-  font-size: 18px;
+  font-size: 19px;
   font-weight: bold;
   color: #16824b;
+  margin: 10px 0;
 }
+
+.stock {
+  color: #666;
+  font-size: 13px;
+}
+
 button {
   width: 100%;
   border: 0;
-  padding: 11px;
+  padding: 12px;
   border-radius: 20px;
   background: #18834a;
   color: white;
-  font-size: 14px;
+  font-size: 15px;
+  cursor: pointer;
+  margin-top: 10px;
 }
+
+button:active {
+  background: #0e6034;
+}
+
 .status {
   text-align: center;
   padding: 25px;
   grid-column: 1 / -1;
+  background: white;
+  border-radius: 12px;
 }
+
 footer {
   text-align: center;
   background: #174d2b;
@@ -93,8 +150,11 @@ footer {
   padding: 20px;
   margin-top: 35px;
 }
+
 @media(min-width:650px) {
-  .products { grid-template-columns: repeat(4, 1fr); }
+  .products {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 </style>
 </head>
@@ -103,7 +163,7 @@ footer {
 
 <header>
   <h1>🐦 บ้านกรงนก</h1>
-  <p>รายการกรงนกและอุปกรณ์ตกแต่งทั้งหมด</p>
+  <p>กรงนกสวยงามและอุปกรณ์ตกแต่ง</p>
 </header>
 
 <nav>
@@ -113,6 +173,7 @@ footer {
 </nav>
 
 <main>
+
   <h2>🛒 สินค้าทั้งหมด</h2>
 
   <input
@@ -130,16 +191,26 @@ footer {
   <div class="products" id="product-list">
     <p class="status">กำลังโหลดข้อมูล...</p>
   </div>
+
 </main>
 
 <footer>
   <h3>🐦 บ้านกรงนก</h3>
-  <p>กรงนกสวยงามและอุปกรณ์ตกแต่ง</p>
+  <p>จำหน่ายกรงนกสวยงามและอุปกรณ์ตกแต่ง</p>
+  <p>ขอบคุณที่ใช้บริการค่ะ</p>
 </footer>
 
 <script>
-const SUPABASE_URL = "https://acfrebknwxuybroilgqu.supabase.co/rest/v1/";
-const SUPABASE_KEY = "sb_publishable_UjWZN8YsBLoBTKsbQ3GZsw_A1X3lSPK";
+
+// ==================================
+// 1. เชื่อมต่อ Supabase
+// ==================================
+
+const SUPABASE_URL =
+"https://acfrebknwxuybroilgqu.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_UjWZN8YsBLoBTKsb3QGZsw_A1X3lSPK";
 
 const db = window.supabase.createClient(
   SUPABASE_URL,
@@ -147,6 +218,11 @@ const db = window.supabase.createClient(
 );
 
 let products = [];
+
+
+// ==================================
+// 2. ป้องกันข้อความ HTML ที่ไม่ปลอดภัย
+// ==================================
 
 function safeText(value) {
   return String(value ?? "").replace(/[&<>"']/g, c => ({
@@ -158,62 +234,118 @@ function safeText(value) {
   })[c]);
 }
 
+
+// ==================================
+// 3. ตรวจสอบ URL รูปภาพ
+// ==================================
+
 function safeImage(value) {
   try {
     const url = new URL(value);
+
     return ["https:", "http:"].includes(url.protocol)
       ? safeText(value)
       : "";
+
   } catch {
     return "";
   }
 }
 
+
+// ==================================
+// 4. โหลดสินค้า
+// ==================================
+
 async function loadProducts() {
+
   const list = document.getElementById("product-list");
+  const count = document.getElementById("count");
 
-  const { data, error } = await db
-    .from("products")
-    .select("id,name,category,description,price,image_url,stock")
-    .eq("is_active", true)
-    .order("id", { ascending: false });
+  list.innerHTML =
+    '<p class="status">กำลังโหลดข้อมูลสินค้า...</p>';
 
-  if (error) {
-    list.innerHTML =
-      '<p class="status">โหลดสินค้าไม่สำเร็จ กรุณาตรวจสอบฐานข้อมูล</p>';
-    console.error(error);
-    return;
+  try {
+
+    const { data, error } = await db
+      .from("products")
+      .select("id,name,category,description,price,image_url,stock,is_active")
+      .eq("is_active", true)
+      .order("id", { ascending: false });
+
+    if (error) {
+      throw error;
+    }
+
+    products = data || [];
+
+    // สร้างหมวดหมู่สินค้า
+    const categories = [
+      ...new Set(
+        products.map(p => p.category).filter(Boolean)
+      )
+    ];
+
+    const select = document.getElementById("category");
+
+    select.innerHTML =
+      '<option value="">สินค้าทุกประเภท</option>';
+
+    categories.forEach(category => {
+
+      const option = document.createElement("option");
+
+      option.value = category;
+      option.textContent = category;
+
+      select.appendChild(option);
+
+    });
+
+    showProducts();
+
+  } catch (error) {
+
+    console.error("Supabase error:", error);
+
+    count.textContent = "ไม่สามารถโหลดสินค้าได้";
+
+    list.innerHTML = `
+      <div class="status">
+        <h3>⚠️ โหลดสินค้าไม่สำเร็จ</h3>
+        <p>${safeText(error.message || "กรุณาตรวจสอบการเชื่อมต่อ")}</p>
+        <button onclick="loadProducts()">ลองโหลดอีกครั้ง</button>
+      </div>
+    `;
+
   }
 
-  products = data || [];
-
-  const categories = [...new Set(
-    products.map(p => p.category).filter(Boolean)
-  )];
-
-  const select = document.getElementById("category");
-
-  categories.forEach(category => {
-    const option = document.createElement("option");
-    option.value = category;
-    option.textContent = category;
-    select.appendChild(option);
-  });
-
-  showProducts();
 }
 
+
+// ==================================
+// 5. แสดงสินค้า
+// ==================================
+
 function showProducts() {
+
   const keyword = document
-    .getElementById("search").value.toLowerCase();
+    .getElementById("search")
+    .value.toLowerCase()
+    .trim();
 
   const category = document
-    .getElementById("category").value;
+    .getElementById("category")
+    .value;
 
-  const filtered = products.filter(p =>
-    (p.name || "").toLowerCase().includes(keyword) &&
-    (!category || p.category === category)
-  );
+  const filtered = products.filter(p => {
+
+    const name = (p.name || "").toLowerCase();
+
+    return name.includes(keyword) &&
+      (!category || p.category === category);
+
+  });
 
   document.getElementById("count").textContent =
     "พบสินค้า " + filtered.length + " รายการ";
@@ -221,41 +353,102 @@ function showProducts() {
   const list = document.getElementById("product-list");
 
   if (!filtered.length) {
-    list.innerHTML =
-      '<p class="status">ไม่พบสินค้าที่ค้นหา</p>';
+
+    list.innerHTML = `
+      <p class="status">
+        🛒 ยังไม่พบสินค้าที่ค้นหา
+      </p>
+    `;
+
     return;
   }
 
-  list.innerHTML = filtered.map(p => `
-    <div class="card">
-      ${p.image_url ? `
-        <img src="${safeImage(p.image_url)}"
-             alt="${safeText(p.name)}"
-             onerror="this.style.display='none'">
-      ` : `
-        <div style="height:145px;display:grid;place-items:center">
-          🐦 ยังไม่มีรูปสินค้า
+  list.innerHTML = filtered.map(p => {
+
+    const image = safeImage(p.image_url);
+
+    return `
+      <div class="card">
+
+        ${
+          image
+          ? `
+            <img
+              src="${image}"
+              alt="${safeText(p.name)}"
+              onerror="this.outerHTML='<div class=no-image>🐦</div>'"
+            >
+          `
+          : `
+            <div class="no-image">🐦</div>
+          `
+        }
+
+        <div class="info">
+
+          <h3>${safeText(p.name)}</h3>
+
+          <small>
+            ${safeText(p.category || "สินค้า")}
+          </small>
+
+          <p class="price">
+            ฿${Number(p.price || 0).toLocaleString("th-TH")}
+          </p>
+
+          <p class="stock">
+            คงเหลือ ${Number(p.stock || 0)} ชิ้น
+          </p>
+
+          <button onclick="viewProduct(${Number(p.id)})">
+            ดูรายละเอียดสินค้า
+          </button>
+
         </div>
-      `}
-      <div class="info">
-        <h3>${safeText(p.name)}</h3>
-        <small>${safeText(p.category)}</small>
-        <p class="price">
-          ฿${Number(p.price).toLocaleString("th-TH")}
-        </p>
-        <small>คงเหลือ ${Number(p.stock)} ชิ้น</small>
       </div>
-    </div>
-  `).join("");
+    `;
+
+  }).join("");
+
 }
 
-document.getElementById("search")
+
+// ==================================
+// 6. เปิดหน้ารายละเอียดสินค้า
+// ==================================
+
+function viewProduct(id) {
+
+  window.location.href =
+    "product-detail.html?id=" + encodeURIComponent(id);
+
+}
+
+
+// ==================================
+// 7. ค้นหาสินค้า
+// ==================================
+
+document
+  .getElementById("search")
   .addEventListener("input", showProducts);
 
-document.getElementById("category")
+
+// ==================================
+// 8. เลือกหมวดหมู่
+// ==================================
+
+document
+  .getElementById("category")
   .addEventListener("change", showProducts);
 
+
+// ==================================
+// 9. เริ่มโหลดสินค้า
+// ==================================
+
 loadProducts();
+
 </script>
 
 </body>
