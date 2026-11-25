@@ -5,234 +5,261 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>บ้านกรงนก | Baan Krong Nok</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
-*{box-sizing:border-box}
-body{
- margin:0;
- font-family:Arial,sans-serif;
- background:#f8f6ed;
- color:#24452d;
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #faf8ef;
+  color: #183e27;
 }
-header{
- background:#174d2c;
- color:white;
- padding:18px;
- text-align:center;
+header {
+  background: #174d2b;
+  color: white;
+  padding: 18px;
+  text-align: center;
 }
-.logo{font-size:27px;font-weight:bold}
-header p{margin:5px;font-size:13px}
-nav{
- display:flex;
- justify-content:space-around;
- background:white;
- padding:13px 5px;
- position:sticky;
- top:0;
- z-index:5;
- box-shadow:0 2px 5px #ddd;
+header h1 { margin: 0; font-size: 27px; }
+header p { margin: 6px 0 0; }
+nav {
+  display: flex;
+  justify-content: space-around;
+  background: white;
+  padding: 14px 5px;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  box-shadow: 0 2px 6px #ddd;
 }
-nav a{
- color:#245332;
- text-decoration:none;
- font-size:13px;
- font-weight:bold;
+nav a {
+  color: #174d2b;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 13px;
 }
-.container{padding:16px;max-width:950px;margin:auto}
-.search{
- width:100%;
- padding:13px;
- border:1px solid #ccc;
- border-radius:25px;
- font-size:15px;
+.container {
+  padding: 16px;
+  max-width: 1000px;
+  margin: auto;
 }
-.banner{
- margin-top:15px;
- background:linear-gradient(120deg,#174d2c,#71966b);
- color:white;
- padding:30px 20px;
- border-radius:18px;
- text-align:center;
+.search {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  font-size: 16px;
 }
-.banner h2{font-size:25px}
-.banner p{line-height:1.7}
-h2.section{font-size:20px;margin-top:25px}
-.categories{
- display:flex;
- gap:8px;
- flex-wrap:wrap;
+.banner {
+  background: #e5edda;
+  padding: 25px 18px;
+  margin-top: 16px;
+  border-radius: 18px;
+  text-align: center;
 }
-.categories button{
- border:0;
- border-radius:20px;
- padding:10px 15px;
- background:#e3ebdc;
- color:#245332;
+.banner h2 { color: #174d2b; }
+.banner p { color: #526b53; }
+.section-title {
+  margin-top: 25px;
+  font-size: 21px;
 }
-.categories button.active{
- background:#176b3c;
- color:white;
+.products {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
 }
-.products{
- display:grid;
- grid-template-columns:repeat(2,1fr);
- gap:12px;
+.card {
+  background: white;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 2px 7px #ddd;
 }
-.product{
- background:white;
- border-radius:13px;
- padding:12px;
- box-shadow:0 2px 7px #ddd;
+.card img {
+  width: 100%;
+  height: 145px;
+  object-fit: cover;
+  background: #eee;
 }
-.product-img{
- height:115px;
- background:#e9eee2;
- border-radius:10px;
- display:flex;
- align-items:center;
- justify-content:center;
- font-size:55px;
+.card-content { padding: 11px; }
+.card h3 {
+  font-size: 15px;
+  margin: 3px 0 8px;
 }
-.product h3{font-size:15px;margin:10px 0}
-.price{color:#176b3c;font-weight:bold}
-.product button,.order-btn{
- width:100%;
- border:0;
- background:#19834c;
- color:white;
- padding:11px;
- border-radius:20px;
- margin-top:8px;
+.price {
+  color: #18834a;
+  font-weight: bold;
+  font-size: 17px;
 }
-.contact{
- background:#e8efdf;
- padding:18px;
- border-radius:15px;
- line-height:2;
- margin-top:20px;
+.category {
+  color: #777;
+  font-size: 12px;
 }
-footer{
- background:#174d2c;
- color:white;
- text-align:center;
- padding:20px;
- margin-top:25px;
+button {
+  background: #18834a;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 15px;
+  margin-top: 8px;
+  width: 100%;
+  font-size: 14px;
 }
-@media(min-width:650px){
- .products{grid-template-columns:repeat(4,1fr)}
- .product-img{height:150px}
+footer {
+  background: #174d2b;
+  color: white;
+  text-align: center;
+  padding: 22px;
+  margin-top: 35px;
+}
+.empty {
+  text-align: center;
+  padding: 30px;
+  color: #777;
+  grid-column: 1 / -1;
+}
+@media(min-width:650px) {
+  .products { grid-template-columns: repeat(4, 1fr); }
 }
 </style>
 </head>
+
 <body>
 
 <header>
- <div class="logo">🐦 บ้านกรงนก</div>
- <p>กรงนกสวย ๆ สั่งได้ตามใจคุณ</p>
+  <h1>🐦 บ้านกรงนก</h1>
+  <p>กรงนกสวย ๆ สั่งได้ตามใจคุณ</p>
 </header>
 
 <nav>
- <a href="#home">หน้าแรก</a>
- <a href="#products">สินค้า</a>
- <a href="#contact">ติดต่อร้าน</a>
+  <a href="index.html">หน้าหลัก</a>
+  <a href="#products">สินค้า</a>
+  <a href="contact.html">ติดต่อเรา</a>
 </nav>
 
-<main class="container">
+<div class="container">
 
-<section id="home">
- <input class="search" id="search"
- placeholder="🔍 ค้นหากรงนกและอุปกรณ์...">
+  <input
+    class="search"
+    id="search"
+    type="search"
+    placeholder="🔍 ค้นหากรงนกและอุปกรณ์..."
+  >
 
- <div class="banner">
-  <h2>ยินดีต้อนรับสู่บ้านกรงนก</h2>
-  <p>จำหน่ายกรงนกสวยงามทุกชนิด<br>
-  พร้อมอะไหล่และอุปกรณ์ตกแต่งกรงนก</p>
-  <a href="#products" style="color:white">
-   เลือกชมสินค้า ↓
-  </a>
- </div>
-</section>
+  <section class="banner">
+    <h2>ยินดีต้อนรับสู่บ้านกรงนก</h2>
+    <p>จำหน่ายกรงนกสวยงามทุกชนิด<br>
+    พร้อมอะไหล่และอุปกรณ์ตกแต่งกรงนก</p>
+    <button onclick="document.getElementById('products').scrollIntoView()">
+      เลือกชมสินค้า
+    </button>
+  </section>
 
-<section id="products">
- <h2 class="section">หมวดหมู่สินค้า</h2>
- <div class="categories">
-  <button class="active" onclick="filter('ทั้งหมด',this)">ทั้งหมด</button>
-  <button onclick="filter('กรงไม้',this)">กรงไม้</button>
-  <button onclick="filter('กรงเหล็ก',this)">กรงเหล็ก</button>
-  <button onclick="filter('กรงแขวน',this)">กรงแขวน</button>
-  <button onclick="filter('อุปกรณ์',this)">อุปกรณ์</button>
- </div>
+  <h2 class="section-title" id="products">🛒 สินค้าแนะนำ</h2>
 
- <h2 class="section">สินค้าแนะนำ</h2>
- <div class="products" id="productList"></div>
-</section>
+  <div id="product-list" class="products">
+    <p class="empty">กำลังโหลดสินค้า...</p>
+  </div>
 
-<section id="contact" class="contact">
- <h2>ติดต่อบ้านกรงนก</h2>
- <p>📞 โทรศัพท์: เพิ่มเบอร์ร้านค้า</p>
- <p>💬 LINE: เพิ่ม LINE ร้านค้า</p>
- <p>📘 Facebook: บ้านกรงนก</p>
- <p>🕒 เวลาทำการ: 08.00 - 20.00 น.</p>
-</section>
-
-</main>
+</div>
 
 <footer>
- บ้านกรงนก 🐦<br>
- ขอบคุณที่เลือกใช้บริการของเรา
+  <h3>🐦 บ้านกรงนก</h3>
+  <p>ร้านจำหน่ายกรงนกและอุปกรณ์ตกแต่ง</p>
+  <p>ขอบคุณที่เลือกซื้อสินค้ากับเรา</p>
 </footer>
 
 <script>
-const products=[
- {name:"กรงไม้ไทย",category:"กรงไม้",price:2500},
- {name:"กรงนกแขวน",category:"กรงแขวน",price:3200},
- {name:"กรงเหล็ก",category:"กรงเหล็ก",price:4500},
- {name:"กรงหวาย",category:"กรงไม้",price:3800},
- {name:"ถ้วยน้ำ",category:"อุปกรณ์",price:80},
- {name:"ถ้วยอาหาร",category:"อุปกรณ์",price:100},
- {name:"คอนเกาะ",category:"อุปกรณ์",price:150},
- {name:"อะไหล่กรงนก",category:"อุปกรณ์",price:200}
-];
+const SUPABASE_URL = "ใส่_PROJECT_URL";
+const SUPABASE_KEY = "ใส่_PUBLISHABLE_KEY";
 
-let current="ทั้งหมด";
+const db = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
 
-function showProducts(){
- const keyword=document.getElementById("search").value.toLowerCase();
- const list=document.getElementById("productList");
- list.innerHTML="";
+let allProducts = [];
 
- products.filter(p=>
- (current==="ทั้งหมด"||p.category===current)&&
- p.name.toLowerCase().includes(keyword)
- ).forEach(p=>{
-  list.innerHTML+=`
-   <div class="product">
-    <div class="product-img">🐦</div>
-    <h3>${p.name}</h3>
-    <div class="price">฿ ${p.price.toLocaleString("th-TH")}</div>
-    <button onclick="order('${p.name}')">
-     สั่งซื้อสินค้า
-    </button>
-   </div>`;
- });
+async function loadProducts() {
+  const list = document.getElementById("product-list");
+
+  const { data, error } = await db
+    .from("products")
+    .select("*")
+    .eq("is_active", true)
+    .order("id", { ascending: false });
+
+  if (error) {
+    list.innerHTML =
+      '<p class="empty">ไม่สามารถโหลดสินค้าได้ กรุณาตรวจสอบการเชื่อมต่อ</p>';
+    console.error(error);
+    return;
+  }
+
+  allProducts = data || [];
+  showProducts(allProducts);
 }
 
-function filter(category,button){
- current=category;
- document.querySelectorAll(".categories button")
- .forEach(b=>b.classList.remove("active"));
- button.classList.add("active");
- showProducts();
+function showProducts(items) {
+  const list = document.getElementById("product-list");
+
+  if (!items.length) {
+    list.innerHTML =
+      '<p class="empty">ยังไม่มีสินค้าในร้าน</p>';
+    return;
+  }
+
+  list.innerHTML = items.map(item => `
+    <article class="card">
+      <img
+        src="${safeImage(item.image_url)}"
+        alt="${escapeHTML(item.name)}"
+        onerror="this.style.display='none'"
+      >
+      <div class="card-content">
+        <h3>${escapeHTML(item.name)}</h3>
+        <p class="category">${escapeHTML(item.category || "")}</p>
+        <p class="price">฿${Number(item.price).toLocaleString("th-TH")}</p>
+        <button onclick="alert('สินค้า: ${escapeHTML(item.name)}')">
+          ดูรายละเอียด
+        </button>
+      </div>
+    </article>
+  `).join("");
 }
 
-function order(name){
- alert("คุณเลือกสินค้า: "+name+
- "\nขั้นตอนต่อไปเราจะสร้างระบบสั่งซื้อให้เชื่อมฐานข้อมูล");
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, c => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[c]);
 }
 
-document.getElementById("search")
-.addEventListener("input",showProducts);
+function safeImage(value) {
+  try {
+    const url = new URL(value);
+    return ["https:", "http:"].includes(url.protocol)
+      ? escapeHTML(value)
+      : "";
+  } catch {
+    return "";
+  }
+}
 
-showProducts();
+document.getElementById("search").addEventListener("input", e => {
+  const keyword = e.target.value.toLowerCase();
+
+  showProducts(allProducts.filter(item =>
+    (item.name || "").toLowerCase().includes(keyword) ||
+    (item.category || "").toLowerCase().includes(keyword)
+  ));
+});
+
+loadProducts();
 </script>
 
 </body>
