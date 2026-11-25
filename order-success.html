@@ -1,0 +1,117 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ยืนยันคำสั่งซื้อ | บ้านกรงนก</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;
+ background:#faf8ef;
+ color:#17452b;
+ font-family:Arial,sans-serif;
+}
+header{
+ background:#174d2b;
+ color:white;
+ text-align:center;
+ padding:20px;
+}
+main{
+ max-width:550px;
+ margin:35px auto;
+ padding:18px;
+}
+.card{
+ background:white;
+ border-radius:18px;
+ padding:25px 18px;
+ text-align:center;
+ box-shadow:0 2px 10px #0001;
+}
+.success{
+ font-size:65px;
+ margin:10px;
+}
+h2{color:#18834a}
+.number{
+ background:#f1f5ed;
+ padding:15px;
+ border-radius:10px;
+ font-size:20px;
+ font-weight:bold;
+ margin:18px 0;
+ overflow-wrap:anywhere;
+}
+p{line-height:1.7}
+a.button{
+ display:block;
+ background:#18834a;
+ color:white;
+ text-decoration:none;
+ padding:14px;
+ border-radius:25px;
+ margin-top:18px;
+}
+a.secondary{
+ display:block;
+ color:#174d2b;
+ margin-top:18px;
+}
+</style>
+</head>
+<body>
+
+<header>
+<h2>🐦 บ้านกรงนก</h2>
+ยืนยันคำสั่งซื้อ
+</header>
+
+<main>
+<div class="card">
+<div class="success">✅</div>
+
+<h2>ส่งคำสั่งซื้อเรียบร้อยแล้ว</h2>
+
+<p>
+ขอบคุณที่เลือกซื้อสินค้ากับบ้านกรงนก
+ทางร้านได้รับคำขอสั่งซื้อของคุณแล้ว
+</p>
+
+<p>หมายเลขคำสั่งซื้อของคุณ</p>
+
+<div class="number" id="orderNumber">
+กำลังโหลด...
+</div>
+
+<p>
+กรุณาบันทึกหมายเลขคำสั่งซื้อไว้
+เพื่อใช้สอบถามข้อมูลกับทางร้าน
+</p>
+
+<a class="button" href="products.html">
+กลับไปเลือกซื้อสินค้า
+</a>
+
+<a class="secondary" href="index.html">
+กลับสู่หน้าแรก
+</a>
+</div>
+</main>
+
+<script>
+const params = new URLSearchParams(location.search);
+const id = params.get("id");
+const box = document.getElementById("orderNumber");
+
+if(id && /^\d+$/.test(id)){
+ box.textContent = "BNK-" + id;
+}else{
+ box.textContent = "ไม่พบหมายเลขคำสั่งซื้อ";
+}
+</script>
+
+</body>
+</html>
