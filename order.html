@@ -1,0 +1,215 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>สั่งซื้อสินค้า | บ้านกรงนก</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;background:#faf8ef;color:#17452b;
+ font-family:Arial,sans-serif
+}
+header{
+ background:#174d2b;color:white;text-align:center;
+ padding:18px
+}
+main{max-width:600px;margin:auto;padding:18px}
+.card{
+ background:white;padding:18px;border-radius:16px;
+ box-shadow:0 2px 8px #0001
+}
+label{display:block;margin-top:14px;font-weight:bold}
+input,textarea{
+ width:100%;padding:12px;margin-top:7px;
+ border:1px solid #ccc;border-radius:10px;
+ font-size:16px
+}
+button{
+ width:100%;padding:14px;margin-top:18px;
+ background:#18834a;color:white;border:0;
+ border-radius:25px;font-size:16px
+}
+.price{color:#16834a;font-size:20px;font-weight:bold}
+.notice{color:#a33;font-size:14px}
+</style>
+</head>
+<body>
+
+<header>
+<h2>🐦 บ้านกรงนก</h2>
+แบบฟอร์มสั่งซื้อสินค้า
+</header>
+
+<main>
+<a href="products.html">← กลับไปหน้าสินค้า</a>
+
+<div class="card">
+<h2>รายละเอียดสินค้า</h2>
+<div id="product">กำลังโหลดสินค้า...</div>
+
+<hr>
+
+<h2>ข้อมูลผู้สั่งซื้อ</h2>
+
+<form id="orderForm">
+<label>ชื่อ-นามสกุล</label>
+<input id="customerName" required maxlength="100"
+ placeholder="กรอกชื่อ-นามสกุล">
+
+<label>เบอร์โทรศัพท์</label>
+<input id="phone" type="tel" required
+ maxlength="20" placeholder="กรอกเบอร์โทรศัพท์">
+
+<label>ที่อยู่จัดส่ง</label>
+<textarea id="address" required rows="3"
+ maxlength="500" placeholder="กรอกที่อยู่จัดส่ง"></textarea>
+
+<label>หมายเหตุเพิ่มเติม</label>
+<textarea id="note" rows="2" maxlength="500"
+ placeholder="เช่น ขอจัดส่งช่วงเช้า"></textarea>
+
+<div id="total" class="price"></div>
+
+<button type="submit" id="submitBtn">
+ยืนยันการสั่งซื้อ
+</button>
+<p class="notice">
+* การสั่งซื้อในขั้นตอนนี้เป็นการส่งคำขอสั่งซื้อ
+ร้านค้าจะตรวจสอบและติดต่อกลับเพื่อยืนยันอีกครั้ง
+</p>
+</form>
+</div>
+</main>
+
+<script>
+const SUPABASE_URL = "https://acfrebknwxuybroilgqu.supabase.co/rest/v1/";
+const SUPABASE_KEY = "sb_publishable_UjWZN8YsBLoBTKsbQ3GZsw_A1X3lSPK";
+
+const db = window.supabase.createClient(
+ SUPABASE_URL,SUPABASE_KEY
+);
+
+const params = new URLSearchParams(location.search);
+const productId = params.get("id");
+const quantity = Number(params.get("quantity") || 1);
+
+let productData = null;
+
+function money(value){
+ return Number(value).toLocaleString("th-TH",{
+  minimumFractionDigits:2,
+  maximumFractionDigits:2
+ });
+}
+
+async function loadProduct(){
+ const box = document.getElementById("product");
+
+ if(!productId || !/^\d+$/.test(productId) ||
+    !Number.isInteger(quantity) || quantity < 1){
+  box.textContent = "ไม่พบข้อมูลสินค้า กรุณากลับไปเลือกสินค้าใหม่";
+  document.getElementById("submitBtn").disabled = true;
+  return;
+ }
+
+ const {data,error} = await db
+  .from("products")
+  .select("id,name,price,stock,is_active")
+  .eq("id",productId)
+  .eq("is_active",true)
+  .maybeSingle();
+
+ if(error || !data){
+  box.textContent = "ไม่พบสินค้า กรุณากลับไปเลือกสินค้าใหม่";
+  document.getElementById("submitBtn").disabled = true;
+  return;
+ }
+
+ productData = data;
+
+ if(quantity > Number(data.stock)){
+  box.textContent = "สินค้าไม่เพียงพอ กรุณากลับไปเลือกจำนวนใหม่";
+  document.getElementById("submitBtn").disabled = true;
+  return;
+ }
+
+ box.innerHTML = `
+  <p>${escapeHTML(data.name)}</p>
+  <p>ราคาต่อชิ้น: ฿${money(data.price)}</p>
+  <p>จำนวน: ${quantity} ชิ้น</p>
+ `;
+
+ document.getElementById("total").textContent =
+  "ยอดรวมสินค้า: ฿" + money(Number(data.price)*quantity);
+}
+
+function escapeHTML(value){
+ return String(value ?? "").replace(/[&<>"']/g,c=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",
+  '"':"&quot;","'":"&#39;"
+ })[c]);
+}
+
+document.getElementById("orderForm").addEventListener(
+ "submit",async function(event){
+  event.preventDefault();
+
+  if(!productData){
+   alert("กรุณาเลือกสินค้าก่อน");
+   return;
+  }
+
+  const name = document.getElementById("customerName").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const address = document.getElementById("address").value.trim();
+  const note = document.getElementById("note").value.trim();
+
+  if(!name || !phone || !address){
+   alert("กรุณากรอกข้อมูลให้ครบ");
+   return;
+  }
+
+  if(quantity > Number(productData.stock)){
+   alert("จำนวนสินค้าไม่เพียงพอ");
+   return;
+  }
+
+  const total = Number(productData.price) * quantity;
+  const btn = document.getElementById("submitBtn");
+  btn.disabled = true;
+  btn.textContent = "กำลังบันทึกคำสั่งซื้อ...";
+
+  const {data,error} = await db.from("orders").insert([{
+   customer_name:name,
+   phone:phone,
+   address:address,
+   items:[{
+    product_id:productData.id,
+    product_name:productData.name,
+    price:Number(productData.price),
+    quantity:quantity
+   }],
+   total_price:total,
+   note:note
+  }]).select("id").single();
+
+  if(error){
+   console.error(error);
+   alert("บันทึกไม่สำเร็จ กรุณาตรวจสอบการเชื่อมต่อแล้วลองใหม่");
+   btn.disabled = false;
+   btn.textContent = "ยืนยันการสั่งซื้อ";
+   return;
+  }
+
+  location.href = "order-success.html?id=" +
+   encodeURIComponent(data.id);
+ }
+);
+
+loadProduct();
+</script>
+</body>
+</html>
