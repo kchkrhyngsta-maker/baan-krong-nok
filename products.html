@@ -288,7 +288,10 @@ async function loadProducts() {
       throw error;
     }
 
-    products = data || [];
+ products = Array.isArray(data) ? data : [];
+
+console.log("ข้อมูลสินค้าจาก Supabase:", data);
+console.log("จำนวนสินค้าที่โหลดได้:", products.length);
 
     // สร้างหมวดหมู่สินค้า
     const categories = [
@@ -438,22 +441,27 @@ document.getElementById("category")
 
 // ===================================
 // 8. เริ่มต้นระบบ
-// ===================================
 
-try {
+async function startApp() {
+  try {
+    if (!window.supabase || !window.supabase.createClient) {
+      throw new Error("ไม่สามารถโหลด Supabase library ได้");
+    }
 
-  db = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
+    db = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
 
-  loadProducts();
+    await loadProducts();
 
-} catch (error) {
-
-  showError(error.message);
-
+  } catch (error) {
+    console.error("Start app error:", error);
+    showError(error.message || "ไม่สามารถเริ่มต้นระบบได้");
+  }
 }
+
+startApp();
 
 </script>
 
