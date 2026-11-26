@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="th">
 <head>
   <meta charset="UTF-8">
@@ -9,11 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
 
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: 'Kanit', sans-serif;
@@ -27,12 +22,12 @@
     }
 
     .login-box {
-      background: #FFFFFF;
+      background: white;
       width: 100%;
       max-width: 420px;
       padding: 35px 28px;
       border-radius: 20px;
-      box-shadow: 0 5px 25px rgba(41, 76, 53, 0.12);
+      box-shadow: 0 5px 25px rgba(41,76,53,.12);
       text-align: center;
     }
 
@@ -44,15 +39,9 @@
       margin-bottom: 15px;
     }
 
-    h1 {
-      font-size: 25px;
-      margin-bottom: 5px;
-    }
+    h1 { font-size: 25px; margin-bottom: 5px; }
 
-    .subtitle {
-      color: #66806C;
-      margin-bottom: 25px;
-    }
+    .subtitle { color: #66806C; margin-bottom: 25px; }
 
     .form-group {
       text-align: left;
@@ -72,11 +61,6 @@
       border-radius: 10px;
       font-family: inherit;
       font-size: 16px;
-      outline: none;
-    }
-
-    input:focus {
-      border-color: #39764A;
     }
 
     button {
@@ -92,13 +76,22 @@
       margin-top: 8px;
     }
 
-    button:hover {
-      background: #28613B;
-    }
+    button:hover { background: #28613B; }
 
     button:disabled {
       background: #91A997;
       cursor: not-allowed;
+    }
+
+    .forgot-button {
+      background: transparent;
+      color: #39764A;
+      font-size: 15px;
+      margin-top: 10px;
+    }
+
+    .forgot-button:hover {
+      background: #EDF4E9;
     }
 
     #message {
@@ -114,56 +107,47 @@
       text-decoration: none;
     }
   </style>
-
 </head>
 
 <body>
-
   <div class="login-box">
 
-<img src="Logo.JPG" alt="โลโก้บ้านกรงนก" class="logo">
+    <img src="Logo.JPG" alt="โลโก้บ้านกรงนก" class="logo">
 
-<h1>บ้านกรงนก</h1>
-<p class="subtitle">ระบบจัดการร้านค้า สำหรับผู้ดูแล</p>
+    <h1>บ้านกรงนก</h1>
+    <p class="subtitle">ระบบจัดการร้านค้า สำหรับผู้ดูแล</p>
 
-<form id="loginForm">
+    <form id="loginForm">
 
-  <div class="form-group">
-    <label for="email">อีเมล</label>
-    <input
-      type="email"
-      id="email"
-      placeholder="กรอกอีเมล"
-      required
-    >
-  </div>
+      <div class="form-group">
+        <label for="email">อีเมล</label>
+        <input type="email" id="email" placeholder="กรอกอีเมล" required>
+      </div>
 
-  <div class="form-group">
-    <label for="password">รหัสผ่าน</label>
-    <input
-      type="password"
-      id="password"
-      placeholder="กรอกรหัสผ่าน"
-      required
-    >
-  </div>
+      <div class="form-group">
+        <label for="password">รหัสผ่าน</label>
+        <input type="password" id="password" placeholder="กรอกรหัสผ่าน" required>
+      </div>
 
-  <button type="submit" id="loginButton">
-    เข้าสู่ระบบ
-  </button>
+      <button type="submit" id="loginButton">
+        เข้าสู่ระบบ
+      </button>
 
-  <p id="message"></p>
+      <button type="button" id="forgotButton" class="forgot-button">
+        ลืมรหัสผ่าน?
+      </button>
 
-</form>
+      <p id="message"></p>
 
-<a href="index.html" class="back-link">
-  ← กลับสู่หน้าเว็บไซต์
-</a>
+    </form>
+
+    <a href="index.html" class="back-link">
+      ← กลับสู่หน้าเว็บไซต์
+    </a>
 
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
   <script src="admin.js"></script>
 
 </body>
