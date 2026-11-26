@@ -1,11 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="th">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>บ้านกรงนก | Baan Krong Nok</title>
-
   <meta name="description" content="บ้านกรงนก จำหน่ายกรงนกสวยงาม ซี่ดอก ซี่กรง อะไหล่กรง และอุปกรณ์สำหรับนก">
 
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -33,6 +33,10 @@
       color: inherit;
     }
 
+    img {
+      max-width: 100%;
+    }
+
     /* HEADER */
     header {
       background: #FFFFFF;
@@ -51,17 +55,17 @@
     .logo {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       font-size: 21px;
       font-weight: 600;
       color: #294C35;
     }
 
     .logo img {
-      width: 60px;
-      height: 60px;
-      object-fit: cover;
-      border-radius: 50%;
+      width: 90px;
+      height: 90px;
+      object-fit: contain;
+      border-radius: 0;
     }
 
     .logo-text small {
@@ -90,10 +94,27 @@
       font-weight: 600;
     }
 
+    /* HOME BANNER */
+    .home-banner {
+      width: 100%;
+      padding: 20px 5%;
+      background: #FAFCF7;
+    }
+
+    .home-banner img {
+      display: block;
+      width: 100%;
+      max-width: 1400px;
+      height: auto;
+      margin: auto;
+      border-radius: 18px;
+      box-shadow: 0 5px 18px rgba(0,0,0,0.12);
+    }
+
     /* HERO */
     .hero {
       background: linear-gradient(135deg, #E5F0DF, #FAFCF7);
-      padding: 85px 20px;
+      padding: 65px 20px;
       text-align: center;
     }
 
@@ -116,7 +137,6 @@
       font-size: 42px;
       margin-bottom: 15px;
       color: #294C35;
-      line-height: 1.4;
     }
 
     .hero h2 {
@@ -183,6 +203,7 @@
       text-align: center;
       font-size: 28px;
       margin-bottom: 10px;
+      color: #28613B;
     }
 
     .section-description {
@@ -191,7 +212,7 @@
       margin-bottom: 30px;
     }
 
-    /* SHOP INTRODUCTION */
+    /* INTRODUCTION */
     .introduction-box {
       background: #FFFFFF;
       padding: 40px;
@@ -339,6 +360,11 @@
         justify-content: center;
       }
 
+      .logo img {
+        width: 75px;
+        height: 75px;
+      }
+
       nav {
         justify-content: center;
         gap: 12px;
@@ -348,8 +374,16 @@
         font-size: 14px;
       }
 
+      .home-banner {
+        padding: 12px;
+      }
+
+      .home-banner img {
+        border-radius: 12px;
+      }
+
       .hero {
-        padding: 60px 18px;
+        padding: 45px 18px;
       }
 
       .hero h1 {
@@ -385,302 +419,306 @@
       }
     }
   </style>
+
 </head>
 
 <body>
 
   <!-- HEADER -->
-  <header>
 
+  <header>
     <a href="index.html" class="logo">
       <img src="Logo.JPG" alt="โลโก้บ้านกรงนก">
 
-      <span class="logo-text">
-        บ้านกรงนก
-        <small>Baan Krong Nok</small>
-      </span>
-    </a>
+  <span class="logo-text">
+    บ้านกรงนก
+    <small>Baan Krong Nok</small>
+  </span>
+</a>
 
-    <nav>
-      <a href="index.html" class="active">หน้าแรก</a>
-      <a href="categories.html">หมวดหมู่สินค้า</a>
-      <a href="featured.html">สินค้าแนะนำ</a>
-      <a href="about.html">เกี่ยวกับร้าน</a>
-      <a href="contact.html">ติดต่อเรา</a>
-    </nav>
+<nav>
+  <a href="index.html" class="active">หน้าแรก</a>
+  <a href="categories.html">หมวดหมู่สินค้า</a>
+  <a href="featured.html">สินค้าแนะนำ</a>
+  <a href="about.html">เกี่ยวกับร้าน</a>
+  <a href="contact.html">ติดต่อเรา</a>
+</nav>
 
   </header>
 
-  <!-- HERO -->
-  <section class="hero">
+  <!-- HOME BANNER -->
 
+  <section class="home-banner">
+    <img
+      src="banner-baan-krong-nok.png"
+      alt="บ้านกรงนก รวมสินค้าและอุปกรณ์สำหรับนกทั้ง 10 หมวดหมู่">
+  </section>
+
+  <!-- HERO -->
+
+  <section class="hero">
     <div class="hero-content">
 
-      <span class="hero-label">
-        🐦 ยินดีต้อนรับสู่บ้านกรงนก
-      </span>
+  <span class="hero-label">
+    🐦 ยินดีต้อนรับสู่บ้านกรงนก
+  </span>
 
-      <h1>
-        บ้านกรงนก
-      </h1>
+  <h1>บ้านกรงนก</h1>
 
-      <h2>
-        เสน่ห์ของกรงนกสวยงาม ใส่ใจทุกรายละเอียด
-      </h2>
+  <h2>เสน่ห์ของกรงนกสวยงาม ใส่ใจทุกรายละเอียด</h2>
 
-      <p>
-        แหล่งรวมกรงนกสวยงาม ซี่ดอก ซี่กรง อะไหล่กรง
-        และอุปกรณ์สำหรับนกหลากหลายประเภท
-        เลือกชมสินค้าและรายละเอียดได้สะดวก
-        พร้อมติดต่อสอบถามกับทางร้านได้โดยตรง
-      </p>
+  <p>
+    แหล่งรวมกรงนกสวยงาม ซี่ดอก ซี่กรง อะไหล่กรง
+    และอุปกรณ์สำหรับนกหลากหลายประเภท
+    เลือกชมสินค้าและรายละเอียดได้สะดวก
+    พร้อมติดต่อสอบถามกับทางร้านได้โดยตรง
+  </p>
 
-      <div class="hero-buttons">
+  <div class="hero-buttons">
+    <a href="categories.html" class="button button-primary">
+      🛍️ เลือกชมสินค้าของเรา
+    </a>
 
-        <a href="categories.html" class="button button-primary">
-          🛍️ เลือกชมสินค้าของเรา
-        </a>
+    <a href="contact.html" class="button button-secondary">
+      💚 ติดต่อร้าน
+    </a>
+  </div>
 
-        <a href="contact.html" class="button button-secondary">
-          💚 ติดต่อร้าน
-        </a>
-
-      </div>
-
-    </div>
+</div>
 
   </section>
 
   <!-- SHOP INTRODUCTION -->
-  <section class="section">
 
+  <section class="section">
     <div class="container">
 
-      <div class="introduction-box">
+  <div class="introduction-box">
 
-        <h2>
-          🐦 บ้านกรงนก (Baan Krong Nok)
-        </h2>
+    <h2>🐦 บ้านกรงนก (Baan Krong Nok)</h2>
 
-        <p class="highlight">
-          ร้านจำหน่ายกรงนกสวยงามและอุปกรณ์สำหรับคนรักนก
-        </p>
+    <p class="highlight">
+      ร้านจำหน่ายกรงนกสวยงามและอุปกรณ์สำหรับคนรักนก
+    </p>
 
-        <p>
-          บ้านกรงนกเป็นร้านจำหน่ายกรงนกสวยงาม
-          และอุปกรณ์ที่เกี่ยวข้องกับกรงนกหลากหลายประเภท
-          ไม่ว่าจะเป็นซี่ดอก ซี่กรง อะไหล่กรง
-          ของตกแต่งกรง ถ้วยน้ำ ถ้วยอาหาร
-          และอุปกรณ์สำหรับดูแลนก
-        </p>
+    <p>
+      บ้านกรงนกเป็นร้านจำหน่ายกรงนกสวยงาม
+      และอุปกรณ์ที่เกี่ยวข้องกับกรงนกหลากหลายประเภท
+      ไม่ว่าจะเป็นซี่ดอก ซี่กรง อะไหล่กรง
+      ของตกแต่งกรง ถ้วยน้ำ ถ้วยอาหาร
+      และอุปกรณ์สำหรับดูแลนก
+    </p>
 
-        <p>
-          เรารวบรวมสินค้าให้ลูกค้าสามารถเลือกชม
-          รายละเอียดสินค้าและตรวจสอบราคาได้สะดวก
-          พร้อมช่องทางติดต่อสอบถามข้อมูลกับทางร้านโดยตรง
-        </p>
+    <p>
+      เรารวบรวมสินค้าให้ลูกค้าสามารถเลือกชม
+      รายละเอียดสินค้าและตรวจสอบราคาได้สะดวก
+      พร้อมช่องทางติดต่อสอบถามข้อมูลกับทางร้านโดยตรง
+    </p>
 
-        <a href="about.html" class="button button-primary" style="margin-top:18px;">
-          รู้จักร้านบ้านกรงนกเพิ่มเติม
-        </a>
+    <a href="about.html" class="button button-primary" style="margin-top:18px;">
+      รู้จักร้านบ้านกรงนกเพิ่มเติม
+    </a>
 
-      </div>
-
-    </div>
+  </div>
+</div>
 
   </section>
 
   <!-- PRODUCT FEATURES -->
-  <section class="section features">
 
+  <section class="section features">
     <div class="container">
 
-      <h2 class="section-title">
-        สินค้าและอุปกรณ์สำหรับนก
-      </h2>
+  <h2 class="section-title">สินค้าและอุปกรณ์สำหรับนก</h2>
 
-      <p class="section-description">
-        รวมสินค้าเกี่ยวกับกรงนกและอุปกรณ์ที่ผู้เลี้ยงนกต้องการ
-      </p>
+  <p class="section-description">
+    รวมสินค้าเกี่ยวกับกรงนกและอุปกรณ์ที่ผู้เลี้ยงนกต้องการ
+  </p>
 
-      <div class="feature-grid">
+  <div class="feature-grid">
 
-        <div class="feature-card">
-          <div class="icon">🪺</div>
-          <h3>กรงนกสวยงาม</h3>
-          <p>กรงนกหลากหลายรูปแบบและประเภท</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="icon">🪶</div>
-          <h3>ซี่ดอกและซี่กรง</h3>
-          <p>ซี่กรงและส่วนประกอบสำหรับกรงนก</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="icon">🔧</div>
-          <h3>อะไหล่กรง</h3>
-          <p>อะไหล่และอุปกรณ์สำหรับประกอบกรง</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="icon">🥣</div>
-          <h3>ถ้วยน้ำและถ้วยอาหาร</h3>
-          <p>อุปกรณ์สำหรับให้น้ำและอาหารนก</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="icon">🌿</div>
-          <h3>ของตกแต่งกรง</h3>
-          <p>อุปกรณ์ตกแต่งและเพิ่มความสวยงามให้กรง</p>
-        </div>
-
-        <div class="feature-card">
-          <div class="icon">🧹</div>
-          <h3>อุปกรณ์ดูแลกรง</h3>
-          <p>อุปกรณ์ทำความสะอาดและดูแลกรงนก</p>
-        </div>
-
-      </div>
-
-      <div style="text-align:center; margin-top:30px;">
-        <a href="categories.html" class="button button-primary">
-          ดูหมวดหมู่สินค้าทั้งหมด
-        </a>
-      </div>
-
+    <div class="feature-card">
+      <div class="icon">🪺</div>
+      <h3>กรงนกสวยงาม</h3>
+      <p>กรงนกหลากหลายรูปแบบและประเภท</p>
     </div>
+
+    <div class="feature-card">
+      <div class="icon">🪶</div>
+      <h3>ซี่ดอกและซี่กรง</h3>
+      <p>ซี่กรงและส่วนประกอบสำหรับกรงนก</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="icon">🔧</div>
+      <h3>อะไหล่และส่วนประกอบกรง</h3>
+      <p>อะไหล่และอุปกรณ์สำหรับประกอบกรง</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="icon">🌿</div>
+      <h3>ของตกแต่งกรงนก</h3>
+      <p>อุปกรณ์ตกแต่งและเพิ่มความสวยงามให้กรง</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="icon">🥣</div>
+      <h3>ถ้วยน้ำและถ้วยอาหาร</h3>
+      <p>อุปกรณ์สำหรับให้น้ำและอาหารนก</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="icon">🪵</div>
+      <h3>คอนเกาะและอุปกรณ์ยืนเกาะ</h3>
+      <p>อุปกรณ์ให้นกเกาะและพักผ่อน</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="icon">🍽️</div>
+      <h3>อุปกรณ์ให้อาหารนก</h3>
+      <p>อุปกรณ์สำหรับใส่และให้อาหารนก</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="icon">🧹</div>
+      <h3>อุปกรณ์ทำความสะอาดกรง</h3>
+      <p>อุปกรณ์สำหรับทำความสะอาดและดูแลกรง</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="icon">🪝</div>
+      <h3>อุปกรณ์แขวนกรง</h3>
+      <p>ตะขอ โซ่ ห่วง และอุปกรณ์แขวนกรง</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="icon">🐦</div>
+      <h3>อุปกรณ์สำหรับนกอื่น ๆ</h3>
+      <p>อุปกรณ์เพิ่มเติมสำหรับนกหลากหลายชนิด</p>
+    </div>
+
+  </div>
+
+  <div style="text-align:center; margin-top:30px;">
+    <a href="categories.html" class="button button-primary">
+      ดูหมวดหมู่สินค้าทั้ง 10 หมวด
+    </a>
+  </div>
+
+</div>
 
   </section>
 
   <!-- ABOUT -->
-  <section class="section">
 
+  <section class="section">
     <div class="container">
 
-      <div class="about-box">
+  <div class="about-box">
 
-        <h2 class="section-title">
-          เกี่ยวกับบ้านกรงนก
-        </h2>
+    <h2 class="section-title">เกี่ยวกับบ้านกรงนก</h2>
 
-        <p>
-          บ้านกรงนก (Baan Krong Nok)
-          ร้านจำหน่ายกรงนกสวยงามและอุปกรณ์สำหรับนก
-          รวบรวมสินค้าเกี่ยวกับกรงนกหลากหลายประเภท
-          เพื่อให้ผู้เลี้ยงนกสามารถเลือกชมสินค้าได้สะดวก
-        </p>
+    <p>
+      บ้านกรงนก (Baan Krong Nok)
+      ร้านจำหน่ายกรงนกสวยงามและอุปกรณ์สำหรับนก
+      รวบรวมสินค้าเกี่ยวกับกรงนกหลากหลายประเภท
+      เพื่อให้ผู้เลี้ยงนกสามารถเลือกชมสินค้าได้สะดวก
+    </p>
 
-        <p>
-          ลูกค้าสามารถเลือกชมหมวดหมู่สินค้า
-          ดูสินค้าแนะนำ และติดต่อสอบถามข้อมูลเพิ่มเติม
-          ผ่านช่องทางของร้านได้โดยตรง
-        </p>
+    <p>
+      ลูกค้าสามารถเลือกชมหมวดหมู่สินค้า
+      ดูสินค้าแนะนำ และติดต่อสอบถามข้อมูลเพิ่มเติม
+      ผ่านช่องทางของร้านได้โดยตรง
+    </p>
 
-        <a href="about.html" class="button button-primary">
-          อ่านเพิ่มเติมเกี่ยวกับร้าน
-        </a>
+    <a href="about.html" class="button button-primary">
+      อ่านเพิ่มเติมเกี่ยวกับร้าน
+    </a>
 
-      </div>
-
-    </div>
+  </div>
+</div>
 
   </section>
 
   <!-- CONTACT -->
-  <section class="section contact-section">
 
+  <section class="section contact-section">
     <div class="container">
 
-      <h2 class="section-title">
-        ติดต่อบ้านกรงนก
-      </h2>
+  <h2 class="section-title">ติดต่อบ้านกรงนก</h2>
 
-      <p class="section-description">
-        สนใจสินค้า สามารถติดต่อสอบถามได้ตามช่องทางด้านล่าง
-      </p>
+  <p class="section-description">
+    สนใจสินค้า สามารถติดต่อสอบถามได้ตามช่องทางด้านล่าง
+  </p>
 
-      <div class="contact-grid">
+  <div class="contact-grid">
 
-        <div class="contact-card">
+    <div class="contact-card">
+      <div class="icon">📘</div>
+      <h3>Facebook</h3>
+      <p>ติดตามและสอบถามข้อมูลผ่าน Facebook</p>
 
-          <div class="icon">📘</div>
-
-          <h3>Facebook</h3>
-
-          <p>ติดตามและสอบถามข้อมูลผ่าน Facebook</p>
-
-          <a
-            href="https://www.facebook.com/napawan.chaijinda.9?"
-            class="contact-button"
-            target="_blank"
-            rel="noopener noreferrer">
-            ติดต่อทาง Facebook
-          </a>
-
-        </div>
-
-        <div class="contact-card">
-
-          <div class="icon">💚</div>
-
-          <h3>LINE</h3>
-
-          <p>พูดคุยและสอบถามรายละเอียดสินค้า</p>
-
-          <a
-            href="https://line.me/ti/p/aZASyIlg-H"
-            class="contact-button"
-            target="_blank"
-            rel="noopener noreferrer">
-            ติดต่อทาง LINE
-          </a>
-
-        </div>
-
-        <div class="contact-card">
-
-          <div class="icon">📞</div>
-
-          <h3>โทรศัพท์</h3>
-
-          <p>โทรสอบถามข้อมูลสินค้าโดยตรง</p>
-
-          <a
-            href="tel:0889732402"
-            class="contact-button">
-            088-973-2402
-          </a>
-
-        </div>
-
-      </div>
-
-      <div style="text-align:center; margin-top:25px;">
-        <a href="contact.html" class="button button-primary">
-          ดูช่องทางติดต่อทั้งหมด
-        </a>
-      </div>
-
+      <a
+        href="https://www.facebook.com/napawan.chaijinda.9?"
+        class="contact-button"
+        target="_blank"
+        rel="noopener noreferrer">
+        ติดต่อทาง Facebook
+      </a>
     </div>
+
+    <div class="contact-card">
+      <div class="icon">💚</div>
+      <h3>LINE</h3>
+      <p>พูดคุยและสอบถามรายละเอียดสินค้า</p>
+
+      <a
+        href="https://line.me/ti/p/aZASyIlg-H"
+        class="contact-button"
+        target="_blank"
+        rel="noopener noreferrer">
+        ติดต่อทาง LINE
+      </a>
+    </div>
+
+    <div class="contact-card">
+      <div class="icon">📞</div>
+      <h3>โทรศัพท์</h3>
+      <p>โทรสอบถามข้อมูลสินค้าโดยตรง</p>
+
+      <a href="tel:0889732402" class="contact-button">
+        088-973-2402
+      </a>
+    </div>
+
+  </div>
+
+  <div style="text-align:center; margin-top:25px;">
+    <a href="contact.html" class="button button-primary">
+      ดูช่องทางติดต่อทั้งหมด
+    </a>
+  </div>
+
+</div>
 
   </section>
 
   <!-- FOOTER -->
+
   <footer>
 
-    <p>🐦 บ้านกรงนก (Baan Krong Nok)</p>
+<p>🐦 บ้านกรงนก (Baan Krong Nok)</p>
 
-    <p>
-      กรงนกสวย ๆ อุปกรณ์ครบครัน
-      เลือกชมสินค้าได้หลากหลายตามต้องการ
-    </p>
+<p>
+  กรงนกสวย ๆ อุปกรณ์ครบครัน
+  เลือกชมสินค้าได้หลากหลายตามต้องการ
+</p>
 
-    <p>โทร. 088-973-2402</p>
+<p>โทร. 088-973-2402</p>
 
-    <p>
-      © <span id="year"></span> บ้านกรงนก
-    </p>
+<p>
+  © <span id="year"></span> บ้านกรงนก
+</p>
 
   </footer>
 
