@@ -8,67 +8,7 @@
   <meta name="description" content="บ้านกรงนก จำหน่ายกรงนกสวยงามและอุปกรณ์สำหรับนกทุกชนิด">
 
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <div class="contact-links">
-
-    <a class="contact-link facebook-link"
-       href="https://www.facebook.com/share/19fJmXZecb/?mibextid=wwXIfr"
-       target="_blank"
-       rel="noopener noreferrer">
-      📘 ติดต่อทาง Facebook
-    </a>
-
-    <a class="contact-link line-link"
-       href="https://line.me/ti/p/aZASyIlg-H"
-       target="_blank"
-       rel="noopener noreferrer">
-      💚 ติดต่อทาง LINE
-    </a>
-
-    <a class="contact-link phone-link"
-       href="tel:0889732402">
-      📞 โทร 088-973-2402
-    </a>
-
-  </div>
-</div>
-
-/* CONTACT BUTTONS */
-.contact-links {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  margin-top: 22px;
-}
-
-.contact-link {
-  display: block;
-  padding: 14px 18px;
-  border-radius: 30px;
-  color: white;
-  font-weight: 500;
-  text-align: center;
-  transition: 0.2s;
-}
-
-.contact-link:hover {
-  opacity: 0.88;
-  transform: translateY(-2px);
-}
-
-.facebook-link {
-  background: #1877F2;
-}
-
-.line-link {
-  background: #06B65A;
-}
-
-.phone-link {
-  background: #39764A;
-}
 
   <style>
     * {
@@ -77,9 +17,7 @@
       padding: 0;
     }
 
-    html {
-      scroll-behavior: smooth;
-    }
+    html { scroll-behavior: smooth; }
 
     body {
       font-family: 'Kanit', sans-serif;
@@ -88,48 +26,12 @@
       line-height: 1.7;
     }
 
-<!-- CONTACT -->
-<section id="contact" class="contact-section">
-  <div class="section-title">
-    <h2>ติดต่อบ้านกรงนก 🐦</h2>
-    <p>สอบถามสินค้าและรายละเอียดเพิ่มเติมได้ที่ช่องทางด้านล่าง</p>
-  </div>
-
-  <div class="contact-box">
-    <h3>ยินดีต้อนรับสู่บ้านกรงนก</h3>
-    <p>เราพร้อมให้บริการกรงนกสวยงามและอุปกรณ์สำหรับนกทุกชนิด</p>
-
-    <div class="contact-links">
-      <a class="contact-link facebook-link"
-         href="https://www.facebook.com/share/19fJmXZecb/?mibextid=wwXIfr"
-         target="_blank" rel="noopener noreferrer">
-        📘 ติดต่อทาง Facebook
-      </a>
-
-      <a class="contact-link line-link"
-         href="https://line.me/ti/p/aZASyIlg-H"
-         target="_blank" rel="noopener noreferrer">
-        💚 ติดต่อทาง LINE
-      </a>
-
-      <a class="contact-link phone-link"
-         href="tel:0889732402">
-        📞 โทร 088-973-2402
-      </a>
-    </div>
-
-    <p class="contact-note">ขอบคุณที่เลือกใช้บริการบ้านกรงนก</p>
-  </div>
-</section>
-
     a {
       text-decoration: none;
       color: inherit;
     }
 
-    img {
-      max-width: 100%;
-    }
+    img { max-width: 100%; }
 
     /* HEADER */
     header {
@@ -149,36 +51,32 @@
       gap: 12px;
     }
 
-    /* LOGO เต็มวงกลม */
-  
-/* LOGO บ้านกรงนก */
-.brand-logo {
-  width: 105px;
-  height: 105px;
-  min-width: 105px;
-  border-radius: 50%;
-  border: 4px solid #39764A;
-  background: #E5F0E2;
-  padding: 0;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.brand-logo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  border-radius: 50%;
-  display: block;
-  transform: scale(0.90);
-}
+    .brand-logo {
+      width: 105px;
+      height: 105px;
+      min-width: 105px;
+      border-radius: 50%;
+      border: 4px solid #39764A;
+      background: #E5F0E2;
+      padding: 0;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
 
+    .brand-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      border-radius: 50%;
+      display: block;
+      transform: scale(0.90);
+    }
 
-
-    .9brand h1 {
+    .brand h1 {
       font-size: 25px;
       color: #28613B;
       line-height: 1.3;
@@ -191,7 +89,7 @@
 
     nav {
       display: flex;
-      gap: 20px;
+      gap: 18px;
       flex-wrap: wrap;
       align-items: center;
     }
@@ -202,9 +100,7 @@
       font-size: 15px;
     }
 
-    nav a:hover {
-      color: #77A65E;
-    }
+    nav a:hover { color: #77A65E; }
 
     /* HERO */
     .hero {
@@ -216,9 +112,7 @@
       text-align: center;
     }
 
-    .hero-content {
-      max-width: 760px;
-    }
+    .hero-content { max-width: 760px; }
 
     .hero h2 {
       font-size: clamp(30px, 5vw, 46px);
@@ -241,14 +135,10 @@
       font-weight: 500;
     }
 
-    .main-button:hover {
-      background: #285A37;
-    }
+    .main-button:hover { background: #285A37; }
 
     /* SECTION */
-    section {
-      padding: 55px 6%;
-    }
+    section { padding: 55px 6%; }
 
     .section-title {
       text-align: center;
@@ -319,9 +209,7 @@
       background: #F0F4EC;
     }
 
-    .product-info {
-      padding: 15px;
-    }
+    .product-info { padding: 15px; }
 
     .product-info h3 {
       font-size: 17px;
@@ -359,9 +247,7 @@
     }
 
     /* FEATURES */
-    .features {
-      background: #EDF4E9;
-    }
+    .features { background: #EDF4E9; }
 
     .feature-grid {
       display: grid;
@@ -397,9 +283,7 @@
       border: 1px solid #E6EDE2;
     }
 
-    .about-box p {
-      color: #647968;
-    }
+    .about-box p { color: #647968; }
 
     /* ORDER */
     .order-grid {
@@ -416,9 +300,7 @@
       border: 1px solid #E4EDE0;
     }
 
-    .order-card span {
-      font-size: 32px;
-    }
+    .order-card span { font-size: 32px; }
 
     .order-card h3 {
       color: #39764A;
@@ -444,31 +326,55 @@
       color: #647968;
     }
 
-    .contact-facebook {
-      margin: 20px auto;
-      text-align: center;
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 22px;
     }
 
-    .contact-facebook a {
-      display: inline-block;
-      background: #39764A;
-      color: #FFFFFF;
-      padding: 13px 24px;
+    .contact-link {
+      display: block;
+      padding: 14px 18px;
       border-radius: 30px;
-      font-weight: 600;
-      box-shadow: 0 4px 10px rgba(57,118,74,.2);
-      transition: .3s;
+      color: white;
+      font-weight: 500;
+      text-align: center;
+      transition: .2s;
     }
 
-    .contact-facebook a:hover {
-      background: #285A37;
+    .contact-link:hover {
+      opacity: .88;
       transform: translateY(-2px);
     }
 
-    .contact-note {
-      font-size: 13px;
-      color: #89988A;
-      margin-top: 15px;
+    .facebook-link { background: #1877F2; }
+    .line-link { background: #06B65A; }
+    .phone-link { background: #39764A; }
+
+    /* FAQ */
+    .faq-container {
+      max-width: 800px;
+      margin: auto;
+    }
+
+    .faq-item {
+      background: white;
+      border: 1px solid #E2EBDD;
+      border-radius: 14px;
+      margin-bottom: 14px;
+      padding: 17px 20px;
+    }
+
+    .faq-item summary {
+      color: #39764A;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .faq-item p {
+      color: #647968;
+      margin-top: 12px;
     }
 
     /* FOOTER */
@@ -479,61 +385,42 @@
       padding: 25px 15px;
     }
 
-    footer p {
-      font-size: 14px;
-    }
+    footer p { font-size: 14px; }
 
+    /* MOBILE */
     @media (max-width: 650px) {
       header {
         justify-content: center;
         text-align: center;
       }
 
-      .brand {
-        justify-content: center;
-      }
+      .brand { justify-content: center; }
 
-      .brand h1 {
-        font-size: 22px;
-      }
+      .brand h1 { font-size: 22px; }
 
       nav {
         justify-content: center;
         gap: 13px;
       }
 
-      nav a {
-        font-size: 14px;
-      }
+      nav a { font-size: 14px; }
 
-      .hero {
-        padding: 45px 5%;
-      }
+      .hero { padding: 45px 5%; }
 
-      section {
-        padding: 40px 5%;
-      }
+      section { padding: 40px 5%; }
 
       .product-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 12px;
       }
 
-      .product-card img {
-        height: 155px;
-      }
+      .product-card img { height: 155px; }
 
-      .product-info {
-        padding: 10px;
-      }
+      .product-info { padding: 10px; }
 
-      .product-info h3 {
-        font-size: 15px;
-      }
+      .product-info h3 { font-size: 15px; }
 
-      .product-price {
-        font-size: 16px;
-      }
+      .product-price { font-size: 16px; }
     }
   </style>
 </head>
@@ -562,6 +449,7 @@
       <a href="#categories">หมวดหมู่สินค้า</a>
       <a href="#about">เกี่ยวกับเรา</a>
       <a href="#contact">ติดต่อเรา</a>
+      <a href="#faq">คำถามที่พบบ่อย</a>
     </nav>
   </header>
 
@@ -609,13 +497,4 @@
 
       <a href="products.html" class="category-card">
         <div class="category-icon">🛠️</div>
-        <h3>อะไหล่และอุปกรณ์</h3>
-      </a>
-    </div>
-  </section>
-
-  <!-- PRODUCTS -->
-  <section id="products">
-    <div class="section-title">
-      <h2>สินค้าแนะนำ</h2>
-      <p>เลือกชมสินค้าแนะนำจากบ้า
+    
