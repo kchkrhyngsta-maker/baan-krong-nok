@@ -1,159 +1,369 @@
-
 <!DOCTYPE html>
+
 <html lang="th">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ติดต่อร้าน | บ้านกรงนก</title>
-<style>
-*{box-sizing:border-box}
-body{
- margin:0;
- background:#faf8ef;
- color:#17452b;
- font-family:Arial,sans-serif;
-}
-header{
- background:#174d2b;
- color:white;
- text-align:center;
- padding:20px;
-}
-main{
- max-width:600px;
- margin:auto;
- padding:20px;
-}
-.card{
- background:white;
- padding:20px;
- margin-top:18px;
- border-radius:16px;
- box-shadow:0 2px 8px #0001;
-}
-h2{color:#18834a}
-.info{
- padding:12px;
- background:#f1f5ed;
- border-radius:10px;
- margin:10px 0;
- line-height:1.7;
-}
-label{
- display:block;
- margin-top:14px;
- font-weight:bold;
-}
-input,textarea{
- width:100%;
- padding:12px;
- margin-top:7px;
- border:1px solid #ccc;
- border-radius:10px;
- font-size:16px;
-}
-button{
- width:100%;
- padding:14px;
- margin-top:18px;
- background:#18834a;
- color:white;
- border:0;
- border-radius:25px;
- font-size:16px;
-}
-a{color:#174d2b}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>ติดต่อเรา | บ้านกรงนก</title>
+  <meta name="description" content="ติดต่อบ้านกรงนก สอบถามกรงนกและอุปกรณ์สำหรับนก">
+
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Kanit', sans-serif;
+      background: #FAFCF7;
+      color: #294C35;
+      line-height: 1.7;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    header {
+      background: #FFFFFF;
+      padding: 12px 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 15px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 21px;
+      font-weight: 600;
+      color: #294C35;
+    }
+
+    .logo img {
+      width: 58px;
+      height: 58px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      align-items: center;
+    }
+
+    nav a {
+      font-size: 15px;
+      color: #294C35;
+    }
+
+    nav a:hover,
+    nav a.active {
+      color: #39764A;
+      font-weight: 600;
+    }
+
+    .banner {
+      background: #EDF4E9;
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .banner h1 {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .banner p {
+      color: #58715D;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1050px;
+      margin: 45px auto 60px;
+    }
+
+    .intro {
+      text-align: center;
+      margin-bottom: 35px;
+    }
+
+    .intro h2 {
+      font-size: 25px;
+      margin-bottom: 10px;
+    }
+
+    .intro p {
+      color: #718273;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 22px;
+    }
+
+    .contact-card {
+      background: #FFFFFF;
+      padding: 32px 20px;
+      border-radius: 16px;
+      text-align: center;
+      box-shadow: 0 3px 14px rgba(0,0,0,0.06);
+      transition: 0.25s;
+    }
+
+    .contact-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 7px 20px rgba(0,0,0,0.10);
+    }
+
+    .icon {
+      font-size: 48px;
+      margin-bottom: 12px;
+    }
+
+    .contact-card h3 {
+      font-size: 21px;
+      margin-bottom: 8px;
+    }
+
+    .contact-card p {
+      color: #718273;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .contact-button {
+      display: inline-block;
+      background: #39764A;
+      color: #FFFFFF;
+      padding: 11px 22px;
+      border-radius: 9px;
+      font-size: 15px;
+      transition: 0.2s;
+    }
+
+    .contact-button:hover {
+      background: #28613B;
+    }
+
+    .shop-info {
+      background: #FFFFFF;
+      border-radius: 16px;
+      padding: 30px;
+      margin-top: 35px;
+      box-shadow: 0 3px 14px rgba(0,0,0,0.05);
+    }
+
+    .shop-info h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .shop-info p {
+      margin: 12px 0;
+      color: #58715D;
+    }
+
+    .shop-info strong {
+      color: #294C35;
+    }
+
+    .back-home {
+      display: block;
+      width: fit-content;
+      margin: 30px auto 0;
+      background: #EDF4E9;
+      color: #294C35;
+      padding: 11px 25px;
+      border-radius: 9px;
+    }
+
+    footer {
+      background: #294C35;
+      color: #FFFFFF;
+      text-align: center;
+      padding: 27px 15px;
+    }
+
+    footer p {
+      font-size: 14px;
+      margin: 4px 0;
+    }
+
+    @media (max-width: 700px) {
+      header {
+        justify-content: center;
+      }
+
+      nav {
+        justify-content: center;
+        gap: 12px;
+      }
+
+      .banner h1 {
+        font-size: 27px;
+      }
+
+      .shop-info {
+        padding: 22px 17px;
+      }
+    }
+  </style>
+
 </head>
+
 <body>
 
-<header>
-<h2 style="color:white">🐦 บ้านกรงนก</h2>
-ติดต่อเรา
-</header>
+  <!-- HEADER -->
 
-<main>
-<a href="index.html">← กลับหน้าแรก</a>
+  <header>
+    <a href="index.html" class="logo">
+      <img src="Logo.JPG" alt="โลโก้บ้านกรงนก">
+      <span>บ้านกรงนก</span>
+    </a>
 
-<div class="card">
-<h2>ช่องทางติดต่อร้าน</h2>
+<nav>
+  <a href="index.html">หน้าแรก</a>
+  <a href="categories.html">หมวดหมู่สินค้า</a>
+  <a href="featured.html">สินค้าแนะนำ</a>
+  <a href="about.html">เกี่ยวกับร้าน</a>
+  <a href="contact.html" class="active">ติดต่อเรา</a>
+</nav>
 
-<p>
-ยินดีต้อนรับสู่บ้านกรงนก
-หากต้องการสอบถามสินค้า สามารถติดต่อร้าน
-ผ่านช่องทางที่ร้านกำหนดได้
-</p>
+  </header>
 
-<div class="info">
-<strong>🐦 ชื่อร้าน</strong><br>
-บ้านกรงนก (Baan Krong Nok)
-</div>
+  <!-- BANNER -->
 
-<div class="info">
-<strong>📞 เบอร์โทรศัพท์</strong><br>
-0889732402
-</div>
+  <section class="banner">
+    <h1>ติดต่อเรา 🐦</h1>
+    <p>บ้านกรงนก (Baan Krong Nok)</p>
+    <p>ยินดีให้บริการและตอบคำถามเกี่ยวกับสินค้า</p>
+  </section>
 
-<div class="info">
-<strong>💬 Facebook / LINE</strong><br>
-https://line.me/ti/p/CxLJNR6rsu
-</div>
+  <!-- CONTACT CONTENT -->
 
-<div class="info">
-<strong>🕒 เวลาทำการ</strong><br>
-เปิดทำการทุกวันเวลา 08.30-19.00น.
-</div>
-</div>
+  <main class="container">
 
-<div class="card">
-<h2>ส่งข้อความถึงร้าน</h2>
+<section class="intro">
+  <h2>ช่องทางติดต่อร้าน</h2>
+  <p>
+    สนใจกรงนก อุปกรณ์ตกแต่ง หรือสินค้าสำหรับนก
+    สามารถติดต่อสอบถามรายละเอียดได้ตามช่องทางด้านล่าง
+  </p>
+</section>
 
-<form id="contactForm">
-<label>ชื่อผู้ติดต่อ</label>
-<input id="name" required maxlength="100"
- placeholder="กรอกชื่อของคุณ">
+<section class="contact-grid">
 
-<label>เบอร์โทรศัพท์</label>
-<input id="phone" type="tel" required maxlength="20"
- placeholder="กรอกเบอร์โทรศัพท์">
+  <!-- FACEBOOK -->
+  <div class="contact-card">
+    <div class="icon">📘</div>
+    <h3>Facebook</h3>
+    <p>ติดตามและสอบถามข้อมูลผ่าน Facebook ของร้าน</p>
 
-<label>ข้อความที่ต้องการสอบถาม</label>
-<textarea id="message" rows="4" required maxlength="1000"
- placeholder="พิมพ์ข้อความที่ต้องการสอบถาม"></textarea>
+    <a
+      class="contact-button"
+      href="https://www.facebook.com/napawan.chaijinda.9?"
+      target="_blank"
+      rel="noopener noreferrer">
+      ติดต่อทาง Facebook
+    </a>
+  </div>
 
-<button type="submit">ส่งข้อความผ่าน LINE</button>
-</form>
-</div>
-</main>
+  <!-- LINE -->
+  <div class="contact-card">
+    <div class="icon">💚</div>
+    <h3>LINE</h3>
+    <p>พูดคุยและสอบถามรายละเอียดสินค้าได้โดยตรง</p>
 
-<script>
-// เปลี่ยนเป็น LINE ID หรือ URL สำหรับติดต่อร้านจริง
-const LINE_URL = "https://line.me/";
+    <a
+      class="contact-button"
+      href="https://line.me/ti/p/aZASyIlg-H"
+      target="_blank"
+      rel="noopener noreferrer">
+      ติดต่อทาง LINE
+    </a>
+  </div>
 
-document.getElementById("contactForm").addEventListener(
- "submit",function(event){
-  event.preventDefault();
+  <!-- PHONE -->
+  <div class="contact-card">
+    <div class="icon">📞</div>
+    <h3>โทรศัพท์</h3>
+    <p>โทรสอบถามข้อมูลสินค้าและรายละเอียดเพิ่มเติม</p>
 
-  const name = document.getElementById("name").value.trim();
-  const phone = document.getElementById("phone").value.trim();
-  const message = document.getElementById("message").value.trim();
+    <a
+      class="contact-button"
+      href="tel:0889732402">
+      088-973-2402
+    </a>
+  </div>
 
-  if(!name || !phone || !message){
-   alert("กรุณากรอกข้อมูลให้ครบ");
-   return;
-  }
+</section>
 
-  const text =
-   "สวัสดีค่ะ ร้านบ้านกรงนก\n" +
-   "ชื่อ: " + name + "\n" +
-   "เบอร์โทร: " + phone + "\n" +
-   "ข้อความ: " + message;
+<!-- SHOP INFORMATION -->
+<section class="shop-info">
 
-  const url = LINE_URL + "?text=" + encodeURIComponent(text);
-  window.open(url,"_blank");
- }
-);
-</script>
+  <h2>🐦 บ้านกรงนก (Baan Krong Nok)</h2>
+
+  <p>
+    <strong>ชื่อร้าน:</strong>
+    บ้านกรงนก
+  </p>
+
+  <p>
+    <strong>ประเภทสินค้า:</strong>
+    กรงนกสวยงาม ซี่ดอกและซี่กรง อะไหล่และส่วนประกอบกรง
+    ของตกแต่งกรง ถ้วยน้ำ ถ้วยอาหาร และอุปกรณ์สำหรับนก
+  </p>
+
+  <p>
+    <strong>Facebook:</strong>
+    Napawan Chaijinda
+  </p>
+
+  <p>
+    <strong>LINE:</strong>
+    ติดต่อผ่านปุ่ม LINE ของร้าน
+  </p>
+
+  <p>
+    <strong>โทรศัพท์:</strong>
+    088-973-2402
+  </p>
+
+</section>
+
+<a href="index.html" class="back-home">
+  ← กลับหน้าแรก
+</a>
+
+  </main>
+
+  <!-- FOOTER -->
+
+  <footer>
+    <p>🐦 บ้านกรงนก (Baan Krong Nok)</p>
+    <p>กรงนกสวย ๆ อุปกรณ์ครบครัน เลือกชมสินค้าได้ตามต้องการ</p>
+    <p>โทร. 088-973-2402</p>
+    <p>© <span id="year"></span> บ้านกรงนก</p>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent =
+      new Date().getFullYear();
+  </script>
 
 </body>
 </html>
