@@ -4,10 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>บ้านกรงนก | Baan Krong Nok</title>
-
-  <meta name="description" content="บ้านกรงนก จำหน่ายกรงนกสวยงามและอุปกรณ์เกี่ยวกับกรงนกทุกชนิด">
+  <meta name="description" content="บ้านกรงนก จำหน่ายกรงนกสวยงามและอุปกรณ์สำหรับนกทุกชนิด">
 
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
@@ -36,114 +34,124 @@
       color: inherit;
     }
 
-    /* HEADER */
+    img {
+      max-width: 100%;
+    }
 
+    /* HEADER */
     header {
       background: #FFFFFF;
       padding: 12px 5%;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
+      gap: 20px;
       flex-wrap: wrap;
-      gap: 15px;
-      box-shadow: 0 3px 12px rgba(36,75,53,0.10);
-      border-bottom: 2px solid #E5EFE2;
+      box-shadow: 0 2px 12px rgba(0,0,0,.06);
     }
-
-    /* LOGO */
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 13px;
-      min-width: 0;
+      gap: 12px;
     }
 
-    .brand img {
-      width: 100px;
-      height: 100px;
-      object-fit: contain;
+    /* LOGO เต็มวงกลม */
+    .brand-logo {
+      width: 105px;
+      height: 105px;
+      min-width: 105px;
+      border-radius: 50%;
+      border: 4px solid #39764A;
+      background: #E5F0E2;
+      padding: 0;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .brand-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
       object-position: center;
       border-radius: 50%;
-      border: 3px solid #3F7650;
-      background: #E8F0E5;
-      padding: 3px;
       display: block;
-      flex-shrink: 0;
+      transform: scale(1.2);
     }
 
     .brand h1 {
       font-size: 25px;
-      color: #244B35;
-      font-weight: 600;
+      color: #28613B;
+      line-height: 1.3;
     }
 
     .brand p {
       font-size: 13px;
-      color: #64836A;
+      color: #68816D;
     }
-
-    /* NAVIGATION */
 
     nav {
       display: flex;
-      flex-wrap: wrap;
       gap: 20px;
+      flex-wrap: wrap;
       align-items: center;
     }
 
     nav a {
-      font-size: 15px;
+      color: #315C3D;
       font-weight: 500;
-      color: #315B3E;
-      transition: 0.3s;
+      font-size: 15px;
     }
 
     nav a:hover {
-      color: #82A875;
+      color: #77A65E;
     }
 
     /* HERO */
-
     .hero {
-      padding: 75px 20px;
+      background: linear-gradient(135deg, #E6F1E1, #F7FAF2);
+      padding: 65px 6%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       text-align: center;
-      background: linear-gradient(135deg, #DDEBD9, #F3F8EF);
+    }
+
+    .hero-content {
+      max-width: 760px;
     }
 
     .hero h2 {
-      font-size: 34px;
-      color: #244B35;
-      margin-bottom: 12px;
+      font-size: clamp(30px, 5vw, 46px);
+      color: #28613B;
+      margin-bottom: 15px;
     }
 
     .hero p {
-      font-size: 17px;
-      color: #52735A;
+      font-size: 18px;
+      color: #58745D;
       margin-bottom: 25px;
     }
 
-    /* BUTTON */
-
     .main-button {
       display: inline-block;
-      padding: 12px 30px;
-      background: #3F7650;
+      background: #39764A;
       color: white;
+      padding: 12px 28px;
       border-radius: 30px;
       font-weight: 500;
-      transition: 0.3s;
     }
 
     .main-button:hover {
-      background: #244B35;
-      transform: translateY(-2px);
+      background: #285A37;
     }
 
     /* SECTION */
-
     section {
-      padding: 50px 5%;
+      padding: 55px 6%;
     }
 
     .section-title {
@@ -152,233 +160,262 @@
     }
 
     .section-title h2 {
-      font-size: 28px;
-      color: #244B35;
+      font-size: 29px;
+      color: #28613B;
     }
 
     .section-title p {
-      color: #64836A;
+      color: #728574;
       margin-top: 5px;
     }
 
     /* CATEGORY */
-
     .category-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: 18px;
-      max-width: 1100px;
-      margin: auto;
+      grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+      gap: 15px;
     }
 
     .category-card {
-      background: #FFFFFF;
-      border: 1px solid #E3EDDF;
-      border-radius: 18px;
-      padding: 25px 10px;
+      background: white;
+      border: 1px solid #E2EBDD;
+      border-radius: 16px;
+      padding: 23px 12px;
       text-align: center;
-      box-shadow: 0 4px 14px rgba(36,75,53,0.07);
-      transition: 0.3s;
+      transition: .2s;
     }
 
     .category-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 7px 18px rgba(36,75,53,0.13);
+      transform: translateY(-4px);
+      box-shadow: 0 5px 15px rgba(0,0,0,.08);
     }
 
-    .category-card .emoji {
+    .category-icon {
       font-size: 38px;
       margin-bottom: 8px;
     }
 
     .category-card h3 {
       font-size: 16px;
-      color: #315B3E;
+      color: #39764A;
     }
 
     /* PRODUCTS */
-
     .product-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
       gap: 20px;
-      max-width: 1100px;
-      margin: auto;
     }
 
     .product-card {
       background: #FFFFFF;
-      border: 1px solid #E3EDDF;
-      border-radius: 17px;
+      border-radius: 16px;
       overflow: hidden;
-      box-shadow: 0 4px 14px rgba(36,75,53,0.08);
-      transition: 0.3s;
-    }
-
-    .product-card:hover {
-      transform: translateY(-4px);
+      border: 1px solid #E6EDE2;
+      box-shadow: 0 3px 12px rgba(0,0,0,.04);
     }
 
     .product-card img {
       width: 100%;
-      height: 210px;
+      height: 220px;
       object-fit: cover;
       display: block;
-      background: #E8F0E5;
-    }
-
-    .product-image-placeholder {
-      height: 210px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #E8F0E5;
-      color: #64836A;
-      font-size: 42px;
+      background: #F0F4EC;
     }
 
     .product-info {
-      padding: 16px;
+      padding: 15px;
     }
 
     .product-info h3 {
       font-size: 17px;
-      color: #294C35;
-      margin-bottom: 6px;
+      color: #315D3B;
+      margin-bottom: 7px;
+    }
+
+    .product-info p {
+      color: #718071;
+      font-size: 14px;
+      margin-bottom: 8px;
     }
 
     .product-price {
-      color: #3F7650;
-      font-weight: 600;
+      color: #39764A;
       font-size: 19px;
+      font-weight: 600;
     }
 
-    .product-status {
-      font-size: 13px;
-      color: #78917A;
-      margin-top: 5px;
+    .view-all {
+      display: block;
+      width: fit-content;
+      margin: 30px auto 0;
+      padding: 10px 25px;
+      background: #39764A;
+      color: white;
+      border-radius: 25px;
     }
 
-    .center {
+    .loading-message {
       text-align: center;
-      margin-top: 28px;
-    }
-
-    .loading {
-      text-align: center;
-      padding: 30px;
-      color: #64836A;
+      padding: 25px;
+      color: #68816D;
       grid-column: 1 / -1;
     }
 
     /* FEATURES */
-
     .features {
-      background: #E8F0E5;
+      background: #EDF4E9;
     }
 
     .feature-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 20px;
-      max-width: 1000px;
-      margin: auto;
+    }
+
+    .feature-card {
       text-align: center;
+      background: white;
+      padding: 25px 15px;
+      border-radius: 16px;
     }
 
-    .feature-item {
-      background: #FFFFFF;
-      padding: 28px 15px;
-      border-radius: 17px;
-      border: 1px solid #DCE9D8;
+    .feature-card .icon {
+      font-size: 36px;
+      margin-bottom: 10px;
     }
 
-    .feature-item .emoji {
-      font-size: 38px;
-      margin-bottom: 8px;
-    }
-
-    .feature-item h3 {
-      color: #315B3E;
+    .feature-card h3 {
+      color: #39764A;
       margin-bottom: 5px;
     }
 
-    .feature-item p {
-      color: #64836A;
+    /* ABOUT */
+    .about-box {
+      max-width: 850px;
+      margin: auto;
+      text-align: center;
+      background: white;
+      padding: 30px;
+      border-radius: 18px;
+      border: 1px solid #E6EDE2;
+    }
+
+    .about-box p {
+      color: #647968;
+    }
+
+    /* ORDER */
+    .order-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 15px;
+    }
+
+    .order-card {
+      background: white;
+      padding: 22px;
+      border-radius: 15px;
+      text-align: center;
+      border: 1px solid #E4EDE0;
+    }
+
+    .order-card span {
+      font-size: 32px;
+    }
+
+    .order-card h3 {
+      color: #39764A;
+      margin: 8px 0;
     }
 
     /* CONTACT */
-
-    .contact {
+    .contact-section {
+      background: #EDF4E9;
       text-align: center;
-      background: #FAFCF7;
     }
 
-    .contact p {
-      margin: 5px 0;
+    .contact-box {
+      max-width: 650px;
+      margin: auto;
+      background: white;
+      border-radius: 18px;
+      padding: 30px 20px;
+    }
+
+    .contact-box p {
+      margin-bottom: 18px;
+      color: #647968;
+    }
+
+    .contact-facebook {
+      margin: 20px auto;
+      text-align: center;
+    }
+
+    .contact-facebook a {
+      display: inline-block;
+      background: #39764A;
+      color: #FFFFFF;
+      padding: 13px 24px;
+      border-radius: 30px;
+      font-weight: 600;
+      box-shadow: 0 4px 10px rgba(57,118,74,.2);
+      transition: .3s;
+    }
+
+    .contact-facebook a:hover {
+      background: #285A37;
+      transform: translateY(-2px);
+    }
+
+    .contact-note {
+      font-size: 13px;
+      color: #89988A;
+      margin-top: 15px;
     }
 
     /* FOOTER */
-
     footer {
-      background: #244B35;
-      color: #FFFFFF;
-      padding: 30px 15px;
+      background: #285A37;
+      color: white;
       text-align: center;
+      padding: 25px 15px;
     }
 
     footer p {
-      margin: 5px 0;
+      font-size: 14px;
     }
 
-    /* MOBILE */
-
-    @media (max-width: 600px) {
+    @media (max-width: 650px) {
       header {
         justify-content: center;
-        padding: 12px 15px;
+        text-align: center;
       }
 
-      .brand img {
-        width: 80px;
-        height: 80px;
+      .brand {
+        justify-content: center;
       }
 
       .brand h1 {
-        font-size: 21px;
-      }
-
-      .brand p {
-        font-size: 11px;
+        font-size: 22px;
       }
 
       nav {
         justify-content: center;
-        gap: 12px;
+        gap: 13px;
       }
 
       nav a {
-        font-size: 13px;
+        font-size: 14px;
       }
 
       .hero {
-        padding: 55px 15px;
-      }
-
-      .hero h2 {
-        font-size: 27px;
-      }
-
-      .hero p {
-        font-size: 15px;
+        padding: 45px 5%;
       }
 
       section {
-        padding: 38px 15px;
-      }
-
-      .section-title h2 {
-        font-size: 24px;
+        padding: 40px 5%;
       }
 
       .product-grid {
@@ -386,9 +423,20 @@
         gap: 12px;
       }
 
-      .product-card img,
-      .product-image-placeholder {
-        height: 160px;
+      .product-card img {
+        height: 155px;
+      }
+
+      .product-info {
+        padding: 10px;
+      }
+
+      .product-info h3 {
+        font-size: 15px;
+      }
+
+      .product-price {
+        font-size: 16px;
       }
     }
   </style>
@@ -397,145 +445,81 @@
 <body>
 
   <!-- HEADER -->
-
   <header>
     <a href="index.html" class="brand">
-
-      <img
-        src="https://kchkrhyngsta-maker.github.io/baan-krong-nok/Logo.JPG"
-        alt="โลโก้บ้านกรงนก"
-      >
+      <div class="brand-logo">
+        <img
+          src="https://kchkrhyngsta-maker.github.io/baan-krong-nok/Logo.JPG"
+          alt="โลโก้บ้านกรงนก"
+          onerror="this.style.display='none'">
+      </div>
 
       <div>
         <h1>บ้านกรงนก</h1>
         <p>Baan Krong Nok | กรงนกและอุปกรณ์ทุกชนิด</p>
       </div>
-
     </a>
 
     <nav>
       <a href="index.html">หน้าหลัก</a>
       <a href="products.html">สินค้าทั้งหมด</a>
       <a href="#categories">หมวดหมู่สินค้า</a>
+      <a href="#about">เกี่ยวกับเรา</a>
       <a href="#contact">ติดต่อเรา</a>
     </nav>
   </header>
 
-  <main>
-
-    <!-- HERO -->
-
-    <div class="hero">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
       <h2>ยินดีต้อนรับสู่บ้านกรงนก 🐦</h2>
-
       <p>
-        แหล่งรวมกรงนกสวยงามและอุปกรณ์สำหรับคนรักนก
+        ศูนย์รวมกรงนกสวยงามและอุปกรณ์สำหรับนก
+        เลือกชมสินค้าได้ง่าย ๆ ที่บ้านกรงนก
       </p>
-
       <a href="products.html" class="main-button">
         เลือกชมสินค้าทั้งหมด
       </a>
     </div>
+  </section>
 
-    <!-- CATEGORIES -->
+  <!-- CATEGORY -->
+  <section id="categories">
+    <div class="section-title">
+      <h2>หมวดหมู่สินค้า</h2>
+      <p>เลือกชมสินค้าตามประเภทที่ต้องการ</p>
+    </div>
 
-    <section id="categories">
+    <div class="category-grid">
+      <a href="products.html" class="category-card">
+        <div class="category-icon">🪺</div>
+        <h3>กรงนกไม้</h3>
+      </a>
 
-      <div class="section-title">
-        <h2>หมวดหมู่สินค้า</h2>
-        <p>เลือกชมสินค้าตามประเภทที่ต้องการ</p>
-      </div>
+      <a href="products.html" class="category-card">
+        <div class="category-icon">🐦</div>
+        <h3>กรงนกแขวน</h3>
+      </a>
 
-      <div class="category-grid">
+      <a href="products.html" class="category-card">
+        <div class="category-icon">🔩</div>
+        <h3>กรงเหล็ก</h3>
+      </a>
 
-        <a href="products.html" class="category-card">
-          <div class="emoji">🪵</div>
-          <h3>กรงนกไม้</h3>
-        </a>
+      <a href="products.html" class="category-card">
+        <div class="category-icon">🥤</div>
+        <h3>ถ้วยน้ำและอาหาร</h3>
+      </a>
 
-        <a href="products.html" class="category-card">
-          <div class="emoji">🪺</div>
-          <h3>กรงนกแขวน</h3>
-        </a>
+      <a href="products.html" class="category-card">
+        <div class="category-icon">🛠️</div>
+        <h3>อะไหล่และอุปกรณ์</h3>
+      </a>
+    </div>
+  </section>
 
-        <a href="products.html" class="category-card">
-          <div class="emoji">🔩</div>
-          <h3>กรงเหล็ก</h3>
-        </a>
-
-        <a href="products.html" class="category-card">
-          <div class="emoji">🥣</div>
-          <h3>ถ้วยน้ำและอาหาร</h3>
-        </a>
-
-        <a href="products.html" class="category-card">
-          <div class="emoji">🛠️</div>
-          <h3>อะไหล่และอุปกรณ์</h3>
-        </a>
-
-      </div>
-    </section>
-
-    <!-- PRODUCTS -->
-
-    <section id="products">
-
-      <div class="section-title">
-        <h2>🛒 สินค้าแนะนำ</h2>
-        <p>เลือกชมสินค้าจากบ้านกรงนก</p>
-      </div>
-
-      <div id="product-list" class="product-grid">
-        <div class="loading">
-          กำลังโหลดสินค้า...
-        </div>
-      </div>
-
-      <div class="center">
-        <a href="products.html" class="main-button">
-          ดูสินค้าทั้งหมด
-        </a>
-      </div>
-
-    </section>
-
-    <!-- FEATURES -->
-
-    <section class="features">
-
-      <div class="section-title">
-        <h2>ทำไมต้องเลือกบ้านกรงนก</h2>
-        <p>ใส่ใจทุกสินค้า เพื่อคนรักนก</p>
-      </div>
-
-      <div class="feature-grid">
-
-        <div class="feature-item">
-          <div class="emoji">🐦</div>
-          <h3>สินค้าหลากหลาย</h3>
-          <p>มีกรงนกและอุปกรณ์หลายประเภท</p>
-        </div>
-
-        <div class="feature-item">
-          <div class="emoji">💰</div>
-          <h3>แสดงราคาชัดเจน</h3>
-          <p>เลือกชมสินค้าและตรวจสอบราคาได้</p>
-        </div>
-
-        <div class="feature-item">
-          <div class="emoji">❤️</div>
-          <h3>ใส่ใจลูกค้า</h3>
-          <p>พร้อมให้บริการและคำแนะนำ</p>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- CONTACT -->
-
-    <section id="contact" class="contact">
-
-      <div class="section-title">
-        <h2>ติดต่อบ้านกรงนก</h2>
-        <p>สนใจสินค้าหรือสอบถามข้อมูลเพิ่มเติม</p>
-     
+  <!-- PRODUCTS -->
+  <section id="products">
+    <div class="section-title">
+      <h2>สินค้าแนะนำ</h2>
+      <p>เลือกชมสินค้าแนะนำจากบ้า
