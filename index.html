@@ -3,35 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>บ้านกรงนก | Baan Krong Nok</title>
   <meta name="description" content="บ้านกรงนก จำหน่ายกรงนกสวยงาม ซี่ดอก ซี่กรง อะไหล่กรง และอุปกรณ์สำหรับนก">
-
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
   <style>
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
-
     html {
       scroll-behavior: smooth;
     }
-
     body {
       font-family: 'Kanit', sans-serif;
       background: #FAFCF7;
       color: #294C35;
       line-height: 1.7;
     }
-
     a {
       text-decoration: none;
       color: inherit;
     }
-
     /* HEADER */
     header {
       background: #FFFFFF;
@@ -46,7 +39,6 @@
       top: 0;
       z-index: 100;
     }
-
     .logo {
       display: flex;
       align-items: center;
@@ -55,7 +47,6 @@
       font-weight: 600;
       color: #294C35;
     }
-
     .logo img {
       width: 68px;
       height: 68px;
@@ -64,45 +55,38 @@
       border-radius: 50%;
       border: 3px solid #39764A;
     }
-
     .logo-text small {
       display: block;
       font-size: 12px;
       font-weight: 400;
       color: #718273;
     }
-
     nav {
       display: flex;
       flex-wrap: wrap;
       gap: 20px;
       align-items: center;
     }
-
     nav a {
       font-size: 15px;
       color: #294C35;
       transition: 0.2s;
     }
-
     nav a:hover,
     nav a.active {
       color: #39764A;
       font-weight: 600;
     }
-
     /* HERO */
     .hero {
       background: linear-gradient(135deg, #E5F0DF, #FAFCF7);
       padding: 65px 20px;
       text-align: center;
     }
-
     .hero-content {
       max-width: 850px;
       margin: auto;
     }
-
     .hero-label {
       display: inline-block;
       background: #FFFFFF;
@@ -112,35 +96,30 @@
       font-size: 14px;
       margin-bottom: 20px;
     }
-
     .hero h1 {
       font-size: 42px;
       margin-bottom: 15px;
       color: #294C35;
       line-height: 1.4;
     }
-
     .hero h2 {
       font-size: 23px;
       color: #39764A;
       font-weight: 500;
       margin-bottom: 18px;
     }
-
     .hero p {
       font-size: 17px;
       color: #58715D;
       max-width: 700px;
       margin: 0 auto 28px;
     }
-
     .hero-buttons {
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
       gap: 12px;
     }
-
     .button {
       display: inline-block;
       padding: 12px 27px;
@@ -148,35 +127,29 @@
       font-size: 16px;
       transition: 0.2s;
     }
-
     .button-primary {
       background: #39764A;
       color: #FFFFFF;
     }
-
     .button-primary:hover {
       background: #28613B;
       transform: translateY(-2px);
     }
-
     .button-secondary {
       background: #FFFFFF;
       color: #39764A;
       border: 1px solid #39764A;
     }
-
     .button-secondary:hover {
       background: #EDF4E9;
     }
-
-    /* MAIN BANNER */
+    /* BANNER */
     .banner-section {
       width: 100%;
       max-width: 1250px;
       margin: 30px auto;
       padding: 0 20px;
     }
-
     .banner-image {
       display: block;
       width: 100%;
@@ -185,30 +158,25 @@
       border-radius: 18px;
       box-shadow: 0 5px 20px rgba(0,0,0,0.10);
     }
-
     /* COMMON SECTION */
     .container {
       width: 90%;
       max-width: 1200px;
       margin: auto;
     }
-
     .section {
       padding: 60px 0;
     }
-
     .section-title {
       text-align: center;
       font-size: 28px;
       margin-bottom: 10px;
     }
-
     .section-description {
       text-align: center;
       color: #718273;
       margin-bottom: 30px;
     }
-
     /* SHOP INTRODUCTION */
     .introduction-box {
       background: #FFFFFF;
@@ -218,36 +186,30 @@
       box-shadow: 0 3px 14px rgba(0,0,0,0.05);
       border: 1px solid #EDF4E9;
     }
-
     .introduction-box h2 {
       font-size: 29px;
       margin-bottom: 15px;
     }
-
     .introduction-box .highlight {
       color: #39764A;
       font-size: 19px;
       font-weight: 500;
       margin-bottom: 15px;
     }
-
     .introduction-box p {
       color: #58715D;
       max-width: 850px;
       margin: 12px auto;
     }
-
     /* FEATURES */
     .features {
       background: #EDF4E9;
     }
-
     .feature-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
       gap: 20px;
     }
-
     .feature-card {
       background: #FFFFFF;
       padding: 25px 18px;
@@ -256,26 +218,21 @@
       box-shadow: 0 3px 12px rgba(0,0,0,0.04);
       transition: 0.2s;
     }
-
     .feature-card:hover {
       transform: translateY(-5px);
     }
-
     .feature-card .icon {
       font-size: 42px;
       margin-bottom: 10px;
     }
-
     .feature-card h3 {
       margin-bottom: 8px;
       font-size: 18px;
     }
-
     .feature-card p {
       color: #718273;
       font-size: 14px;
     }
-
     /* ABOUT */
     .about-box {
       background: #FFFFFF;
@@ -284,24 +241,20 @@
       text-align: center;
       box-shadow: 0 3px 14px rgba(0,0,0,0.05);
     }
-
     .about-box p {
       color: #58715D;
       max-width: 800px;
       margin: 10px auto;
     }
-
     /* CONTACT */
     .contact-section {
       background: #EDF4E9;
     }
-
     .contact-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 20px;
     }
-
     .contact-card {
       background: #FFFFFF;
       border-radius: 15px;
@@ -309,22 +262,18 @@
       text-align: center;
       box-shadow: 0 3px 12px rgba(0,0,0,0.05);
     }
-
     .contact-card .icon {
       font-size: 40px;
       margin-bottom: 10px;
     }
-
     .contact-card h3 {
       margin-bottom: 8px;
     }
-
     .contact-card p {
       color: #718273;
       font-size: 14px;
       margin-bottom: 15px;
     }
-
     .contact-button {
       display: inline-block;
       background: #39764A;
@@ -333,11 +282,9 @@
       border-radius: 8px;
       font-size: 14px;
     }
-
     .contact-button:hover {
       background: #28613B;
     }
-
     /* FOOTER */
     footer {
       background: #294C35;
@@ -345,89 +292,69 @@
       text-align: center;
       padding: 28px 15px;
     }
-
     footer p {
       font-size: 14px;
       margin: 4px 0;
     }
-
     /* MOBILE */
     @media (max-width: 700px) {
       header {
         justify-content: center;
       }
-
       nav {
         justify-content: center;
         gap: 12px;
       }
-
       nav a {
         font-size: 14px;
       }
-
       .hero {
         padding: 50px 18px;
       }
-
       .hero h1 {
         font-size: 29px;
       }
-
       .hero h2 {
         font-size: 19px;
       }
-
       .hero p {
         font-size: 15px;
       }
-
       .section-title {
         font-size: 24px;
       }
-
       .introduction-box {
         padding: 27px 18px;
       }
-
       .introduction-box h2 {
         font-size: 24px;
       }
-
       .introduction-box .highlight {
         font-size: 16px;
       }
-
       .about-box {
         padding: 25px 18px;
       }
-
       .banner-section {
         margin: 20px auto;
         padding: 0 12px;
       }
-
       .banner-image {
         border-radius: 12px;
       }
     }
   </style>
 </head>
-
 <body>
-
   <!-- HEADER -->
   <header>
-
     <a href="index.html" class="logo">
       <img src="Logo.JPG" alt="โลโก้บ้านกรงนก">
-
       <span class="logo-text">
         บ้านกรงนก
         <small>Baan Krong Nok</small>
       </span>
     </a>
-
     <nav>
       <a href="index.html" class="active">หน้าแรก</a>
       <a href="categories.html">หมวดหมู่สินค้า</a>
@@ -435,66 +362,49 @@
       <a href="about.html">เกี่ยวกับร้าน</a>
       <a href="contact.html">ติดต่อเรา</a>
     </nav>
-
   </header>
-
   <!-- HERO -->
   <section class="hero">
-
     <div class="hero-content">
-
       <span class="hero-label">
         🐦 ยินดีต้อนรับสู่บ้านกรงนก
       </span>
-
       <h1>บ้านกรงนก</h1>
-
       <h2>เสน่ห์ของกรงนกสวยงาม ใส่ใจทุกรายละเอียด</h2>
-
       <p>
         แหล่งรวมกรงนกสวยงาม ซี่ดอก ซี่กรง อะไหล่กรง
         และอุปกรณ์สำหรับนกหลากหลายประเภท
         เลือกชมสินค้าและรายละเอียดได้สะดวก
         พร้อมติดต่อสอบถามกับทางร้านได้โดยตรง
       </p>
-
+      <!-- ปุ่มติดต่อร้านอยู่เฉพาะส่วนบน -->
       <div class="hero-buttons">
         <a href="categories.html" class="button button-primary">
           🛍️ เลือกชมสินค้าของเรา
         </a>
-
         <a href="contact.html" class="button button-secondary">
           💚 ติดต่อร้าน
         </a>
       </div>
-
     </div>
-
   </section>
-
   <!-- BANNER IMAGE -->
   <section class="banner-section">
     <img
       src="./banner-baan-krong-nok..PNG"
-      alt="บ้านกรงนก กรงนกสวยงามและอุปกรณ์สำหรับนก"
+      alt="แบนเนอร์บ้านกรงนก"
       class="banner-image"
-      onerror="this.style.display='none'; console.error('ไม่พบไฟล์ภาพแบนเนอร์ กรุณาตรวจสอบชื่อไฟล์')"
+      onerror="this.style.display='none'; console.error('ไม่พบไฟล์ภาพแบนเนอร์')"
     >
   </section>
-
   <!-- SHOP INTRODUCTION -->
   <section class="section">
-
     <div class="container">
-
       <div class="introduction-box">
-
         <h2>🐦 บ้านกรงนก (Baan Krong Nok)</h2>
-
         <p class="highlight">
           ร้านจำหน่ายกรงนกสวยงามและอุปกรณ์สำหรับคนรักนก
         </p>
-
         <p>
           บ้านกรงนกเป็นร้านจำหน่ายกรงนกสวยงาม
           และอุปกรณ์ที่เกี่ยวข้องกับกรงนกหลากหลายประเภท
@@ -502,207 +412,125 @@
           ของตกแต่งกรง ถ้วยน้ำ ถ้วยอาหาร
           และอุปกรณ์สำหรับดูแลนก
         </p>
-
         <p>
           เรารวบรวมสินค้าให้ลูกค้าสามารถเลือกชม
           รายละเอียดสินค้าและตรวจสอบราคาได้สะดวก
           พร้อมช่องทางติดต่อสอบถามข้อมูลกับทางร้านโดยตรง
         </p>
-
-        <a href="about.html" class="button button-primary" style="margin-top:18px;">
-          รู้จักร้านบ้านกรงนกเพิ่มเติม
-        </a>
-
       </div>
-
     </div>
-
   </section>
-
   <!-- PRODUCT FEATURES -->
   <section class="section features">
-
     <div class="container">
-
       <h2 class="section-title">
         สินค้าและอุปกรณ์สำหรับนก
       </h2>
-
       <p class="section-description">
         รวมสินค้าเกี่ยวกับกรงนกและอุปกรณ์ที่ผู้เลี้ยงนกต้องการ
       </p>
-
       <div class="feature-grid">
-
         <div class="feature-card">
           <div class="icon">🪺</div>
           <h3>กรงนกสวยงาม</h3>
           <p>กรงนกหลากหลายรูปแบบและประเภท</p>
         </div>
-
         <div class="feature-card">
           <div class="icon">🪶</div>
           <h3>ซี่ดอกและซี่กรง</h3>
           <p>ซี่กรงและส่วนประกอบสำหรับกรงนก</p>
         </div>
-
         <div class="feature-card">
           <div class="icon">🔧</div>
           <h3>อะไหล่และส่วนประกอบกรง</h3>
           <p>อะไหล่และอุปกรณ์สำหรับประกอบกรง</p>
         </div>
-
         <div class="feature-card">
           <div class="icon">🥣</div>
           <h3>ถ้วยน้ำและถ้วยอาหาร</h3>
           <p>อุปกรณ์สำหรับให้น้ำและอาหารนก</p>
         </div>
-
         <div class="feature-card">
           <div class="icon">🌿</div>
           <h3>ของตกแต่งกรงนก</h3>
           <p>อุปกรณ์ตกแต่งและเพิ่มความสวยงามให้กรง</p>
         </div>
-
         <div class="feature-card">
           <div class="icon">🧹</div>
           <h3>อุปกรณ์ทำความสะอาดกรง</h3>
           <p>อุปกรณ์ทำความสะอาดและดูแลกรงนก</p>
         </div>
-
       </div>
-
-      <div style="text-align:center; margin-top:30px;">
-        <a href="categories.html" class="button button-primary">
-          ดูหมวดหมู่สินค้าทั้งหมด
-        </a>
-      </div>
-
     </div>
-
   </section>
-
   <!-- ABOUT -->
   <section class="section">
-
     <div class="container">
-
       <div class="about-box">
-
         <h2 class="section-title">
           เกี่ยวกับบ้านกรงนก
         </h2>
-
         <p>
           บ้านกรงนก (Baan Krong Nok)
           ร้านจำหน่ายกรงนกสวยงามและอุปกรณ์สำหรับนก
           รวบรวมสินค้าเกี่ยวกับกรงนกหลากหลายประเภท
           เพื่อให้ผู้เลี้ยงนกสามารถเลือกชมสินค้าได้สะดวก
         </p>
-
         <p>
           ลูกค้าสามารถเลือกชมหมวดหมู่สินค้า
           ดูสินค้าแนะนำ และติดต่อสอบถามข้อมูลเพิ่มเติม
           ผ่านช่องทางของร้านได้โดยตรง
         </p>
-
-        <a href="about.html" class="button button-primary">
-          อ่านเพิ่มเติมเกี่ยวกับร้าน
-        </a>
-
       </div>
-
     </div>
-
   </section>
-
-  <!-- CONTACT -->
+  <!-- CONTACT INFORMATION -->
+  <!-- คงข้อมูลช่องทางติดต่อไว้ แต่ไม่มีปุ่มติดต่อซ้ำ -->
   <section class="section contact-section">
-
     <div class="container">
-
       <h2 class="section-title">
-        ติดต่อบ้านกรงนก
+        ช่องทางติดต่อบ้านกรงนก
       </h2>
-
       <p class="section-description">
-        สนใจสินค้า สามารถติดต่อสอบถามได้ตามช่องทางด้านล่าง
+        สามารถติดตามข่าวสารและสอบถามข้อมูลร้านได้ทางช่องทางต่อไปนี้
       </p>
-
       <div class="contact-grid">
-
         <div class="contact-card">
           <div class="icon">📘</div>
           <h3>Facebook</h3>
-          <p>ติดตามและสอบถามข้อมูลผ่าน Facebook</p>
-
-          <a
-            href="https://www.facebook.com/napawan.chaijinda.9?"
-            class="contact-button"
-            target="_blank"
-            rel="noopener noreferrer">
-            ติดต่อทาง Facebook
-          </a>
+          <p>Facebook บ้านกรงนก</p>
+          <span>napawan.chaijinda.9</span>
         </div>
-
         <div class="contact-card">
           <div class="icon">💚</div>
           <h3>LINE</h3>
-          <p>พูดคุยและสอบถามรายละเอียดสินค้า</p>
-
-          <a
-            href="https://line.me/ti/p/aZASyIlg-H"
-            class="contact-button"
-            target="_blank"
-            rel="noopener noreferrer">
-            ติดต่อทาง LINE
-          </a>
+          <p>LINE สำหรับสอบถามข้อมูลสินค้า</p>
+          <span>Baan Krong Nok</span>
         </div>
-
         <div class="contact-card">
           <div class="icon">📞</div>
           <h3>โทรศัพท์</h3>
-          <p>โทรสอบถามข้อมูลสินค้าโดยตรง</p>
-
-          <a href="tel:0889732402" class="contact-button">
-            088-973-2402
-          </a>
+          <p>เบอร์โทรศัพท์ร้าน</p>
+          <span>088-973-2402</span>
         </div>
-
       </div>
-
-      <div style="text-align:center; margin-top:25px;">
-        <a href="contact.html" class="button button-primary">
-          ดูช่องทางติดต่อทั้งหมด
-        </a>
-      </div>
-
     </div>
-
   </section>
-
   <!-- FOOTER -->
   <footer>
-
     <p>🐦 บ้านกรงนก (Baan Krong Nok)</p>
-
     <p>
       กรงนกสวย ๆ อุปกรณ์ครบครัน
       เลือกชมสินค้าได้หลากหลายตามต้องการ
     </p>
-
     <p>โทร. 088-973-2402</p>
-
     <p>
       © <span id="year"></span> บ้านกรงนก
     </p>
-
   </footer>
-
   <script>
     document.getElementById('year').textContent =
       new Date().getFullYear();
   </script>
-
 </body>
 </html>
