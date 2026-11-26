@@ -2,434 +2,499 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>บ้านกรงนก | Baan Krong Nok</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>บ้านกรงนก | Baan Krong Nok</title>
+  <meta name="description" content="บ้านกรงนก จำหน่ายกรงนกสวยงาม ซี่กรง ถ้วยน้ำ อะไหล่ และอุปกรณ์ตกแต่ง">
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<style>
-* {
-  box-sizing: border-box;
-}
+  <style>
+    :root {
+      --green: #254b38;
+      --green2: #386449;
+      --cream: #f8f5eb;
+      --gold: #c5a45e;
+      --text: #333b32;
+      --white: #ffffff;
+    }
 
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #faf8ef;
-  color: #183e27;
-}
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-header {
-  background: linear-gradient(135deg, #174d2b, #39784b);
-  color: white;
-  padding: 22px 15px;
-  text-align: center;
-}
+    html {
+      scroll-behavior: smooth;
+    }
 
-.logo {
-  width: 120px;
-  height: 120px;
-  object-fit: contain;
-  display: block;
-  margin: 0 auto 10px;
-  border-radius: 50%;
-  background: white;
-}
+    body {
+      font-family: 'Kanit', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      line-height: 1.7;
+    }
 
-header h1 {
-  margin: 8px 0;
-  font-size: 28px;
-}
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
 
-header p {
-  margin: 6px 0;
-}
+    .topbar {
+      background: var(--green);
+      color: white;
+      text-align: center;
+      padding: 7px;
+      font-size: 13px;
+    }
 
-nav {
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  gap: 12px;
-  background: white;
-  padding: 15px 8px;
-  position: sticky;
-  top: 0;
-  z-index: 5;
-  box-shadow: 0 2px 6px #ddd;
-}
+    header {
+      background: white;
+      padding: 14px 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      flex-wrap: wrap;
+      box-shadow: 0 2px 12px #0000000d;
+    }
 
-nav a {
-  color: #174d2b;
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 14px;
-}
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
 
-nav a:hover {
-  color: #18834a;
-}
+    .brand img {
+      width: 65px;
+      height: 65px;
+      object-fit: contain;
+      border-radius: 50%;
+    }
 
-.container {
-  padding: 16px;
-  max-width: 1100px;
-  margin: auto;
-}
+    .brand h1 {
+      color: var(--green);
+      font-size: 23px;
+      line-height: 1.3;
+    }
 
-.search {
-  width: 100%;
-  padding: 14px;
-  border: 1px solid #ccc;
-  border-radius: 25px;
-  font-size: 16px;
-  outline-color: #18834a;
-}
+    .brand p {
+      color: #777;
+      font-size: 12px;
+    }
 
-.banner {
-  background: #e5edda;
-  padding: 28px 18px;
-  margin-top: 18px;
-  border-radius: 18px;
-  text-align: center;
-}
+    nav {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      font-size: 14px;
+    }
 
-.banner h2 {
-  color: #174d2b;
-}
+    nav a:hover {
+      color: var(--gold);
+    }
 
-.banner p {
-  color: #526b53;
-  line-height: 1.7;
-}
+    .hero {
+      min-height: 430px;
+      padding: 65px 8%;
+      display: flex;
+      align-items: center;
+      background:
+        linear-gradient(90deg, #163c2c 0%, #163c2cdd 48%, #163c2c30 100%),
+        url('https://images.unsplash.com/photo-1444464666168-49d633b86797?auto=format&fit=crop&w=1600&q=85') center/cover;
+      color: white;
+    }
 
-button {
-  background: #18834a;
-  color: white;
-  border: none;
-  border-radius: 22px;
-  padding: 11px 18px;
-  margin-top: 8px;
-  font-size: 14px;
-  cursor: pointer;
-}
+    .hero-content {
+      max-width: 560px;
+    }
 
-button:hover {
-  background: #126438;
-}
+    .hero small {
+      color: #e3c783;
+      letter-spacing: 2px;
+    }
 
-.section-title {
-  margin-top: 28px;
-  font-size: 22px;
-}
+    .hero h2 {
+      font-size: clamp(30px, 5vw, 48px);
+      line-height: 1.35;
+      margin: 12px 0;
+    }
 
-.products {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
-}
+    .hero p {
+      margin-bottom: 25px;
+      color: #f3f0e6;
+    }
 
-.card {
-  background: white;
-  border-radius: 14px;
-  overflow: hidden;
-  box-shadow: 0 2px 7px #ddd;
-}
+    .main-btn {
+      display: inline-block;
+      background: var(--gold);
+      color: #243b2c;
+      padding: 11px 25px;
+      border-radius: 30px;
+      font-weight: 600;
+    }
 
-.card img {
-  width: 100%;
-  height: 160px;
-  object-fit: cover;
-  background: #eee;
-  display: block;
-}
+    .main-btn:hover {
+      background: white;
+    }
 
-.card-content {
-  padding: 12px;
-}
+    section {
+      padding: 55px 6%;
+    }
 
-.card h3 {
-  font-size: 15px;
-  margin: 3px 0 8px;
-}
+    .section-title {
+      text-align: center;
+      margin-bottom: 28px;
+    }
 
-.category {
-  color: #777;
-  font-size: 12px;
-}
+    .section-title h2 {
+      color: var(--green);
+      font-size: 27px;
+    }
 
-.price {
-  color: #18834a;
-  font-weight: bold;
-  font-size: 18px;
-}
+    .section-title p {
+      color: #777;
+      font-size: 14px;
+    }
 
-.stock {
-  color: #777;
-  font-size: 13px;
-}
+    .categories {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 15px;
+    }
 
-.card button {
-  width: 100%;
-}
+    .category {
+      background: white;
+      text-align: center;
+      padding: 22px 10px;
+      border-radius: 14px;
+      border: 1px solid #e9e2d2;
+      transition: .2s;
+    }
 
-.empty {
-  text-align: center;
-  padding: 30px;
-  color: #777;
-  grid-column: 1 / -1;
-}
+    .category:hover {
+      transform: translateY(-4px);
+      border-color: var(--gold);
+    }
 
-footer {
-  background: #174d2b;
-  color: white;
-  text-align: center;
-  padding: 25px 15px;
-  margin-top: 35px;
-}
+    .category .symbol {
+      font-size: 35px;
+      display: block;
+      margin-bottom: 8px;
+    }
 
-footer p {
-  font-size: 14px;
-}
+    .category strong {
+      color: var(--green);
+      font-size: 15px;
+    }
 
-@media (min-width: 650px) {
-  .products {
-    grid-template-columns: repeat(4, 1fr);
-  }
+    .products-section {
+      background: white;
+    }
 
-  .card img {
-    height: 180px;
-  }
-}
+    .search-box {
+      max-width: 500px;
+      margin: 0 auto 28px;
+    }
 
-@media (max-width: 400px) {
-  .logo {
-    width: 95px;
-    height: 95px;
-  }
+    .search-box input {
+      width: 100%;
+      padding: 13px 18px;
+      border: 1px solid #ddd;
+      border-radius: 30px;
+      font-family: inherit;
+      font-size: 15px;
+      outline-color: var(--gold);
+    }
 
-  header h1 {
-    font-size: 23px;
-  }
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
 
-  .card img {
-    height: 125px;
-  }
-}
-</style>
+    .product-card {
+      background: white;
+      border: 1px solid #eee8dc;
+      border-radius: 14px;
+      overflow: hidden;
+      transition: .2s;
+    }
+
+    .product-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 22px #00000012;
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 190px;
+      object-fit: cover;
+      background: #f3f0e8;
+    }
+
+    .product-info {
+      padding: 14px;
+    }
+
+    .product-info h3 {
+      color: var(--green);
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
+
+    .product-info p {
+      color: #777;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .price {
+      color: #a47d32;
+      font-weight: 600;
+    }
+
+    .stock {
+      font-size: 12px;
+      color: #777;
+    }
+
+    .product-btn {
+      display: block;
+      text-align: center;
+      margin-top: 12px;
+      background: var(--green);
+      color: white;
+      padding: 8px;
+      border-radius: 20px;
+      font-size: 13px;
+    }
+
+    .product-btn:hover {
+      background: var(--gold);
+      color: var(--green);
+    }
+
+    .message {
+      text-align: center;
+      padding: 25px;
+      color: #777;
+      grid-column: 1 / -1;
+    }
+
+    .all-products {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .feature {
+      background: white;
+      padding: 25px 18px;
+      text-align: center;
+      border-radius: 14px;
+    }
+
+    .feature span {
+      font-size: 35px;
+    }
+
+    .feature h3 {
+      color: var(--green);
+      margin: 8px 0;
+    }
+
+    .feature p {
+      color: #777;
+      font-size: 13px;
+    }
+
+    .contact {
+      background: #eae6d8;
+      text-align: center;
+    }
+
+    .contact h2 {
+      color: var(--green);
+      margin-bottom: 10px;
+    }
+
+    footer {
+      background: var(--green);
+      color: white;
+      text-align: center;
+      padding: 30px 15px;
+    }
+
+    footer p {
+      font-size: 13px;
+      color: #e3e9e2;
+    }
+
+    @media (max-width: 800px) {
+      header {
+        justify-content: center;
+      }
+
+      nav {
+        justify-content: center;
+      }
+
+      .categories {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+
+      .product-card img {
+        height: 145px;
+      }
+
+      .features {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        min-height: 380px;
+        padding: 45px 7%;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<header>
-  <img src="logo.png"
-       alt="โลโก้ร้านบ้านกรงนก"
-       class="logo">
-
-  <h1>บ้านกรงนก</h1>
-  <p>กรงนกสวยงามและอุปกรณ์ตกแต่ง</p>
-</header>
-
-<nav>
-  <a href="index.html">หน้าหลัก</a>
-  <a href="products.html">สินค้าทั้งหมด</a>
-  <a href="#products">สินค้าแนะนำ</a>
-  <a href="contact.html">ติดต่อเรา</a>
-</nav>
-
-<main class="container">
-
-  <input
-    class="search"
-    id="search"
-    type="search"
-    placeholder="🔍 ค้นหาชื่อสินค้าหรือประเภทสินค้า..."
-  >
-
-  <section class="banner">
-    <h2>ยินดีต้อนรับสู่บ้านกรงนก</h2>
-
-    <p>
-      จำหน่ายกรงนกสวยงามทุกชนิด<br>
-      พร้อมซี่กรง ถ้วยน้ำ อะไหล่ และอุปกรณ์ตกแต่ง
-    </p>
-
-    <button onclick="location.href='products.html'">
-      เลือกชมสินค้าทั้งหมด
-    </button>
-  </section>
-
-  <h2 class="section-title" id="products">
-    🛒 สินค้าแนะนำ
-  </h2>
-
-  <div id="product-list" class="products">
-    <p class="empty">กำลังโหลดสินค้า...</p>
+  <div class="topbar">
+    🐦 บ้านกรงนก ยินดีต้อนรับทุกท่าน
   </div>
 
-</main>
+  <header>
+    <a href="index.html" class="brand">
+      <img src="logo.jpg" alt="โลโก้บ้านกรงนก">
+      <div>
+        <h1>บ้านกรงนก</h1>
+        <p>Baan Krong Nok | กรงนกและอุปกรณ์ทุกชนิด</p>
+      </div>
+    </a>
 
-<footer>
-  <h3>บ้านกรงนก</h3>
-  <p>กรงนกสวยงามและอุปกรณ์ตกแต่ง</p>
-  <p>ขอบคุณที่เลือกซื้อสินค้ากับเรา ❤️</p>
-</footer>
+    <nav>
+      <a href="index.html">หน้าหลัก</a>
+      <a href="products.html">สินค้าทั้งหมด</a>
+      <a href="#featured">สินค้าแนะนำ</a>
+      <a href="#contact">ติดต่อเรา</a>
+    </nav>
+  </header>
 
-<script>
-// ตั้งค่าการเชื่อมต่อ Supabase
-const SUPABASE_URL =
-  "https://acfrebknwxuybroilgqu.supabase.co";
-
-// นำ Publishable key เดิมของคุณมาใส่ตรงนี้
-const SUPABASE_KEY =
-  "sb_publishable_UjWZN8YsBLoBTKsbQ3GZsw_A1X3lSPK_เดิมของคุณตรงนี้";
-
-const db = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
-
-let allProducts = [];
-
-// ป้องกันข้อความ HTML ที่ไม่ปลอดภัย
-function escapeHTML(value) {
-  return String(value ?? "").replace(/[&<>"']/g, c => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;"
-  })[c]);
-}
-
-// ตรวจสอบ URL รูปภาพ
-function safeImage(value) {
-  try {
-    const url = new URL(value);
-
-    if (url.protocol === "https:" ||
-        url.protocol === "http:") {
-      return url.href;
-    }
-
-    return "";
-  } catch {
-    return "";
-  }
-}
-
-// โหลดสินค้าจากฐานข้อมูล
-async function loadProducts() {
-  const list = document.getElementById("product-list");
-
-  try {
-    const { data, error } = await db
-      .from("products")
-      .select("id,name,category,description,price,image_url,stock,is_active")
-      .eq("is_active", true)
-      .order("id", { ascending: false });
-
-    if (error) {
-      console.error("Supabase Error:", error);
-
-      list.innerHTML = `
-        <p class="empty">
-          ⚠️ โหลดสินค้าไม่สำเร็จ
-          กรุณาตรวจสอบการเชื่อมต่อ
+  <main>
+    <section class="hero">
+      <div class="hero-content">
+        <small>WELCOME TO BAAN KRONG NOK</small>
+        <h2>ยินดีต้อนรับสู่<br>บ้านกรงนก</h2>
+        <p>
+          จำหน่ายกรงนกสวยงามทุกชนิด<br>
+          พร้อมซี่กรง ถ้วยน้ำ อะไหล่ และอุปกรณ์ตกแต่ง
         </p>
-      `;
-      return;
-    }
+        <a href="products.html" class="main-btn">
+          เลือกชมสินค้าทั้งหมด →
+        </a>
+      </div>
+    </section>
 
-    allProducts = data || [];
-    showProducts(allProducts);
+    <section id="categories">
+      <div class="section-title">
+        <h2>หมวดหมู่สินค้า</h2>
+        <p>เลือกชมสินค้าที่คุณต้องการ</p>
+      </div>
 
-  } catch (error) {
-    console.error(error);
+      <div class="categories">
+        <a href="products.html" class="category">
+          <span class="symbol">🪺</span>
+          <strong>กรงนก</strong>
+        </a>
+        <a href="products.html" class="category">
+          <span class="symbol">🪵</span>
+          <strong>ซี่กรง</strong>
+        </a>
+        <a href="products.html" class="category">
+          <span class="symbol">🥣</span>
+          <strong>ถ้วยน้ำ</strong>
+        </a>
+        <a href="products.html" class="category">
+          <span class="symbol">🔧</span>
+          <strong>อะไหล่</strong>
+        </a>
+        <a href="products.html" class="category">
+          <span class="symbol">✨</span>
+          <strong>อุปกรณ์ตกแต่ง</strong>
+        </a>
+      </div>
+    </section>
 
-    list.innerHTML = `
-      <p class="empty">
-        ⚠️ เกิดข้อผิดพลาดในการโหลดสินค้า
-      </p>
-    `;
-  }
-}
+    <section class="products-section" id="featured">
+      <div class="section-title">
+        <h2>🛒 สินค้าแนะนำ</h2>
+        <p>เลือกชมกรงนกและอุปกรณ์จากร้านบ้านกรงนก</p>
+      </div>
 
-// แสดงสินค้า
-function showProducts(items) {
-  const list = document.getElementById("product-list");
+      <div class="search-box">
+        <input
+          type="search"
+          id="search"
+          placeholder="🔍 ค้นหาสินค้าที่ต้องการ..."
+        >
+      </div>
 
-  if (!items.length) {
-    list.innerHTML = `
-      <p class="empty">
-        ไม่พบสินค้าที่ตรงกับคำค้นหา
-      </p>
-    `;
-    return;
-  }
+      <div class="product-grid" id="product-list">
+        <div class="message">กำลังโหลดสินค้า...</div>
+      </div>
 
-  list.innerHTML = items.map(item => {
-    const image = safeImage(item.image_url);
+      <div class="all-products">
+        <a href="products.html" class="main-btn">
+          ดูสินค้าทั้งหมด →
+        </a>
+      </div>
+    </section>
 
-    return `
-      <article class="card">
+    <section>
+      <div class="section-title">
+        <h2>ทำไมต้องเลือกบ้านกรงนก?</h2>
+        <p>ใส่ใจในสินค้าและความต้องการของลูกค้า</p>
+      </div>
 
-        ${
-          image
-          ? `<img
-               src="${escapeHTML(image)}"
-               alt="${escapeHTML(item.name)}"
-               onerror="this.style.display='none'"
-             >`
-          : `<div style="height:145px;background:#eee;
-                 display:grid;place-items:center;font-size:40px">
-               🐦
-             </div>`
-        }
-
-        <div class="card-content">
-
-          <h3>${escapeHTML(item.name)}</h3>
-
-          <p class="category">
-            ${escapeHTML(item.category || "สินค้า")}
-          </p>
-
-          <p class="price">
-            ฿${Number(item.price || 0).toLocaleString("th-TH")}
-          </p>
-
-          <p class="stock">
-            คงเหลือ ${Number(item.stock || 0)} ชิ้น
-          </p>
-
-          <button onclick="location.href='products.html'">
-            ดูรายละเอียดสินค้า
-          </button>
-
+      <div class="features">
+        <div class="feature">
+          <span>🪺</span>
+          <h3>สินค้าหลากหลาย</h3>
+          <p>มีกรงนกและอุปกรณ์ให้เลือกหลายประเภท</p>
         </div>
-      </article>
-    `;
-  }).join("");
-}
 
-// ค้นหาจากชื่อและประเภทสินค้า
-document.getElementById("search").addEventListener("input", event => {
-  const keyword = event.target.value.toLowerCase().trim();
+        <div class="feature">
+          <span>🌿</span>
+          <h3>ใส่ใจคุณภาพ</h3>
+          <p>คัดสรรสินค้าเพื่อการใช้งานและความสวยงาม</p>
+        </div>
 
-  const filtered = allProducts.filter(item => {
-    const name = String(item.name || "").toLowerCase();
-    const category = String(item.category || "").toLowerCase();
+        <div class="feature">
+          <span>💚</span>
+          <h3>บริการด้วยใจ</h3>
+          <p>พร้อมดูแลและให้ข้อมูลเกี่ยวกับสินค้า</p>
+        </div>
+      </div>
+    </section>
 
-    return name.includes(keyword) ||
-           category.includes(keyword);
-  });
-
-  showProducts(filtered);
-});
-
-// เริ่มต้นระบบ
-loadProducts();
-</script>
-
-</body>
-</html>
+    <section class="contact" id="contact">
+      <h2>ติดต่อบ้านกรงนก</h2>
+      <p>สนใจกรงนกหรืออุปกรณ์ตกแต่ง สามารถติดต่อสอบถามรายละเอียดสินค้าได้</p>
+      <p>ยินดีให้บริการค่ะ 🐦</p>
+    </section>
+  </mai
