@@ -1,5 +1,4 @@
 const SUPABASE_URL = 'https://acfrebknwxuybroilgqu.supabase.co';
-
 const SUPABASE_KEY = 'sb_publishable_UjWZN8YsBLoBTKsbQ3GZsw_A1X3lSPK';
 
 const supabaseClient = window.supabase.createClient(
@@ -9,29 +8,10 @@ const supabaseClient = window.supabase.createClient(
 
 const loginForm = document.getElementById('loginForm');
 const loginButton = document.getElementById('loginButton');
+const forgotButton = document.getElementById('forgotButton');
 const message = document.getElementById('message');
 
-// เพิ่มปุ่มลืมรหัสผ่าน
-const forgotButton = document.createElement('button');
-
-forgotButton.type = 'button';
-forgotButton.textContent = 'ลืมรหัสผ่าน?';
-forgotButton.style.cssText = `
-  display: block;
-  width: 100%;
-  margin-top: 15px;
-  padding: 10px;
-  background: transparent;
-  color: #39764A;
-  border: none;
-  cursor: pointer;
-  font-family: inherit;
-  font-size: 15px;
-`;
-
-loginForm.insertAdjacentElement('afterend', forgotButton);
-
-// ระบบเข้าสู่ระบบเดิม
+// เข้าสู่ระบบ
 loginForm.addEventListener('submit', async function(event) {
   event.preventDefault();
 
@@ -44,8 +24,8 @@ loginForm.addEventListener('submit', async function(event) {
 
   try {
     const { error } = await supabaseClient.auth.signInWithPassword({
-      email: email,
-      password: password
+      email,
+      password
     });
 
     if (error) throw error;
@@ -63,7 +43,7 @@ loginForm.addEventListener('submit', async function(event) {
     message.style.color = '#28613B';
     message.textContent = 'เข้าสู่ระบบสำเร็จ กำลังไปยังหน้าจัดการร้านค้า...';
 
-    setTimeout(function() {
+    setTimeout(() => {
       window.location.href = 'admin.html';
     }, 1200);
 
@@ -76,9 +56,8 @@ loginForm.addEventListener('submit', async function(event) {
   }
 });
 
-// ระบบลืมรหัสผ่าน
+// ลืมรหัสผ่าน
 forgotButton.addEventListener('click', async function() {
-
   const email = document.getElementById('email').value.trim();
 
   if (!email) {
@@ -92,22 +71,18 @@ forgotButton.addEventListener('click', async function() {
   forgotButton.textContent = 'กำลังส่งอีเมล...';
 
   try {
-    const { error } = await supabaseClient.auth.resetPasswordForEmail(
-      email,
-      {
-        redirectTo: 'https://kchkrhyngsta-maker.github.io/baan-krong-nok/update-password.html'
-      }
-    );
+    const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+      redirectTo: 'https://kchkrhyngsta-maker.github.io/baan-krong-nok/update-password.html'
+    });
 
     if (error) throw error;
 
     message.style.color = '#28613B';
-    message.textContent =
-      'ส่งลิงก์เปลี่ยนรหัสผ่านแล้ว กรุณาตรวจสอบอีเมลของคุณ';
+    message.textContent = 'ส่งลิงก์เปลี่ยนรหัสผ่านแล้ว กรุณาตรวจสอบอีเมล';
 
   } catch (error) {
     message.style.color = '#C0392B';
-    message.textContent = error.message || 'ส่งอีเมลไม่สำเร็จ';
+    message.textContent = 'ส่งอีเมลไม่สำเร็จ: ' + error.message;
 
   } finally {
     forgotButton.disabled = false;
