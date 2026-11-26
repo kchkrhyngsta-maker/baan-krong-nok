@@ -376,6 +376,8 @@ const SUPABASE_URL = 'https://acfrebknwxuybroilgqu.supabase.co';
 
 const SUPABASE_KEY = 'sb_publishable_UjWZN8YsBLoBTKsbQ3GZsw_A1X3lSPK';
 
+const BUCKET_NAME = 'product-images';
+
 const categoryGrid = document.getElementById('categoryGrid');
 
 const supabaseClient = window.supabase.createClient(
@@ -386,7 +388,54 @@ const supabaseClient = window.supabase.createClient(
 document.getElementById('year').textContent =
     new Date().getFullYear();
 
+/* แปลงชื่อไฟล์หรือพาธให้เป็น URL รูปภาพที่เปิดได้ */
+function getImageUrl(imageValue) {
+
+    if (!imageValue) {
+        return '';
+    }
+
+    let imagePath = String(imageValue).trim();
+
+    imagePath = imagePath.replace(/^["']|["']$/g, '');
+
+    if (!imagePath) {
+        return '';
+    }
+
+    /* กรณีเป็น URL เต็ม */
+    if (/^https?:\/\//i.test(imagePath)) {
+        return imagePath;
+    }
+
+    /* กรณีเป็นพาธ Storage ที่มี URL บางส่วน */
+    imagePath = imagePath.replace(/^\/+/, '');
+
+    imagePath = imagePath.replace(
+        /^storage\/v1\/object\/public\/product-images\//,
+        ''
+    );
+
+    imagePath = imagePath.replace(
+        /^product-images\//,
+        ''
+    );
+
+    /* กรณีเป็นเพียงชื่อไฟล์ */
+    const encodedPath = imagePath
+        .split('/')
+        .map(part => encodeURIComponent(part))
+        .join('/');
+
+    return SUPABASE_URL +
+        '/storage/v1/object/public/' +
+        BUCKET_NAME + '/' +
+        encodedPath;
+}
+
+/* แสดงข้อความผิดพลาด */
 function showError(message) {
+
     categoryGrid.innerHTML = '';
 
     const box = document.createElement('div');
@@ -402,14 +451,93 @@ function showError(message) {
 
     box.appendChild(text);
     box.appendChild(button);
+
     categoryGrid.appendChild(box);
 }
 
+/* สร้างการ์ดหมวดหมู่ */
+function createCategoryCard(category) {
+
+    const card = document.createElement('a');
+    card.className = 'category-card';
+
+    card.href = 'products.html?category=' +
+        encodeURIComponent(category.slug || '');
+
+    const imageWrap = document.createElement('div');
+    imageWrap.className = 'image-wrap';
+
+    const imageUrl = getImageUrl(category.image_url);
+
+    if (imageUrl) {
+
+        const image = document.createElement('img');
+
+        image.className = 'category-image';
+        image.src = imageUrl;
+        image.alt = category.name || 'หมวดหมู่สินค้า';
+        image.loading = 'lazy';
+
+        image.onerror = function() {
+
+            console.error(
+                'ไม่สามารถโหลดรูปภาพหมวดหมู่:',
+                category.name,
+                image.src
+            );
+
+            image.remove();
+
+            const placeholder = document.createElement('div');
+            placeholder.className = 'image-placeholder';
+            placeholder.textContent = 'ไม่สามารถโหลดรูปภาพได้';
+
+            imageWrap.appendChild(placeholder);
+        };
+
+        imageWrap.appendChild(image);
+
+    } else {
+
+        const placeholder = document.createElement('div');
+        placeholder.className = 'image-placeholder';
+        placeholder.textContent = 'ยังไม่มีรูปภาพ';
+
+        imageWrap.appendChild(placeholder);
+    }
+
+    const info = document.createElement('div');
+    info.className = 'category-info';
+
+    const title = document.createElement('h3');
+    title.textContent = category.name || 'หมวดหมู่สินค้า';
+
+    const description = document.createElement('p');
+    description.textContent =
+        category.description || 'เลือกชมสินค้าในหมวดหมู่นี้';
+
+    const button = document.createElement('span');
+    button.className = 'view-button';
+    button.textContent = 'เลือกชมสินค้า';
+
+    info.appendChild(title);
+    info.appendChild(description);
+    info.appendChild(button);
+
+    card.appendChild(imageWrap);
+    card.appendChild(info);
+
+    return card;
+}
+
+/* โหลดหมวดหมู่จาก Supabase */
 async function loadCategories() {
+
     categoryGrid.innerHTML =
         '<div class="status-message">กำลังโหลดหมวดหมู่สินค้า...</div>';
 
     try {
+
         const { data, error } = await supabaseClient
             .from('categories')
             .select('id, name, slug, description, image_url, sort_order, is_active')
@@ -417,7 +545,9 @@ async function loadCategories() {
             .order('sort_order', { ascending: true })
             .order('id', { ascending: true });
 
-        if (error) throw error;
+        if (error) {
+            throw error;
+        }
 
         if (!data || data.length === 0) {
             showError('ยังไม่มีหมวดหมู่สินค้าในระบบ');
@@ -427,68 +557,23 @@ async function loadCategories() {
         categoryGrid.innerHTML = '';
 
         data.forEach(function(category) {
-            const card = document.createElement('a');
-            card.className = 'category-card';
 
-            card.href = 'products.html?category=' +
-                encodeURIComponent(category.slug || '');
+            console.log(
+                'หมวดหมู่:',
+                category.name,
+                'URL รูปภาพ:',
+                getImageUrl(category.image_url)
+            );
 
-            const imageWrap = document.createElement('div');
-            imageWrap.className = 'image-wrap';
-
-            if (category.image_url) {
-                const image = document.createElement('img');
-
-                image.className = 'category-image';
-                image.src = category.image_url;
-                image.alt = category.name || 'หมวดหมู่สินค้า';
-                image.loading = 'lazy';
-
-                image.onerror = function() {
-                    image.remove();
-
-                    const placeholder = document.createElement('div');
-                    placeholder.className = 'image-placeholder';
-                    placeholder.textContent = 'ยังไม่พบรูปภาพหมวดหมู่นี้';
-
-                    imageWrap.appendChild(placeholder);
-                };
-
-                imageWrap.appendChild(image);
-            } else {
-                const placeholder = document.createElement('div');
-                placeholder.className = 'image-placeholder';
-                placeholder.textContent = 'ยังไม่มีรูปภาพ';
-
-                imageWrap.appendChild(placeholder);
-            }
-
-            const info = document.createElement('div');
-            info.className = 'category-info';
-
-            const title = document.createElement('h3');
-            title.textContent = category.name;
-
-            const description = document.createElement('p');
-            description.textContent =
-                category.description || 'เลือกชมสินค้าในหมวดหมู่นี้';
-
-            const button = document.createElement('span');
-            button.className = 'view-button';
-            button.textContent = 'เลือกชมสินค้า';
-
-            info.appendChild(title);
-            info.appendChild(description);
-            info.appendChild(button);
-
-            card.appendChild(imageWrap);
-            card.appendChild(info);
+            const card = createCategoryCard(category);
 
             categoryGrid.appendChild(card);
         });
 
     } catch (error) {
+
         console.error('Category loading error:', error);
+
         showError(
             'ไม่สามารถโหลดหมวดหมู่ได้: ' +
             (error.message || 'เกิดข้อผิดพลาดในการเชื่อมต่อ')
