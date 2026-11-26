@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>เข้าสู่ระบบผู้ดูแล | บ้านกรงนก</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Kanit', sans-serif;
+      background: #FAFCF7;
+      color: #294C35;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .login-box {
+      background: #FFFFFF;
+      width: 100%;
+      max-width: 420px;
+      padding: 35px 28px;
+      border-radius: 20px;
+      box-shadow: 0 5px 25px rgba(41, 76, 53, 0.12);
+      text-align: center;
+    }
+
+    .logo {
+      width: 110px;
+      height: 110px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin-bottom: 15px;
+    }
+
+    h1 {
+      font-size: 25px;
+      margin-bottom: 5px;
+    }
+
+    .subtitle {
+      color: #66806C;
+      margin-bottom: 25px;
+    }
+
+    .form-group {
+      text-align: left;
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 7px;
+      font-weight: 500;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #D5E2D4;
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 16px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #39764A;
+    }
+
+    button {
+      width: 100%;
+      padding: 13px;
+      background: #39764A;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 17px;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+
+    button:hover {
+      background: #28613B;
+    }
+
+    button:disabled {
+      background: #91A997;
+      cursor: not-allowed;
+    }
+
+    #message {
+      margin-top: 17px;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 22px;
+      color: #39764A;
+      text-decoration: none;
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <div class="login-box">
+
+<img src="Logo.JPG" alt="โลโก้บ้านกรงนก" class="logo">
+
+<h1>บ้านกรงนก</h1>
+<p class="subtitle">ระบบจัดการร้านค้า สำหรับผู้ดูแล</p>
+
+<form id="loginForm">
+
+  <div class="form-group">
+    <label for="email">อีเมล</label>
+    <input
+      type="email"
+      id="email"
+      placeholder="กรอกอีเมล"
+      required
+    >
+  </div>
+
+  <div class="form-group">
+    <label for="password">รหัสผ่าน</label>
+    <input
+      type="password"
+      id="password"
+      placeholder="กรอกรหัสผ่าน"
+      required
+    >
+  </div>
+
+  <button type="submit" id="loginButton">
+    เข้าสู่ระบบ
+  </button>
+
+  <p id="message"></p>
+
+</form>
+
+<a href="index.html" class="back-link">
+  ← กลับสู่หน้าเว็บไซต์
+</a>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script src="admin.js"></script>
+
+</body>
+</html>
