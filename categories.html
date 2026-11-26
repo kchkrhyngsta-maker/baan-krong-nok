@@ -4,10 +4,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>หมวดหมู่สินค้า | บ้านกรงนก</title>
 <meta name="description" content="เลือกชมหมวดหมู่กรงนกสวยงาม ซี่ดอก อะไหล่กรง และอุปกรณ์สำหรับนก บ้านกรงนก">
 
 <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
@@ -29,6 +31,7 @@ a {
     color: inherit;
 }
 
+/* HEADER */
 header {
     background: #fff;
     padding: 12px 5%;
@@ -62,7 +65,6 @@ header {
     object-fit: cover;
     border-radius: 50%;
     display: block;
-    transform: scale(.90);
 }
 
 .brand h1 {
@@ -76,6 +78,7 @@ header {
     color: #68816D;
 }
 
+/* NAVIGATION */
 nav {
     display: flex;
     align-items: center;
@@ -97,6 +100,7 @@ nav a.active {
     color: #28613B;
 }
 
+/* PAGE BANNER */
 .page-banner {
     background: linear-gradient(135deg, #E6F1E1, #F7FAF2);
     padding: 55px 6%;
@@ -114,6 +118,7 @@ nav a.active {
     font-size: 16px;
 }
 
+/* BREADCRUMB */
 .breadcrumb {
     max-width: 1200px;
     margin: 22px auto;
@@ -126,6 +131,7 @@ nav a.active {
     color: #39764A;
 }
 
+/* MAIN */
 main {
     max-width: 1250px;
     margin: auto;
@@ -147,6 +153,7 @@ main {
     margin-top: 5px;
 }
 
+/* CATEGORY GRID */
 .category-grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -168,6 +175,7 @@ main {
     box-shadow: 0 8px 20px rgba(39,91,54,.13);
 }
 
+/* CATEGORY IMAGE */
 .image-wrap {
     width: 100%;
     height: 210px;
@@ -192,6 +200,7 @@ main {
     font-size: 14px;
 }
 
+/* CATEGORY INFO */
 .category-info {
     padding: 15px;
 }
@@ -218,6 +227,7 @@ main {
     font-size: 13px;
 }
 
+/* STATUS */
 .status-message {
     grid-column: 1 / -1;
     text-align: center;
@@ -239,6 +249,7 @@ main {
     cursor: pointer;
 }
 
+/* FOOTER */
 footer {
     background: #285A37;
     color: #fff;
@@ -250,12 +261,14 @@ footer p {
     font-size: 14px;
 }
 
+/* TABLET */
 @media (max-width: 900px) {
     .category-grid {
         grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 }
 
+/* MOBILE */
 @media (max-width: 650px) {
     header {
         justify-content: center;
@@ -323,16 +336,25 @@ footer p {
 
 <body>
 
+<!-- HEADER -->
+
 <header>
-    <a class="brand" href="index.html">
-        <div class="brand-logo">
-            <img src="https://kchkrhyngsta-maker.github.io/baan-krong-nok/Logo.JPG" alt="โลโก้บ้านกรงนก">
-        </div>
-        <div>
-            <h1>บ้านกรงนก</h1>
-            <p>Baan Krong Nok</p>
-        </div>
-    </a>
+
+<a class="brand" href="index.html">
+
+    <div class="brand-logo">
+        <img
+            src="https://kchkrhyngsta-maker.github.io/baan-krong-nok/Logo.JPG"
+            alt="โลโก้บ้านกรงนก"
+        >
+    </div>
+
+    <div>
+        <h1>บ้านกรงนก</h1>
+        <p>Baan Krong Nok</p>
+    </div>
+
+</a>
 
 <nav aria-label="เมนูหลัก">
     <a href="index.html">หน้าแรก</a>
@@ -344,34 +366,54 @@ footer p {
 
 </header>
 
+<!-- PAGE BANNER -->
+
 <section class="page-banner">
-    <h2>หมวดหมู่สินค้า</h2>
-    <p>เลือกชมกรงนกและอุปกรณ์สำหรับนกตามประเภทที่ต้องการ</p>
+
+<h2>หมวดหมู่สินค้า</h2>
+
+<p>เลือกชมกรงนกและอุปกรณ์สำหรับนกตามประเภทที่ต้องการ</p>
+
 </section>
+
+<!-- BREADCRUMB -->
 
 <div class="breadcrumb">
     <a href="index.html">หน้าแรก</a> / หมวดหมู่สินค้า
 </div>
 
+<!-- MAIN -->
+
 <main>
-    <div class="section-title">
-        <h2>เลือกชมหมวดหมู่สินค้าของเรา</h2>
-        <p>มีสินค้าให้เลือกชมหลากหลายประเภทจากบ้านกรงนก</p>
-    </div>
+
+<div class="section-title">
+    <h2>เลือกชมหมวดหมู่สินค้าของเรา</h2>
+    <p>มีสินค้าให้เลือกชมหลากหลายประเภทจากบ้านกรงนก</p>
+</div>
 
 <div class="category-grid" id="categoryGrid">
-    <div class="status-message">กำลังโหลดหมวดหมู่สินค้า...</div>
+
+    <div class="status-message">
+        กำลังโหลดหมวดหมู่สินค้า...
+    </div>
+
 </div>
 
 </main>
 
+<!-- FOOTER -->
+
 <footer>
-    <p>🐦 บ้านกรงนก | Baan Krong Nok</p>
-    <p>กรงนกสวยงามและอุปกรณ์สำหรับนก</p>
-    <p>© <span id="year"></span> Baan Krong Nok. All Rights Reserved.</p>
+
+<p>🐦 บ้านกรงนก | Baan Krong Nok</p>
+<p>กรงนกสวยงามและอุปกรณ์สำหรับนก</p>
+<p>© <span id="year"></span> Baan Krong Nok. All Rights Reserved.</p>
+
 </footer>
 
 <script>
+
+/* SUPABASE SETTINGS */
 const SUPABASE_URL = 'https://acfrebknwxuybroilgqu.supabase.co';
 
 const SUPABASE_KEY = 'sb_publishable_UjWZN8YsBLoBTKsbQ3GZsw_A1X3lSPK';
@@ -379,6 +421,16 @@ const SUPABASE_KEY = 'sb_publishable_UjWZN8YsBLoBTKsbQ3GZsw_A1X3lSPK';
 const BUCKET_NAME = 'product-images';
 
 const categoryGrid = document.getElementById('categoryGrid');
+
+/* CHECK SUPABASE */
+if (!window.supabase) {
+
+    categoryGrid.innerHTML =
+        '<div class="status-message">ไม่สามารถเชื่อมต่อระบบ Supabase ได้ กรุณาลองใหม่อีกครั้ง</div>';
+
+    throw new Error('Supabase library not loaded');
+
+}
 
 const supabaseClient = window.supabase.createClient(
     SUPABASE_URL,
@@ -388,7 +440,8 @@ const supabaseClient = window.supabase.createClient(
 document.getElementById('year').textContent =
     new Date().getFullYear();
 
-/* แปลงชื่อไฟล์หรือพาธให้เป็น URL รูปภาพที่เปิดได้ */
+
+/* CONVERT IMAGE URL */
 function getImageUrl(imageValue) {
 
     if (!imageValue) {
@@ -403,12 +456,19 @@ function getImageUrl(imageValue) {
         return '';
     }
 
-    /* กรณีเป็น URL เต็ม */
+    /*
+       กรณีเป็น URL เต็มจาก Supabase
+       แก้ช่องว่างในชื่อไฟล์เป็น %20
+    */
     if (/^https?:\/\//i.test(imagePath)) {
-        return imagePath;
+
+        return imagePath.replace(/ /g, '%20');
+
     }
 
-    /* กรณีเป็นพาธ Storage ที่มี URL บางส่วน */
+    /*
+       กรณีเป็นชื่อไฟล์หรือพาธ
+    */
     imagePath = imagePath.replace(/^\/+/, '');
 
     imagePath = imagePath.replace(
@@ -421,50 +481,67 @@ function getImageUrl(imageValue) {
         ''
     );
 
-    /* กรณีเป็นเพียงชื่อไฟล์ */
+    /*
+       เข้ารหัสแต่ละส่วนของชื่อไฟล์
+       รองรับช่องว่างและอักขระพิเศษ
+    */
     const encodedPath = imagePath
         .split('/')
-        .map(part => encodeURIComponent(part))
+        .map(function(part) {
+            return encodeURIComponent(part);
+        })
         .join('/');
 
     return SUPABASE_URL +
         '/storage/v1/object/public/' +
         BUCKET_NAME + '/' +
         encodedPath;
+
 }
 
-/* แสดงข้อความผิดพลาด */
+
+/* SHOW ERROR */
 function showError(message) {
 
     categoryGrid.innerHTML = '';
 
     const box = document.createElement('div');
+
     box.className = 'status-message';
 
     const text = document.createElement('p');
+
     text.textContent = message;
 
     const button = document.createElement('button');
+
     button.className = 'retry-button';
+
     button.textContent = 'ลองโหลดอีกครั้ง';
+
     button.onclick = loadCategories;
 
     box.appendChild(text);
+
     box.appendChild(button);
 
     categoryGrid.appendChild(box);
+
 }
 
-/* สร้างการ์ดหมวดหมู่ */
+
+/* CREATE CATEGORY CARD */
 function createCategoryCard(category) {
 
     const card = document.createElement('a');
+
     card.className = 'category-card';
 
     card.href = 'products.html?category=' +
         encodeURIComponent(category.slug || '');
 
     const imageWrap = document.createElement('div');
+
     imageWrap.className = 'image-wrap';
 
     const imageUrl = getImageUrl(category.image_url);
@@ -474,25 +551,31 @@ function createCategoryCard(category) {
         const image = document.createElement('img');
 
         image.className = 'category-image';
-        image.src = imageUrl;
+
         image.alt = category.name || 'หมวดหมู่สินค้า';
+
         image.loading = 'lazy';
+
+        image.src = imageUrl;
 
         image.onerror = function() {
 
             console.error(
-                'ไม่สามารถโหลดรูปภาพหมวดหมู่:',
+                'โหลดรูปภาพไม่สำเร็จ:',
                 category.name,
-                image.src
+                imageUrl
             );
 
             image.remove();
 
             const placeholder = document.createElement('div');
+
             placeholder.className = 'image-placeholder';
+
             placeholder.textContent = 'ไม่สามารถโหลดรูปภาพได้';
 
             imageWrap.appendChild(placeholder);
+
         };
 
         imageWrap.appendChild(image);
@@ -500,37 +583,50 @@ function createCategoryCard(category) {
     } else {
 
         const placeholder = document.createElement('div');
+
         placeholder.className = 'image-placeholder';
+
         placeholder.textContent = 'ยังไม่มีรูปภาพ';
 
         imageWrap.appendChild(placeholder);
+
     }
 
     const info = document.createElement('div');
+
     info.className = 'category-info';
 
     const title = document.createElement('h3');
+
     title.textContent = category.name || 'หมวดหมู่สินค้า';
 
     const description = document.createElement('p');
+
     description.textContent =
         category.description || 'เลือกชมสินค้าในหมวดหมู่นี้';
 
     const button = document.createElement('span');
+
     button.className = 'view-button';
+
     button.textContent = 'เลือกชมสินค้า';
 
     info.appendChild(title);
+
     info.appendChild(description);
+
     info.appendChild(button);
 
     card.appendChild(imageWrap);
+
     card.appendChild(info);
 
     return card;
+
 }
 
-/* โหลดหมวดหมู่จาก Supabase */
+
+/* LOAD CATEGORIES */
 async function loadCategories() {
 
     categoryGrid.innerHTML =
@@ -539,28 +635,45 @@ async function loadCategories() {
     try {
 
         const { data, error } = await supabaseClient
+
             .from('categories')
+
             .select('id, name, slug, description, image_url, sort_order, is_active')
+
             .eq('is_active', true)
+
             .order('sort_order', { ascending: true })
+
             .order('id', { ascending: true });
 
+
         if (error) {
+
             throw error;
+
         }
+
 
         if (!data || data.length === 0) {
+
             showError('ยังไม่มีหมวดหมู่สินค้าในระบบ');
+
             return;
+
         }
 
+
         categoryGrid.innerHTML = '';
+
 
         data.forEach(function(category) {
 
             console.log(
-                'หมวดหมู่:',
-                category.name,
+                'ชื่อหมวดหมู่:',
+                category.name
+            );
+
+            console.log(
                 'URL รูปภาพ:',
                 getImageUrl(category.image_url)
             );
@@ -568,20 +681,30 @@ async function loadCategories() {
             const card = createCategoryCard(category);
 
             categoryGrid.appendChild(card);
+
         });
+
 
     } catch (error) {
 
-        console.error('Category loading error:', error);
+        console.error(
+            'Category loading error:',
+            error
+        );
 
         showError(
             'ไม่สามารถโหลดหมวดหมู่ได้: ' +
             (error.message || 'เกิดข้อผิดพลาดในการเชื่อมต่อ')
         );
+
     }
+
 }
 
+
+/* START */
 loadCategories();
+
 </script>
 
 </body>
