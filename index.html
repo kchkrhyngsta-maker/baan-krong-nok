@@ -1,0 +1,478 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>บ้านกรงนก | Baan Krong Nok</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Kanit', sans-serif;
+      background: #f8f5eb;
+      color: #263b2e;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    header {
+      background: #254b38;
+      color: white;
+      padding: 15px 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand img {
+      width: 75px;
+      height: 75px;
+      object-fit: contain;
+      border-radius: 50%;
+      background: white;
+    }
+
+    .brand h1 {
+      font-size: 25px;
+      font-weight: 600;
+    }
+
+    .brand p {
+      font-size: 13px;
+      color: #e6d6a9;
+    }
+
+    nav {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      font-size: 15px;
+    }
+
+    nav a:hover {
+      color: #e5c477;
+    }
+
+    .hero {
+      min-height: 420px;
+      padding: 65px 8%;
+      display: flex;
+      align-items: center;
+      background:
+        linear-gradient(90deg, rgba(20,48,34,.88), rgba(20,48,34,.25)),
+        url('https://images.unsplash.com/photo-1444464666168-49d633b86797?auto=format&fit=crop&w=1600&q=85')
+        center/cover;
+      color: white;
+    }
+
+    .hero-content {
+      max-width: 600px;
+    }
+
+    .hero h2 {
+      font-size: 38px;
+      margin-bottom: 15px;
+    }
+
+    .hero p {
+      font-size: 17px;
+      line-height: 1.8;
+      margin-bottom: 25px;
+    }
+
+    .main-button {
+      display: inline-block;
+      background: #c5a45e;
+      color: #203b2c;
+      padding: 12px 28px;
+      border-radius: 30px;
+      font-weight: 600;
+    }
+
+    .main-button:hover {
+      background: #e4c982;
+    }
+
+    section {
+      padding: 45px 6%;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .section-title h2 {
+      font-size: 28px;
+      color: #254b38;
+    }
+
+    .section-title p {
+      color: #777;
+      margin-top: 5px;
+    }
+
+    .categories {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 15px;
+    }
+
+    .category {
+      background: white;
+      padding: 22px 10px;
+      text-align: center;
+      border-radius: 15px;
+      border: 1px solid #e9dfc7;
+      transition: .2s;
+    }
+
+    .category:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 5px 15px #00000012;
+    }
+
+    .category .emoji {
+      font-size: 35px;
+      margin-bottom: 8px;
+    }
+
+    .category h3 {
+      font-size: 16px;
+      color: #254b38;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 20px;
+    }
+
+    .product-card {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 3px 12px #00000010;
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 210px;
+      object-fit: cover;
+      background: #eee;
+    }
+
+    .product-info {
+      padding: 15px;
+    }
+
+    .product-info h3 {
+      font-size: 17px;
+      margin-bottom: 7px;
+    }
+
+    .product-info p {
+      font-size: 13px;
+      color: #777;
+      min-height: 40px;
+    }
+
+    .price {
+      color: #a77b2e;
+      font-size: 20px;
+      font-weight: 600;
+      margin: 10px 0;
+    }
+
+    .product-button {
+      display: block;
+      text-align: center;
+      background: #254b38;
+      color: white;
+      padding: 9px;
+      border-radius: 8px;
+    }
+
+    .product-button:hover {
+      background: #386449;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 15px;
+      text-align: center;
+    }
+
+    .feature {
+      background: white;
+      border-radius: 15px;
+      padding: 25px 15px;
+    }
+
+    .feature .emoji {
+      font-size: 35px;
+      margin-bottom: 10px;
+    }
+
+    .contact {
+      background: #eae5d5;
+      text-align: center;
+    }
+
+    .contact h2 {
+      color: #254b38;
+      margin-bottom: 10px;
+    }
+
+    footer {
+      background: #1d3829;
+      color: white;
+      text-align: center;
+      padding: 25px 15px;
+      font-size: 14px;
+      line-height: 1.9;
+    }
+
+    #status {
+      text-align: center;
+      padding: 20px;
+      color: #777;
+    }
+
+    @media (max-width: 600px) {
+      header {
+        justify-content: center;
+      }
+
+      .brand h1 {
+        font-size: 21px;
+      }
+
+      nav {
+        justify-content: center;
+      }
+
+      .hero {
+        min-height: 350px;
+        padding: 45px 7%;
+      }
+
+      .hero h2 {
+        font-size: 29px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ส่วนหัวเว็บไซต์ -->
+  <header>
+    <a href="index.html" class="brand">
+      <img src="./logo.jpg" alt="โลโก้บ้านกรงนก">
+      <div>
+        <h1>บ้านกรงนก</h1>
+        <p>Baan Krong Nok | กรงนกและอุปกรณ์ทุกชนิด</p>
+      </div>
+    </a>
+
+    <nav>
+      <a href="index.html">หน้าหลัก</a>
+      <a href="products.html">สินค้าทั้งหมด</a>
+      <a href="#categories">หมวดหมู่สินค้า</a>
+      <a href="#contact">ติดต่อเรา</a>
+    </nav>
+  </header>
+
+  <!-- ภาพต้อนรับ -->
+  <div class="hero">
+    <div class="hero-content">
+      <h2>ยินดีต้อนรับสู่บ้านกรงนก 🐦</h2>
+      <p>
+        จำหน่ายกรงนกสวยงามทุกชนิด
+        พร้อมซี่กรง ถ้วยน้ำ อะไหล่
+        และอุปกรณ์ตกแต่งกรงนก
+      </p>
+      <a href="products.html" class="main-button">
+        เลือกชมสินค้าทั้งหมด
+      </a>
+    </div>
+  </div>
+
+  <!-- หมวดหมู่สินค้า -->
+  <section id="categories">
+    <div class="section-title">
+      <h2>หมวดหมู่สินค้า</h2>
+      <p>เลือกชมสินค้าที่คุณต้องการ</p>
+    </div>
+
+    <div class="categories">
+      <a href="products.html" class="category">
+        <div class="emoji">🪺</div>
+        <h3>กรงนก</h3>
+      </a>
+
+      <a href="products.html" class="category">
+        <div class="emoji">🪵</div>
+        <h3>ซี่กรงและไม้คอน</h3>
+      </a>
+
+      <a href="products.html" class="category">
+        <div class="emoji">🥣</div>
+        <h3>ถ้วยน้ำและถ้วยอาหาร</h3>
+      </a>
+
+      <a href="products.html" class="category">
+        <div class="emoji">🔧</div>
+        <h3>อะไหล่กรงนก</h3>
+      </a>
+
+      <a href="products.html" class="category">
+        <div class="emoji">✨</div>
+        <h3>อุปกรณ์ตกแต่ง</h3>
+      </a>
+    </div>
+  </section>
+
+  <!-- สินค้าแนะนำ -->
+  <section>
+    <div class="section-title">
+      <h2>🛒 สินค้าแนะนำ</h2>
+      <p>เลือกชมกรงนกและอุปกรณ์คุณภาพจากร้านบ้านกรงนก</p>
+    </div>
+
+    <div id="product-list" class="products"></div>
+    <div id="status">กำลังโหลดสินค้า...</div>
+
+    <div style="text-align:center; margin-top:25px;">
+      <a href="products.html" class="main-button">
+        ดูสินค้าทั้งหมด
+      </a>
+    </div>
+  </section>
+
+  <!-- จุดเด่นของร้าน -->
+  <section>
+    <div class="section-title">
+      <h2>ทำไมต้องเลือกบ้านกรงนก</h2>
+      <p>ใส่ใจทุกสินค้า เพื่อคนรักนก</p>
+    </div>
+
+    <div class="features">
+      <div class="feature">
+        <div class="emoji">🪺</div>
+        <h3>สินค้าหลากหลาย</h3>
+        <p>มีกรงนกและอุปกรณ์ให้เลือก</p>
+      </div>
+
+      <div class="feature">
+        <div class="emoji">💚</div>
+        <h3>ใส่ใจคุณภาพ</h3>
+        <p>คัดสรรสินค้าเพื่อคนรักนก</p>
+      </div>
+
+      <div class="feature">
+        <div class="emoji">📦</div>
+        <h3>เลือกชมได้สะดวก</h3>
+        <p>ดูรายการสินค้าและราคาออนไลน์</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ติดต่อร้าน -->
+  <section class="contact" id="contact">
+    <h2>ติดต่อบ้านกรงนก</h2>
+    <p>สนใจสินค้า สามารถเลือกชมรายการสินค้าของเราได้ที่นี่</p>
+    <br>
+    <a href="products.html" class="main-button">
+      เลือกชมสินค้า
+    </a>
+  </section>
+
+  <!-- ส่วนท้ายเว็บไซต์ -->
+  <footer>
+    <h2>🐦 บ้านกรงนก</h2>
+    <p>ร้านจำหน่ายกรงนกสวยงามและอุปกรณ์ตกแต่ง</p>
+    <p>ขอบคุณที่เลือกซื้อสินค้ากับเรา</p>
+    <p>© 2026 Baan Krong Nok</p>
+  </footer>
+
+  <script>
+    // เชื่อมต่อ Supabase
+    const SUPABASE_URL = "https://acfrebknwxuybroilgqu.supabase.co";
+
+    // เปลี่ยนข้อความด้านล่างเป็น Publishable key ของโปรเจกต์เดิม
+    const SUPABASE_KEY = "sb_publishable_UjWZN8YsBLoBTKsbQ3GZsw_A1X3lSPK_";
+
+    const db = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+    // โหลดสินค้าแนะนำ
+    async function loadProducts() {
+      const list = document.getElementById("product-list");
+      const status = document.getElementById("status");
+
+      try {
+        const { data, error } = await db
+          .from("products")
+          .select("id,name,category,description,price,image_url,stock,is_active")
+          .eq("is_active", true)
+          .order("id", { ascending: false })
+          .limit(4);
+
+        if (error) throw error;
+
+        if (!data || data.length === 0) {
+          status.textContent = "ยังไม่มีสินค้าแนะนำ";
+          return;
+        }
+
+        list.innerHTML = data.map(product => `
+          <div class="product-card">
+            <img
+              src="${escapeHTML(product.image_url || '')}"
+              alt="${escapeHTML(product.name || 'สินค้า')}"
+              onerror="this.src='https://placehold.co/400x300?text=Product'"
+            >
+
+            <div class="product-info">
+              <h3>${escapeHTML(product.name || '')}</h3>
+
+              <p>${escapeHTML(product.description || product.category || '')}</p>
+
+              <div class="price">
+                ฿${Number(product.price || 0).toLocaleString("th-TH")}
+              </div>
+
+              <a href="products.html" class="product-button">
+                ดูรายละเอียดสินค้า
+              </a>
+            </div>
+          </di
