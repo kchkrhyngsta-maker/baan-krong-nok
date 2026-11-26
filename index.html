@@ -296,11 +296,15 @@
   <!-- ส่วนหัวเว็บไซต์ -->
   <header>
    <a href="index.html" class="brand">
-<img
-  src="https://kchkrhyngsta-maker.github.io/baan-krong-nok/Logo.JPG?v=3"
-  alt="โลโก้บ้านกรงนก"
-  style="width:110px;height:110px;object-fit:contain;object-position:center;display:block;"
->
+.brand img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 50%;
+  display: block;
+  flex-shrink: 0;
+}
   <div>
     <h1>บ้านกรงนก</h1>
     <p>Baan Krong Nok | กรงนกและอุปกรณ์ทุกชนิด</p>
