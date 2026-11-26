@@ -1,8 +1,24 @@
 
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>บ้านกรงนก | Baan Krong Nok</title>
+<meta name="description" content="บ้านกรงนก จำหน่ายกรงนกสวยงาม กรงนกหัวจุก และอุปกรณ์สำหรับนกทุกชนิด">
+
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
@@ -17,7 +33,6 @@ a {
   color: inherit;
 }
 
-/* HEADER */
 header {
   background: #FFFFFF;
   padding: 12px 5%;
@@ -26,33 +41,43 @@ header {
   align-items: center;
   flex-wrap: wrap;
   gap: 15px;
-  box-shadow: 0 3px 12px rgba(36, 75, 53, 0.10);
+  box-shadow: 0 3px 12px rgba(36,75,53,.10);
   border-bottom: 2px solid #E5EFE2;
 }
 
-/* LOGO */
 .brand {
   display: flex;
   align-items: center;
   gap: 13px;
 }
 
-.brand img {
-  width: 100px;
-  height: 100px;
+.brand-logo {
+  width: 95px;
+  height: 95px;
+  min-width: 95px;
+  border-radius: 50%;
+  border: 4px solid #39764A;
+  background: #E5F0E2;
+  padding: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.brand-logo img {
+  width: 100%;
+  height: 100%;
   object-fit: contain;
   object-position: center;
   border-radius: 50%;
-  border: 3px solid #3F7650;
-  background: #E8F0E5;
-  padding: 3px;
   display: block;
-  flex-shrink: 0;
 }
 
 .brand h1 {
   font-size: 25px;
   color: #244B35;
+  line-height: 1.4;
 }
 
 .brand p {
@@ -60,7 +85,6 @@ header {
   color: #64836A;
 }
 
-/* NAVIGATION */
 nav {
   display: flex;
   flex-wrap: wrap;
@@ -71,22 +95,20 @@ nav a {
   font-size: 15px;
   font-weight: 500;
   color: #315B3E;
-  transition: 0.3s;
 }
 
 nav a:hover {
   color: #82A875;
 }
 
-/* HERO */
 .hero {
-  padding: 75px 20px;
+  padding: 80px 20px;
   text-align: center;
-  background: linear-gradient(135deg, #DDEBD9, #F3F8EF);
+  background: linear-gradient(135deg,#DDEBD9,#F3F8EF);
 }
 
 .hero h2 {
-  font-size: 34px;
+  font-size: 36px;
   color: #244B35;
   margin-bottom: 12px;
 }
@@ -97,15 +119,14 @@ nav a:hover {
   margin-bottom: 25px;
 }
 
-/* BUTTON */
 .main-button {
   display: inline-block;
   padding: 12px 30px;
-  background: #3F7650;
+  background: #39764A;
   color: white;
   border-radius: 30px;
   font-weight: 500;
-  transition: 0.3s;
+  transition: .3s;
 }
 
 .main-button:hover {
@@ -113,9 +134,8 @@ nav a:hover {
   transform: translateY(-2px);
 }
 
-/* SECTION */
 section {
-  padding: 50px 5%;
+  padding: 55px 5%;
 }
 
 .section-title {
@@ -133,28 +153,26 @@ section {
   margin-top: 5px;
 }
 
-/* CATEGORY */
 .category-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  grid-template-columns: repeat(auto-fit,minmax(140px,1fr));
   gap: 18px;
   max-width: 1100px;
   margin: auto;
 }
 
 .category-card {
-  background: #FFFFFF;
+  background: white;
   border: 1px solid #E3EDDF;
   border-radius: 18px;
   padding: 25px 10px;
   text-align: center;
-  box-shadow: 0 4px 14px rgba(36, 75, 53, 0.07);
-  transition: 0.3s;
+  box-shadow: 0 4px 14px rgba(36,75,53,.07);
+  transition: .3s;
 }
 
 .category-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 7px 18px rgba(36, 75, 53, 0.13);
 }
 
 .category-card .emoji {
@@ -167,26 +185,20 @@ section {
   color: #315B3E;
 }
 
-/* PRODUCTS */
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  grid-template-columns: repeat(auto-fit,minmax(210px,1fr));
   gap: 20px;
   max-width: 1100px;
   margin: auto;
 }
 
 .product-card {
-  background: #FFFFFF;
+  background: white;
   border: 1px solid #E3EDDF;
   border-radius: 17px;
   overflow: hidden;
-  box-shadow: 0 4px 14px rgba(36, 75, 53, 0.08);
-  transition: 0.3s;
-}
-
-.product-card:hover {
-  transform: translateY(-4px);
+  box-shadow: 0 4px 14px rgba(36,75,53,.08);
 }
 
 .product-card img {
@@ -208,7 +220,7 @@ section {
 }
 
 .product-price {
-  color: #3F7650;
+  color: #39764A;
   font-weight: 600;
   font-size: 19px;
 }
@@ -219,26 +231,25 @@ section {
   margin-top: 5px;
 }
 
+.loading {
+  text-align: center;
+  padding: 30px;
+  color: #64836A;
+  grid-column: 1/-1;
+}
+
 .center {
   text-align: center;
   margin-top: 28px;
 }
 
-.loading {
-  text-align: center;
-  padding: 30px;
-  color: #64836A;
-  grid-column: 1 / -1;
-}
-
-/* FEATURES */
 .features {
   background: #E8F0E5;
 }
 
 .feature-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
   gap: 20px;
   max-width: 1000px;
   margin: auto;
@@ -246,7 +257,7 @@ section {
 }
 
 .feature-item {
-  background: #FFFFFF;
+  background: white;
   padding: 28px 15px;
   border-radius: 17px;
   border: 1px solid #DCE9D8;
@@ -266,34 +277,79 @@ section {
   color: #64836A;
 }
 
-/* CONTACT */
-.contact {
+.about {
   text-align: center;
-  background: #FAFCF7;
+  max-width: 900px;
+  margin: auto;
 }
 
-/* FOOTER */
+.about p {
+  color: #52735A;
+}
+
+.order-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
+  gap: 18px;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.order-item {
+  background: white;
+  border: 1px solid #E3EDDF;
+  border-radius: 15px;
+  padding: 22px;
+  text-align: center;
+}
+
+.order-item .emoji {
+  font-size: 32px;
+}
+
+.contact {
+  text-align: center;
+  background: #F1F7EE;
+}
+
+.contact-links {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.contact-item {
+  background: white;
+  border: 1px solid #DCE9D8;
+  border-radius: 12px;
+  padding: 12px 20px;
+  color: #315B3E;
+}
+
 footer {
   background: #244B35;
-  color: #FFFFFF;
+  color: white;
   padding: 30px 15px;
   text-align: center;
 }
 
 footer p {
   margin: 5px 0;
+  font-size: 14px;
 }
 
-/* MOBILE */
-@media (max-width: 600px) {
+@media(max-width:600px) {
   header {
     justify-content: center;
     padding: 12px 15px;
   }
 
-  .brand img {
+  .brand-logo {
     width: 80px;
     height: 80px;
+    min-width: 80px;
   }
 
   .brand h1 {
@@ -334,7 +390,7 @@ footer p {
   }
 
   .product-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(2,minmax(0,1fr));
     gap: 12px;
   }
 
@@ -342,3 +398,176 @@ footer p {
     height: 160px;
   }
 }
+</style>
+</head>
+
+<body>
+
+<header>
+  <a href="index.html" class="brand">
+    <div class="brand-logo">
+      <img
+        src="https://kchkrhyngsta-maker.github.io/baan-krong-nok/Logo.JPG"
+        alt="โลโก้บ้านกรงนก"
+        onerror="this.style.display='none'">
+    </div>
+    <div>
+      <h1>บ้านกรงนก</h1>
+      <p>Baan Krong Nok | กรงนกและอุปกรณ์ทุกชนิด</p>
+    </div>
+  </a>
+
+  <nav>
+    <a href="index.html">หน้าหลัก</a>
+    <a href="products.html">สินค้าทั้งหมด</a>
+    <a href="#categories">หมวดหมู่สินค้า</a>
+    <a href="#about">เกี่ยวกับเรา</a>
+    <a href="#contact">ติดต่อเรา</a>
+  </nav>
+</header>
+
+<main>
+
+<section class="hero">
+  <h2>🐦 ยินดีต้อนรับสู่บ้านกรงนก</h2>
+  <p>เลือกชมกรงนกสวยงามและอุปกรณ์สำหรับนกที่คุณรัก</p>
+  <p>ครบครันเรื่องกรงนกและอุปกรณ์ ตอบโจทย์คนรักนก</p>
+  <a href="products.html" class="main-button">เลือกชมสินค้าทั้งหมด</a>
+</section>
+
+<section id="categories">
+  <div class="section-title">
+    <h2>หมวดหมู่สินค้า</h2>
+    <p>เลือกชมสินค้าตามหมวดหมู่ที่ต้องการ</p>
+  </div>
+
+  <div class="category-grid">
+    <a href="products.html" class="category-card">
+      <div class="emoji">🪵</div>
+      <h3>กรงนกไม้</h3>
+    </a>
+
+    <a href="products.html" class="category-card">
+      <div class="emoji">🐦</div>
+      <h3>กรงนกหัวจุก</h3>
+    </a>
+
+    <a href="products.html" class="category-card">
+      <div class="emoji">🔩</div>
+      <h3>กรงเหล็ก</h3>
+    </a>
+
+    <a href="products.html" class="category-card">
+      <div class="emoji">🥣</div>
+      <h3>ถ้วยน้ำและอาหาร</h3>
+    </a>
+
+    <a href="products.html" class="category-card">
+      <div class="emoji">🧰</div>
+      <h3>อะไหล่และอุปกรณ์</h3>
+    </a>
+  </div>
+</section>
+
+<section id="products">
+  <div class="section-title">
+    <h2>สินค้าแนะนำ</h2>
+    <p>สินค้าจากบ้านกรงนก</p>
+  </div>
+
+  <div class="product-grid" id="productList">
+    <div class="loading">กำลังโหลดสินค้า...</div>
+  </div>
+
+  <div class="center">
+    <a href="products.html" class="main-button">ดูสินค้าทั้งหมด</a>
+  </div>
+</section>
+
+<section class="features">
+  <div class="section-title">
+    <h2>ทำไมต้องเลือกบ้านกรงนก</h2>
+    <p>ใส่ใจในทุกสินค้า เพื่อคนรักนก</p>
+  </div>
+
+  <div class="feature-grid">
+    <div class="feature-item">
+      <div class="emoji">🐦</div>
+      <h3>สินค้าหลากหลาย</h3>
+      <p>มีกรงนกและอุปกรณ์ให้เลือกชม</p>
+    </div>
+
+    <div class="feature-item">
+      <div class="emoji">💚</div>
+      <h3>ใส่ใจลูกค้า</h3>
+      <p>พร้อมให้ข้อมูลเกี่ยวกับสินค้า</p>
+    </div>
+
+    <div class="feature-item">
+      <div class="emoji">🛒</div>
+      <h3>เลือกชมได้สะดวก</h3>
+      <p>ดูรายละเอียดสินค้าได้ผ่านเว็บไซต์</p>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="section-title">
+    <h2>เกี่ยวกับบ้านกรงนก</h2>
+  </div>
+
+  <div class="about">
+    <p>
+      บ้านกรงนก (Baan Krong Nok) เป็นเว็บไซต์สำหรับเลือกชมกรงนก
+      และอุปกรณ์สำหรับนกหลากหลายประเภท
+      ไม่ว่าจะเป็นกรงนกไม้ กรงนกหัวจุก กรงเหล็ก
+      ถ้วยน้ำ ถ้วยอาหาร และอะไหล่สำหรับกรงนก
+      เพื่ออำนวยความสะดวกให้คนรักนกสามารถเลือกชมสินค้าและตรวจสอบราคาได้ง่ายขึ้น
+    </p>
+  </div>
+</section>
+
+<section id="order">
+  <div class="section-title">
+    <h2>วิธีเลือกซื้อสินค้า</h2>
+    <p>เลือกชมสินค้าได้ง่าย ๆ ตามขั้นตอน</p>
+  </div>
+
+  <div class="order-grid">
+    <div class="order-item">
+      <div class="emoji">🔍</div>
+      <h3>1. เลือกชมสินค้า</h3>
+      <p>เลือกดูสินค้าที่สนใจ</p>
+    </div>
+
+    <div class="order-item">
+      <div class="emoji">📋</div>
+      <h3>2. ตรวจสอบรายละเอียด</h3>
+      <p>ดูราคาและข้อมูลสินค้า</p>
+    </div>
+
+    <div class="order-item">
+      <div class="emoji">💬</div>
+      <h3>3. ติดต่อร้านค้า</h3>
+      <p>สอบถามข้อมูลและการสั่งซื้อ</p>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="section-title">
+    <h2>ติดต่อบ้านกรงนก</h2>
+    <p>สอบถามรายละเอียดสินค้าและข้อมูลเพิ่มเติม</p>
+  </div>
+
+  <div class="contact-links">
+    <div class="contact-item">📘 Facebook: รอเพิ่มลิงก์เพจ</div>
+    <div class="contact-item">💚 LINE: รอเพิ่ม LINE ID</div>
+    <div class="contact-item">📞 โทรศัพท์: รอเพิ่มเบอร์โทรศัพท์</div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <p>🐦 บ้านกรงนก 
