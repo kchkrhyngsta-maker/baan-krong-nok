@@ -168,44 +168,83 @@
     }
 
     /* CATEGORY */
-    .category-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
-      gap: 18px;
-    }
 
-    .category-card {
-      display: block;
-      background: #FFFFFF;
-      border: 1px solid #E2EBDD;
-      border-radius: 18px;
-      padding: 10px;
-      text-align: center;
-      overflow: hidden;
-      transition: .25s;
-      box-shadow: 0 3px 12px rgba(41,76,53,.06);
-    }
+<!-- CATEGORY -->
+<section id="categories">
+  <div class="section-title">
+    <h2>หมวดหมู่สินค้า</h2>
+    <p>เลือกชมสินค้าและอุปกรณ์สำหรับนกตามประเภทที่ต้องการ</p>
+  </div>
 
-    .category-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 7px 18px rgba(41,76,53,.13);
-    }
+  <div class="category-grid">
 
-    .category-image {
-      width: 100%;
-      height: 145px;
-      object-fit: cover;
-      display: block;
-      border-radius: 13px;
-      background: #EDF4E9;
-      margin-bottom: 12px;
-    }
+    <a href="products.html?category=กรงนกสวยงาม" class="category-card">
+      <img class="category-image"
+        src="https://images.unsplash.com/photo-1552728089-57bdde30beb3?w=600"
+        alt="กรงนกสวยงาม" loading="lazy">
+      <h3>กรงนกสวยงาม</h3>
+      <p>กรงไม้ กรงหวาย กรงแขวน และกรงเหล็ก</p>
+    </a>
 
-    .category-card h3 {
-      font-size: 16px;
-      color: #39764A;
-      padding-bottom: 5px;
-    }
+    <a href="products.html?category=ซี่กรงและอะไหล่กรง" class="category-card">
+      <img class="category-image"
+        src="https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600"
+        alt="ซี่กรงและอะไหล่กรง" loading="lazy">
+      <h3>ซี่กรงและอะไหล่กรง</h3>
+      <p>ซี่ดอก ซี่กรง และอะไหล่ซ่อมกรง</p>
+    </a>
+
+    <a href="products.html?category=ของตกแต่งกรงนก" class="category-card">
+      <img class="category-image"
+        src="https://images.unsplash.com/photo-1522858547137-f1dcec554f55?w=600"
+        alt="ของตกแต่งกรงนก" loading="lazy">
+      <h3>ของตกแต่งกรงนก</h3>
+      <p>คอนเกาะ ชิงช้า บันได และของแขวน</p>
+    </a>
+
+    <a href="products.html?category=ถ้วยน้ำและถ้วยอาหาร" class="category-card">
+      <img class="category-image"
+        src="https://images.unsplash.com/photo-1549608276-5786777e6587?w=600"
+        alt="ถ้วยน้ำและถ้วยอาหาร" loading="lazy">
+      <h3>ถ้วยน้ำและถ้วยอาหาร</h3>
+      <p>ถ้วยน้ำ ถ้วยอาหาร และถ้วยติดกรง</p>
+    </a>
+
+    <a href="products.html?category=อุปกรณ์ให้อาหารนก" class="category-card">
+      <img class="category-image"
+        src="https://images.unsplash.com/photo-1589924691995-400dc9ecc119?w=600"
+        alt="อุปกรณ์ให้อาหารนก" loading="lazy">
+      <h3>อุปกรณ์ให้อาหารนก</h3>
+      <p>ที่ใส่อาหารและอุปกรณ์ให้อาหาร</p>
+    </a>
+
+    <a href="products.html?category=อุปกรณ์ทำความสะอาดกรง" class="category-card">
+      <img class="category-image"
+        src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=600"
+        alt="อุปกรณ์ทำความสะอาดกรง" loading="lazy">
+      <h3>อุปกรณ์ทำความสะอาดกรง</h3>
+      <p>ถาดรองกรงและอุปกรณ์ทำความสะอาด</p>
+    </a>
+
+    <a href="products.html?category=อุปกรณ์แขวนและอะไหล่เสริม" class="category-card">
+      <img class="category-image"
+        src="https://images.unsplash.com/photo-1503602642458-232111445657?w=600"
+        alt="อุปกรณ์แขวนและอะไหล่เสริม" loading="lazy">
+      <h3>อุปกรณ์แขวนและอะไหล่เสริม</h3>
+      <p>ตะขอ โซ่ ห่วง และคลิปล็อก</p>
+    </a>
+
+    <a href="products.html?category=อุปกรณ์สำหรับนกอื่นๆ" class="category-card">
+      <img class="category-image"
+        src="https://images.unsplash.com/photo-1444464666168-49d633b86797?w=600"
+        alt="อุปกรณ์สำหรับนกอื่น ๆ" loading="lazy">
+      <h3>อุปกรณ์สำหรับนกอื่น ๆ</h3>
+      <p>อุปกรณ์เพิ่มเติมสำหรับนกทุกชนิด</p>
+    </a>
+
+  </div>
+</section>
+
 
     /* PRODUCTS */
     .product-grid {
