@@ -1,486 +1,1553 @@
 
+
 <!DOCTYPE html>
+
 <html lang="th">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>บ้านกรงนก | Baan Krong Nok</title>
-  <meta name="description" content="บ้านกรงนก จำหน่ายกรงนกสวยงาม ซี่ดอก อะไหล่กรง และอุปกรณ์สำหรับนก">
-
-  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: 'Kanit', sans-serif;
-      background: #FAFCF7;
-      color: #294C35;
-      line-height: 1.7;
-    }
-
-    a { text-decoration: none; color: inherit; }
-    img { max-width: 100%; }
-    button { font: inherit; }
-
-    header {
-      background: #fff;
-      padding: 12px 5%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-      flex-wrap: wrap;
-      box-shadow: 0 2px 12px rgba(0,0,0,.06);
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .brand-logo {
-      width: 105px;
-      height: 105px;
-      min-width: 105px;
-      border-radius: 50%;
-      border: 4px solid #39764A;
-      background: #E5F0E2;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .brand-logo img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-      border-radius: 50%;
-      display: block;
-      transform: scale(.90);
-    }
-
-    .brand h1 {
-      font-size: 25px;
-      color: #28613B;
-      line-height: 1.3;
-    }
-
-    .brand p { font-size: 13px; color: #68816D; }
-
-    nav {
-      display: flex;
-      gap: 18px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-
-    nav a {
-      color: #315C3D;
-      font-weight: 500;
-      font-size: 15px;
-    }
-
-    nav a:hover { color: #77A65E; }
-
-    .hero {
-      background: linear-gradient(135deg, #E6F1E1, #F7FAF2);
-      padding: 65px 6%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-    }
-
-    .hero-content { max-width: 760px; }
-
-    .hero h2 {
-      font-size: clamp(30px, 5vw, 46px);
-      color: #28613B;
-      margin-bottom: 15px;
-    }
-
-    .hero p {
-      font-size: 18px;
-      color: #58745D;
-      margin-bottom: 25px;
-    }
-
-    .main-button {
-      display: inline-block;
-      background: #39764A;
-      color: #fff;
-      padding: 12px 28px;
-      border-radius: 30px;
-      font-weight: 500;
-    }
-
-    .main-button:hover { background: #285A37; }
-
-    section { padding: 55px 6%; }
-
-    .section-title {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-
-    .section-title h2 {
-      font-size: 29px;
-      color: #28613B;
-    }
-
-    .section-title p {
-      color: #728574;
-      margin-top: 5px;
-    }
-
-    /* CATEGORY */
-    .category-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-      gap: 20px;
-    }
-
-    .category-card {
-      display: block;
-      background: #fff;
-      border: 1px solid #E6EDE2;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 3px 12px rgba(0,0,0,.04);
-      transition: .2s;
-    }
-
-    .category-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 20px rgba(39,91,54,.12);
-    }
-
-    .category-image {
-      width: 100%;
-      height: 190px;
-      object-fit: cover;
-      display: block;
-      background: #EDF4E9;
-    }
-
-    .category-card h3 {
-      color: #315D3B;
-      font-size: 17px;
-      padding: 12px 15px 2px;
-    }
-
-    .category-card p {
-      color: #718071;
-      font-size: 13px;
-      padding: 0 15px 16px;
-    }
-
-    .status-message {
-      text-align: center;
-      padding: 22px;
-      color: #68816D;
-      background: #F1F6ED;
-      border-radius: 12px;
-      grid-column: 1 / -1;
-    }
-
-    .retry-button {
-      display: block;
-      margin: 12px auto 0;
-      padding: 9px 22px;
-      border: 0;
-      border-radius: 25px;
-      background: #39764A;
-      color: white;
-      cursor: pointer;
-    }
-
-    /* PRODUCTS */
-    .product-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-      gap: 20px;
-    }
-
-    .product-card {
-      background: #fff;
-      border-radius: 16px;
-      overflow: hidden;
-      border: 1px solid #E6EDE2;
-      box-shadow: 0 3px 12px rgba(0,0,0,.04);
-    }
-
-    .product-card img {
-      width: 100%;
-      height: 220px;
-      object-fit: cover;
-      display: block;
-      background: #F0F4EC;
-    }
-
-    .product-info { padding: 15px; }
-
-    .product-info h3 {
-      font-size: 17px;
-      color: #315D3B;
-      margin-bottom: 7px;
-    }
-
-    .product-info p {
-      color: #718071;
-      font-size: 14px;
-      margin-bottom: 8px;
-    }
-
-    .product-price {
-      color: #39764A;
-      font-size: 19px;
-      font-weight: 600;
-    }
-
-    .view-all {
-      display: block;
-      width: fit-content;
-      margin: 30px auto 0;
-      padding: 10px 25px;
-      background: #39764A;
-      color: #fff;
-      border-radius: 25px;
-    }
-
-    /* FEATURES */
-    .features, .contact-section { background: #EDF4E9; }
-
-    .feature-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
-    }
-
-    .feature-card {
-      text-align: center;
-      background: #fff;
-      padding: 25px 15px;
-      border-radius: 16px;
-    }
-
-    .feature-card .icon {
-      font-size: 36px;
-      margin-bottom: 10px;
-    }
-
-    .feature-card h3 {
-      color: #39764A;
-      margin-bottom: 5px;
-    }
-
-    /* ABOUT */
-    .about-box {
-      max-width: 850px;
-      margin: auto;
-      text-align: center;
-      background: #fff;
-      padding: 30px;
-      border-radius: 18px;
-      border: 1px solid #E6EDE2;
-    }
-
-    .about-box p { color: #647968; }
-
-    /* ORDER */
-    .order-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 15px;
-    }
-
-    .order-card {
-      background: #fff;
-      padding: 22px;
-      border-radius: 15px;
-      text-align: center;
-      border: 1px solid #E4EDE0;
-    }
-
-    .order-card span { font-size: 32px; }
-    .order-card h3 { color: #39764A; margin: 8px 0; }
-
-    /* CONTACT */
-    .contact-section { text-align: center; }
-
-    .contact-box {
-      max-width: 650px;
-      margin: auto;
-      background: #fff;
-      border-radius: 18px;
-      padding: 30px 20px;
-    }
-
-    .contact-box p {
-      margin-bottom: 18px;
-      color: #647968;
-    }
-
-    .contact-links {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      margin-top: 22px;
-    }
-
-    .contact-link {
-      display: block;
-      padding: 14px 18px;
-      border-radius: 30px;
-      color: #fff;
-      font-weight: 500;
-      text-align: center;
-    }
-
-    .facebook-link { background: #1877F2; }
-    .line-link { background: #06B65A; }
-    .phone-link { background: #39764A; }
-
-    /* FAQ */
-    .faq-container { max-width: 800px; margin: auto; }
-
-    .faq-item {
-      background: #fff;
-      border: 1px solid #E2EBDD;
-      border-radius: 14px;
-      margin-bottom: 14px;
-      padding: 17px 20px;
-    }
-
-    .faq-item summary {
-      color: #39764A;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    .faq-item p {
-      color: #647968;
-      margin-top: 12px;
-    }
-
-    footer {
-      background: #285A37;
-      color: #fff;
-      text-align: center;
-      padding: 25px 15px;
-    }
-
-    footer p { font-size: 14px; }
-
-    @media (max-width: 650px) {
-      header {
-        justify-content: center;
-        text-align: center;
-      }
-
-      .brand { justify-content: center; }
-
-      .brand-logo {
-        width: 88px;
-        height: 88px;
-        min-width: 88px;
-      }
-
-      .brand h1 { font-size: 22px; }
-
-      nav {
-        justify-content: center;
-        gap: 12px;
-      }
-
-      nav a { font-size: 14px; }
-
-      .hero { padding: 48px 5%; }
-      .hero p { font-size: 16px; }
-      section { padding: 42px 5%; }
-
-      .category-grid, .product-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 12px;
-      }
-
-      .category-image { height: 135px; }
-
-      .category-card h3 {
-        font-size: 15px;
-        padding: 10px 10px 2px;
-      }
-
-      .category-card p {
-        font-size: 12px;
-        padding: 0 10px 12px;
-      }
-
-      .product-card img { height: 155px; }
-      .product-info { padding: 11px; }
-      .product-info h3 { font-size: 15px; }
-      .product-price { font-size: 17px; }
-      .about-box { padding: 22px 17px; }
-    }
-
-    @media (max-width: 360px) {
-      .category-grid, .product-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>บ้านกรงนก | Baan Krong Nok</title>
+
+<meta name="description" content="บ้านกรงนก จำหน่ายกรงนกสวยงาม ซี่ดอก อะไหล่กรง และอุปกรณ์สำหรับนก">
+
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+
+* {
+
+  box-sizing: border-box;
+
+  margin: 0;
+
+  padding: 0;
+
+}
+
+html {
+
+  scroll-behavior: smooth;
+
+}
+
+body {
+
+  font-family: 'Kanit', sans-serif;
+
+  background: #FAFCF7;
+
+  color: #294C35;
+
+  line-height: 1.7;
+
+}
+
+a {
+
+  text-decoration: none;
+
+  color: inherit;
+
+}
+
+img {
+
+  max-width: 100%;
+
+}
+
+button {
+
+  font: inherit;
+
+}
+
+header {
+
+  background: #fff;
+
+  padding: 12px 5%;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 20px;
+
+  flex-wrap: wrap;
+
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+
+}
+
+.brand {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+}
+
+.brand-logo {
+
+  width: 105px;
+
+  height: 105px;
+
+  min-width: 105px;
+
+  border-radius: 50%;
+
+  border: 4px solid #39764A;
+
+  background: #E5F0E2;
+
+  overflow: hidden;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+}
+
+.brand-logo img {
+
+  width: 100%;
+
+  height: 100%;
+
+  object-fit: cover;
+
+  object-position: center;
+
+  border-radius: 50%;
+
+  display: block;
+
+  transform: scale(.90);
+
+}
+
+.brand h1 {
+
+  font-size: 25px;
+
+  color: #28613B;
+
+  line-height: 1.3;
+
+}
+
+.brand p {
+
+  font-size: 13px;
+
+  color: #68816D;
+
+}
+
+nav {
+
+  display: flex;
+
+  gap: 18px;
+
+  flex-wrap: wrap;
+
+  align-items: center;
+
+}
+
+nav a {
+
+  color: #315C3D;
+
+  font-weight: 500;
+
+  font-size: 15px;
+
+}
+
+nav a:hover {
+
+  color: #77A65E;
+
+}
+
+.hero {
+
+  background: linear-gradient(135deg, #E6F1E1, #F7FAF2);
+
+  padding: 65px 6%;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  text-align: center;
+
+}
+
+.hero-content {
+
+  max-width: 760px;
+
+}
+
+.hero h2 {
+
+  font-size: clamp(30px, 5vw, 46px);
+
+  color: #28613B;
+
+  margin-bottom: 15px;
+
+}
+
+.hero p {
+
+  font-size: 18px;
+
+  color: #58745D;
+
+  margin-bottom: 25px;
+
+}
+
+.main-button {
+
+  display: inline-block;
+
+  background: #39764A;
+
+  color: #fff;
+
+  padding: 12px 28px;
+
+  border-radius: 30px;
+
+  font-weight: 500;
+
+}
+
+.main-button:hover {
+
+  background: #285A37;
+
+}
+
+section {
+
+  padding: 55px 6%;
+
+}
+
+.section-title {
+
+  text-align: center;
+
+  margin-bottom: 30px;
+
+}
+
+.section-title h2 {
+
+  font-size: 29px;
+
+  color: #28613B;
+
+}
+
+.section-title p {
+
+  color: #728574;
+
+  margin-top: 5px;
+
+}
+
+/* CATEGORY */
+
+.category-grid {
+
+  display: grid;
+
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+
+  gap: 20px;
+
+}
+
+.category-card {
+
+  display: block;
+
+  background: #fff;
+
+  border: 1px solid #E6EDE2;
+
+  border-radius: 16px;
+
+  overflow: hidden;
+
+  box-shadow: 0 3px 12px rgba(0,0,0,.04);
+
+  transition: .2s;
+
+}
+
+.category-card:hover {
+
+  transform: translateY(-4px);
+
+  box-shadow: 0 8px 20px rgba(39,91,54,.12);
+
+}
+
+.category-image {
+
+  width: 100%;
+
+  height: 190px;
+
+  object-fit: cover;
+
+  display: block;
+
+  background: #EDF4E9;
+
+}
+
+.category-card h3 {
+
+  color: #315D3B;
+
+  font-size: 17px;
+
+  padding: 12px 15px 2px;
+
+}
+
+.category-card p {
+
+  color: #718071;
+
+  font-size: 13px;
+
+  padding: 0 15px 16px;
+
+}
+
+.status-message {
+
+  text-align: center;
+
+  padding: 22px;
+
+  color: #68816D;
+
+  background: #F1F6ED;
+
+  border-radius: 12px;
+
+  grid-column: 1 / -1;
+
+}
+
+.retry-button {
+
+  display: block;
+
+  margin: 12px auto 0;
+
+  padding: 9px 22px;
+
+  border: 0;
+
+  border-radius: 25px;
+
+  background: #39764A;
+
+  color: white;
+
+  cursor: pointer;
+
+}
+
+/* PRODUCTS */
+
+.product-grid {
+
+  display: grid;
+
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+
+  gap: 20px;
+
+}
+
+.product-card {
+
+  background: #fff;
+
+  border-radius: 16px;
+
+  overflow: hidden;
+
+  border: 1px solid #E6EDE2;
+
+  box-shadow: 0 3px 12px rgba(0,0,0,.04);
+
+}
+
+.product-card img {
+
+  width: 100%;
+
+  height: 220px;
+
+  object-fit: cover;
+
+  display: block;
+
+  background: #F0F4EC;
+
+}
+
+.product-info {
+
+  padding: 15px;
+
+}
+
+.product-info h3 {
+
+  font-size: 17px;
+
+  color: #315D3B;
+
+  margin-bottom: 7px;
+
+}
+
+.product-info p {
+
+  color: #718071;
+
+  font-size: 14px;
+
+  margin-bottom: 8px;
+
+}
+
+.product-price {
+
+  color: #39764A;
+
+  font-size: 19px;
+
+  font-weight: 600;
+
+}
+
+.view-all {
+
+  display: block;
+
+  width: fit-content;
+
+  margin: 30px auto 0;
+
+  padding: 10px 25px;
+
+  background: #39764A;
+
+  color: #fff;
+
+  border-radius: 25px;
+
+}
+
+/* FEATURES */
+
+.features,
+
+.contact-section {
+
+  background: #EDF4E9;
+
+}
+
+.feature-grid {
+
+  display: grid;
+
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+
+  gap: 20px;
+
+}
+
+.feature-card {
+
+  text-align: center;
+
+  background: #fff;
+
+  padding: 25px 15px;
+
+  border-radius: 16px;
+
+}
+
+.feature-card .icon {
+
+  font-size: 36px;
+
+  margin-bottom: 10px;
+
+}
+
+.feature-card h3 {
+
+  color: #39764A;
+
+  margin-bottom: 5px;
+
+}
+
+/* ABOUT */
+
+.about-box {
+
+  max-width: 850px;
+
+  margin: auto;
+
+  text-align: center;
+
+  background: #fff;
+
+  padding: 30px;
+
+  border-radius: 18px;
+
+  border: 1px solid #E6EDE2;
+
+}
+
+.about-box p {
+
+  color: #647968;
+
+}
+
+/* ORDER */
+
+.order-grid {
+
+  display: grid;
+
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+
+  gap: 15px;
+
+}
+
+.order-card {
+
+  background: #fff;
+
+  padding: 22px;
+
+  border-radius: 15px;
+
+  text-align: center;
+
+  border: 1px solid #E4EDE0;
+
+}
+
+.order-card span {
+
+  font-size: 32px;
+
+}
+
+.order-card h3 {
+
+  color: #39764A;
+
+  margin: 8px 0;
+
+}
+
+/* CONTACT */
+
+.contact-section {
+
+  text-align: center;
+
+}
+
+.contact-box {
+
+  max-width: 650px;
+
+  margin: auto;
+
+  background: #fff;
+
+  border-radius: 18px;
+
+  padding: 30px 20px;
+
+}
+
+.contact-box p {
+
+  margin-bottom: 18px;
+
+  color: #647968;
+
+}
+
+.contact-links {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 14px;
+
+  margin-top: 22px;
+
+}
+
+.contact-link {
+
+  display: block;
+
+  padding: 14px 18px;
+
+  border-radius: 30px;
+
+  color: #fff;
+
+  font-weight: 500;
+
+  text-align: center;
+
+}
+
+.facebook-link {
+
+  background: #1877F2;
+
+}
+
+.line-link {
+
+  background: #06B65A;
+
+}
+
+.phone-link {
+
+  background: #39764A;
+
+}
+
+/* FAQ */
+
+.faq-container {
+
+  max-width: 800px;
+
+  margin: auto;
+
+}
+
+.faq-item {
+
+  background: #fff;
+
+  border: 1px solid #E2EBDD;
+
+  border-radius: 14px;
+
+  margin-bottom: 14px;
+
+  padding: 17px 20px;
+
+}
+
+.faq-item summary {
+
+  color: #39764A;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+}
+
+.faq-item p {
+
+  color: #647968;
+
+  margin-top: 12px;
+
+}
+
+footer {
+
+  background: #285A37;
+
+  color: #fff;
+
+  text-align: center;
+
+  padding: 25px 15px;
+
+}
+
+footer p {
+
+  font-size: 14px;
+
+}
+
+@media (max-width: 650px) {
+
+  header {
+
+    justify-content: center;
+
+    text-align: center;
+
+  }
+
+  .brand {
+
+    justify-content: center;
+
+  }
+
+  .brand-logo {
+
+    width: 88px;
+
+    height: 88px;
+
+    min-width: 88px;
+
+  }
+
+  .brand h1 {
+
+    font-size: 22px;
+
+  }
+
+  nav {
+
+    justify-content: center;
+
+    gap: 12px;
+
+  }
+
+  nav a {
+
+    font-size: 14px;
+
+  }
+
+  .hero {
+
+    padding: 48px 5%;
+
+  }
+
+  .hero p {
+
+    font-size: 16px;
+
+  }
+
+  section {
+
+    padding: 42px 5%;
+
+  }
+
+  .category-grid,
+
+  .product-grid {
+
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    gap: 12px;
+
+  }
+
+  .category-image {
+
+    height: 135px;
+
+  }
+
+  .category-card h3 {
+
+    font-size: 15px;
+
+    padding: 10px 10px 2px;
+
+  }
+
+  .category-card p {
+
+    font-size: 12px;
+
+    padding: 0 10px 12px;
+
+  }
+
+  .product-card img {
+
+    height: 155px;
+
+  }
+
+  .product-info {
+
+    padding: 11px;
+
+  }
+
+  .product-info h3 {
+
+    font-size: 15px;
+
+  }
+
+  .product-price {
+
+    font-size: 17px;
+
+  }
+
+  .about-box {
+
+    padding: 22px 17px;
+
+  }
+
+}
+
+@media (max-width: 360px) {
+
+  .category-grid,
+
+  .product-grid {
+
+    grid-template-columns: 1fr;
+
+  }
+
+}
+
+</style>
+
 </head>
 
 <body>
 
 <header>
+
   <a class="brand" href="index.html" aria-label="บ้านกรงนก หน้าแรก">
+
     <div class="brand-logo">
+
       <img
+
         src="https://kchkrhyngsta-maker.github.io/baan-krong-nok/Logo.JPG"
+
         alt="โลโก้บ้านกรงนก">
+
     </div>
+
     <div>
+
       <h1>บ้านกรงนก</h1>
+
       <p>Baan Krong Nok</p>
+
     </div>
+
   </a>
 
   <nav aria-label="เมนูหลัก">
+
     <a href="#home">หน้าแรก</a>
+
     <a href="#categories">หมวดหมู่สินค้า</a>
+
     <a href="#products">สินค้าแนะนำ</a>
+
     <a href="#about">เกี่ยวกับร้าน</a>
+
     <a href="#contact">ติดต่อเรา</a>
+
   </nav>
+
 </header>
 
 <main>
 
   <section class="hero" id="home">
+
     <div class="hero-content">
+
       <h2>บ้านกรงนก</h2>
+
       <p>กรงนกสวย ๆ อุปกรณ์ครบครัน เลือกชมสินค้าได้หลากหลายตามต้องการ</p>
+
       <a class="main-button" href="#categories">เลือกชมหมวดหมู่สินค้า</a>
+
     </div>
+
   </section>
 
   <section id="categories">
+
     <div class="section-title">
+
       <h2>หมวดหมู่สินค้า</h2>
+
       <p>เลือกชมสินค้าและอุปกรณ์สำหรับนกตามประเภทที่ต้องการ</p>
+
     </div>
 
     <div class="category-grid" id="categoryGrid">
+
       <div class="status-message">กำลังโหลดหมวดหมู่สินค้า...</div>
+
     </div>
+
   </section>
 
-  <section id="prod
+  <section id="products">
+
+    <div class="section-title">
+
+      <h2>สินค้าแนะนำ</h2>
+
+      <p>เลือกชมสินค้าและอุปกรณ์สำหรับนกจากบ้านกรงนก</p>
+
+    </div>
+
+    <div class="product-grid" id="productGrid">
+
+      <div class="status-message">กำลังโหลดสินค้า...</div>
+
+    </div>
+
+    <a class="view-all" href="products.html">ดูสินค้าทั้งหมด</a>
+
+  </section>
+
+  <section class="features">
+
+    <div class="section-title">
+
+      <h2>ทำไมต้องเลือกบ้านกรงนก</h2>
+
+      <p>เลือกซื้อสินค้าและอุปกรณ์สำหรับนกได้สะดวกในที่เดียว</p>
+
+    </div>
+
+    <div class="feature-grid">
+
+      <div class="feature-card">
+
+        <div class="icon">🐦</div>
+
+        <h3>สินค้าหลากหลาย</h3>
+
+        <p>มีกรงนกและอุปกรณ์ให้เลือกหลายประเภท</p>
+
+      </div>
+
+      <div class="feature-card">
+
+        <div class="icon">🪺</div>
+
+        <h3>อุปกรณ์ครบครัน</h3>
+
+        <p>เลือกชมอุปกรณ์สำหรับกรงนกได้หลากหลาย</p>
+
+      </div>
+
+      <div class="feature-card">
+
+        <div class="icon">💚</div>
+
+        <h3>ใส่ใจทุกการบริการ</h3>
+
+        <p>ยินดีให้คำแนะนำและตอบข้อสงสัยเกี่ยวกับสินค้า</p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <section id="about">
+
+    <div class="section-title">
+
+      <h2>เกี่ยวกับบ้านกรงนก</h2>
+
+      <p>Baan Krong Nok</p>
+
+    </div>
+
+    <div class="about-box">
+
+      <p>
+
+        บ้านกรงนก เป็นร้านจำหน่ายกรงนกสวยงาม
+
+        ซี่ดอก ซี่กรง อะไหล่กรง และอุปกรณ์ตกแต่งกรงนก
+
+        รวมถึงอุปกรณ์ต่าง ๆ สำหรับนก
+
+        เพื่อให้ลูกค้าสามารถเลือกชมสินค้าได้สะดวก
+
+        และค้นหาสินค้าที่ต้องการได้ง่ายขึ้น
+
+      </p>
+
+    </div>
+
+  </section>
+
+  <section id="order">
+
+    <div class="section-title">
+
+      <h2>วิธีการสั่งซื้อสินค้า</h2>
+
+      <p>ขั้นตอนง่าย ๆ ในการติดต่อสั่งซื้อสินค้า</p>
+
+    </div>
+
+    <div class="order-grid">
+
+      <div class="order-card">
+
+        <span>🔎</span>
+
+        <h3>ขั้นตอนที่ 1</h3>
+
+        <p>เลือกชมสินค้าและหมวดหมู่ที่สนใจ</p>
+
+      </div>
+
+      <div class="order-card">
+
+        <span>💬</span>
+
+        <h3>ขั้นตอนที่ 2</h3>
+
+        <p>ติดต่อร้านเพื่อสอบถามรายละเอียดสินค้า</p>
+
+      </div>
+
+      <div class="order-card">
+
+        <span>📦</span>
+
+        <h3>ขั้นตอนที่ 3</h3>
+
+        <p>แจ้งรายการสินค้าที่ต้องการสั่งซื้อกับทางร้าน</p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <section id="faq">
+
+    <div class="section-title">
+
+      <h2>คำถามที่พบบ่อย</h2>
+
+      <p>ข้อมูลเบื้องต้นสำหรับลูกค้า</p>
+
+    </div>
+
+    <div class="faq-container">
+
+      <details class="faq-item">
+
+        <summary>ร้านมีสินค้าอะไรจำหน่ายบ้าง?</summary>
+
+        <p>มีกรงนก ซี่ดอก อะไหล่กรง ถ้วยน้ำ ถ้วยอาหาร และอุปกรณ์สำหรับนก</p>
+
+      </details>
+
+      <details class="faq-item">
+
+        <summary>สามารถสอบถามราคาสินค้าได้อย่างไร?</summary>
+
+        <p>สามารถติดต่อสอบถามรายละเอียดและราคาสินค้าผ่าน Facebook หรือ LINE ของร้าน</p>
+
+      </details>
+
+      <details class="faq-item">
+
+        <summary>หากต้องการสั่งซื้อสินค้าต้องทำอย่างไร?</summary>
+
+        <p>เลือกสินค้าที่สนใจแล้วติดต่อร้านเพื่อสอบถามและแจ้งรายการสั่งซื้อ</p>
+
+      </details>
+
+    </div>
+
+  </section>
+
+  <section class="contact-section" id="contact">
+
+    <div class="section-title">
+
+      <h2>ติดต่อเรา</h2>
+
+      <p>ยินดีให้บริการและตอบคำถามเกี่ยวกับสินค้า</p>
+
+    </div>
+
+    <div class="contact-box">
+
+      <h3>🐦 บ้านกรงนก (Baan Krong Nok)</h3>
+
+      <p>เลือกช่องทางที่สะดวกเพื่อติดต่อสอบถามสินค้า</p>
+
+      <div class="contact-links">
+
+        <a
+
+          class="contact-link facebook-link"
+
+          href="https://www.facebook.com/share/19fJmXZecb/?mibextid=wwXIfr"
+
+          target="_blank"
+
+          rel="noopener noreferrer">
+
+          📘 ติดต่อทาง Facebook
+
+        </a>
+
+        <a
+
+          class="contact-link line-link"
+
+          href="https://line.me/ti/p/CxLJNR6rsu"
+
+          target="_blank"
+
+          rel="noopener noreferrer">
+
+          💚 ติดต่อทาง LINE
+
+        </a>
+
+        <a
+
+          class="contact-link phone-link"
+
+          href="tel:0889732402">
+
+          📞 โทร 088-973-2402
+
+        </a>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+<footer>
+
+  <p>🐦 บ้านกรงนก | Baan Krong Nok</p>
+
+  <p>กรงนกสวยงามและอุปกรณ์สำหรับนก</p>
+
+  <p>© <span id="year"></span> Baan Krong Nok. All Rights Reserved.</p>
+
+</footer>
+
+<script>
+
+const SUPABASE_URL =
+
+  'https://acfrebknwxuybroilgqu.supabase.co';
+
+const SUPABASE_KEY =
+
+  'sb_publishable_UjWZN8YsBLoBTKsbQ3GZsw_A1X3lSPK_';
+
+const categoryGrid = document.getElementById('categoryGrid');
+
+const productGrid = document.getElementById('productGrid');
+
+let supabaseClient = null;
+
+function initializeSupabase() {
+
+  if (!window.supabase || !window.supabase.createClient) {
+
+    throw new Error(
+
+      'ไม่สามารถโหลด Supabase Library ได้ กรุณาตรวจสอบอินเทอร์เน็ต'
+
+    );
+
+  }
+
+  supabaseClient = window.supabase.createClient(
+
+    SUPABASE_URL,
+
+    SUPABASE_KEY
+
+  );
+
+}
+
+function showError(container, message, retryFunction) {
+
+  container.innerHTML = '';
+
+  const box = document.createElement('div');
+
+  box.className = 'status-message';
+
+  const text = document.createElement('p');
+
+  text.textContent = message;
+
+  const button = document.createElement('button');
+
+  button.className = 'retry-button';
+
+  button.textContent = 'ลองโหลดอีกครั้ง';
+
+  button.addEventListener('click', retryFunction);
+
+  box.appendChild(text);
+
+  box.appendChild(button);
+
+  container.appendChild(box);
+
+}
+
+async function loadCategories() {
+
+  categoryGrid.innerHTML =
+
+    '<div class="status-message">กำลังโหลดหมวดหมู่สินค้า...</div>';
+
+  try {
+
+    if (!supabaseClient) {
+
+      initializeSupabase();
+
+    }
+
+    const { data, error } = await supabaseClient
+
+      .from('categories')
+
+      .select(
+
+        'id, name, slug, description, image_url, sort_order, is_active'
+
+      )
+
+      .eq('is_active', true)
+
+      .order('sort_order', { ascending: true })
+
+      .order('id', { ascending: true });
+
+    if (error) {
+
+      throw error;
+
+    }
+
+    if (!data || data.length === 0) {
+
+      categoryGrid.innerHTML =
+
+        '<div class="status-message">ยังไม่มีหมวดหมู่สินค้าในระบบ</div>';
+
+      return;
+
+    }
+
+    categoryGrid.innerHTML = '';
+
+    data.forEach(function(category) {
+
+      const card = document.createElement('a');
+
+      card.className = 'category-card';
+
+      const slug = encodeURIComponent(category.slug || '');
+
+      card.href = 'products.html?category=' + slug;
+
+      if (category.image_url) {
+
+        const image = document.createElement('img');
+
+        image.className = 'category-image';
+
+        image.src = category.image_url;
+
+        image.alt = category.name || 'หมวดหมู่สินค้า';
+
+        image.loading = 'lazy';
+
+        image.onerror = function() {
+
+          image.style.display = 'none';
+
+        };
+
+        card.appendChild(image);
+
+      }
+
+      const title = document.createElement('h3');
+
+      title.textContent = category.name || 'หมวดหมู่สินค้า';
+
+      card.appendChild(title);
+
+      const description = document.createElement('p');
+
+      description.textContent =
+
+        category.description || 'เลือกชมสินค้าในหมวดหมู่นี้';
+
+      card.appendChild(description);
+
+      categoryGrid.appendChild(card);
+
+    });
+
+  } catch (error) {
+
+    console.error('Category loading error:', error);
+
+    showError(
+
+      categoryGrid,
+
+      'ไม่สามารถโหลดหมวดหมู่ได้: ' +
+
+        (error.message || 'เกิดข้อผิดพลาดในการเชื่อมต่อ'),
+
+      loadCategories
+
+    );
+
+  }
+
+}
+
+async function loadProducts() {
+
+  productGrid.innerHTML =
+
+    '<div class="status-message">กำลังโหลดสินค้า...</div>';
+
+  try {
+
+    if (!supabaseClient) {
+
+      initializeSupabase();
+
+    }
+
+    const { data, error } = await supabaseClient
+
+      .from('products')
+
+      .select(
+
+        'id, name, description, price, image_url, category'
+
+      )
+
+      .eq('is_active', true)
+
+      .order('created_at', { ascending: false })
+
+      .limit(8);
+
+    if (error) {
+
+      throw error;
+
+    }
+
+    if (!data || data.length === 0) {
+
+      productGrid.innerHTML =
+
+        '<div class="status-message">ยังไม่มีสินค้าแนะนำในขณะนี้</div>';
+
+      return;
+
+    }
+
+    productGrid.innerHTML = '';
+
+    data.forEach(function(product) {
+
+      const card = document.createElement('div');
+
+      card.className = 'product-card';
+
+      if (product.image_url) {
+
+        const image = document.createElement('img');
+
+        image.src = product.image_url;
+
+        image.alt = product.name || 'สินค้า';
+
+        image.loading = 'lazy';
+
+        image.onerror = function() {
+
+          image.style.display = 'none';
+
+        };
+
+        card.appendChild(image);
+
+      }
+
+      const info = document.createElement('div');
+
+      info.className = 'product-info';
+
+      const title = document.createElement('h3');
+
+      title.textContent = product.name || 'สินค้า';
+
+      info.appendChild(title);
+
+      const description = document.createElement('p');
+
+      description.textContent =
+
+        product.description || 'รายละเอียดสินค้า';
+
+      info.appendChild(description);
+
+      const price = document.createElement('div');
+
+      price.className = 'product-price';
+
+      if (
+
+        product.price !== null &&
+
+        product.price !== undefined
+
+      ) {
+
+        price.textContent =
+
+          Number(product.price).toLocaleString('th-TH') + ' บาท';
+
+      } else {
+
+        price.textContent = 'สอบถามราคา';
+
+      }
+
+      info.appendChild(price);
+
+      card.appendChild(info);
+
+      productGrid.appendChild(card);
+
+    });
+
+  } catch (error) {
+
+    console.error('Product loading error:', error);
+
+    showError(
+
+      productGrid,
+
+      'ยังไม่สามารถโหลดสินค้าได้: ' +
+
+        (error.message || 'เกิดข้อผิดพลาดในการเชื่อมต่อ'),
+
+      loadProducts
+
+    );
+
+  }
+
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+
+  document.getElementById('year').textContent =
+
+    new Date().getFullYear();
+
+  loadCategories();
+
+  loadProducts();
+
+});
+
+</script>
+
+</body>
+
+</html>
