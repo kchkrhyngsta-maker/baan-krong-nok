@@ -58,6 +58,8 @@ loginForm.addEventListener('submit', async function(event) {
 
 // ลืมรหัสผ่าน
 forgotButton.addEventListener('click', async function() {
+  message.style.color = '#39764A';
+  message.textContent = 'กำลังกดปุ่มลืมรหัสผ่าน...';
   const email = document.getElementById('email').value.trim();
 
   if (!email) {
