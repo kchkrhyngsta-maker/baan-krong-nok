@@ -40,22 +40,17 @@
       box-shadow: 0 2px 10px #00000012;
     }
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .brand img {
-      width: 90px;
-      height: 90px;
-      object-fit: contain;
-      border-radius: 50%;
-      background: white;
-      display: block;
-      flex-shrink: 0;
-    }
-
+.brand img {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 50%;
+  border: 3px solid #3F7650;
+  background: #E8F0E5;
+  display: block;
+  flex-shrink: 0;
+}
     .brand h1 {
       font-size: 25px;
       color: #68452c;
@@ -408,7 +403,7 @@
     "https://acfrebknwxuybroilgqu.supabase.co";
 
   const SUPABASE_KEY =
-    "ใส่_Publishable_Key_เดิมของคุณตรงนี้";
+    "sb_publishable_UjWZN8YsBLoBTKsbQ3GZsw_A1X3lSPK";
 
   const productList = document.getElementById("product-list");
 
