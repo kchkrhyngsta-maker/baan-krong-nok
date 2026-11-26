@@ -25,7 +25,6 @@
       text-decoration: none;
       color: inherit;
     }
-    /* HEADER */
     header {
       background: #fff;
       padding: 12px 5%;
@@ -44,7 +43,6 @@
       align-items: center;
       gap: 12px;
     }
-    /* โลโก้วงกลม */
     .logo {
       width: 68px;
       height: 68px;
@@ -78,7 +76,6 @@
     nav a:hover {
       color: #78A96B;
     }
-    /* HERO */
     .hero {
       padding: 65px 5%;
       text-align: center;
@@ -139,7 +136,6 @@
       background: #39764A;
       color: white;
     }
-    /* BANNER */
     .banner-section {
       padding: 35px 5%;
       text-align: center;
@@ -153,7 +149,6 @@
       border-radius: 20px;
       box-shadow: 0 6px 22px rgba(0,0,0,0.12);
     }
-    /* SECTION */
     .section {
       padding: 55px 5%;
       text-align: center;
@@ -167,7 +162,6 @@
       color: #718072;
       margin-bottom: 30px;
     }
-    /* SHOP INTRO */
     .shop-intro {
       max-width: 950px;
       margin: 0 auto;
@@ -180,7 +174,6 @@
       color: #617264;
       font-size: 16px;
     }
-    /* CATEGORY */
     .category-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -212,7 +205,6 @@
       font-size: 14px;
       color: #788579;
     }
-    /* ABOUT */
     .about-section {
       background: #EDF4E9;
     }
@@ -224,7 +216,6 @@
       color: #617264;
       margin-top: 12px;
     }
-    /* CONTACT */
     .contact-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -257,7 +248,6 @@
       font-size: 14px;
       overflow-wrap: anywhere;
     }
-    /* FOOTER */
     footer {
       background: #294C35;
       color: white;
@@ -297,7 +287,6 @@
   </style>
 </head>
 <body>
-  <!-- HEADER -->
   <header>
     <a href="index.html" class="logo-area">
       <img src="./Logo.JPG" alt="โลโก้บ้านกรงนก" class="logo">
@@ -314,7 +303,6 @@
   <a href="contact.html">ติดต่อเรา</a>
 </nav>
   </header>
-  <!-- HERO -->
   <section class="hero">
     <span class="hero-label">🐦 ยินดีต้อนรับสู่บ้านกรงนก</span>
     <h1>บ้านกรงนก</h1>
@@ -328,19 +316,14 @@
   <a href="contact.html" class="btn btn-outline">ติดต่อร้านค้า</a>
 </div>
   </section>
-  <!-- BANNER IMAGE -->
+  <!-- ภาพแบนเนอร์: แก้ชื่อให้ตรงกับไฟล์จริงใน GitHub -->
   <section class="banner-section">
     <img
-      src="./banner-baan-krong-nok.png"
+      src="./banner-baan-krong-nok.png.PNG"
       alt="บ้านกรงนก รวมสินค้า 10 หมวดหมู่"
       class="banner-image"
-      onerror="this.style.display='none'; document.getElementById('banner-error').style.display='block';"
     >
-    <p id="banner-error" style="display:none;color:#C0392B;">
-      ไม่พบไฟล์ภาพแบนเนอร์ กรุณาตรวจสอบชื่อและตำแหน่งไฟล์ใน GitHub
-    </p>
   </section>
-  <!-- SHOP INTRODUCTION -->
   <section class="section">
     <h2 class="section-title">ยินดีต้อนรับสู่บ้านกรงนก</h2>
     <p class="section-description">ร้านจำหน่ายกรงนกสวยงามและอุปกรณ์สำหรับนก</p>
@@ -353,7 +336,6 @@
   </p>
 </div>
   </section>
-  <!-- 10 CATEGORIES -->
   <section class="section" id="categories">
     <h2 class="section-title">หมวดหมู่สินค้า</h2>
     <p class="section-description">เลือกชมสินค้าและอุปกรณ์สำหรับนกทั้ง 10 หมวดหมู่</p>
@@ -411,7 +393,6 @@
 </div>
 <a href="categories.html" class="btn btn-primary">ดูสินค้าทั้งหมด</a>
   </section>
-  <!-- ABOUT -->
   <section class="section about-section">
     <div class="about-content">
       <h2 class="section-title">เกี่ยวกับบ้านกรงนก</h2>
@@ -424,7 +405,6 @@
       <a href="about.html" class="btn btn-primary">อ่านเพิ่มเติม</a>
     </div>
   </section>
-  <!-- CONTACT -->
   <section class="section">
     <h2 class="section-title">ติดต่อเรา</h2>
     <p class="section-description">สอบถามรายละเอียดสินค้าได้ผ่านช่องทางต่อไปนี้</p>
@@ -446,7 +426,6 @@
   </a>
 </div>
   </section>
-  <!-- FOOTER -->
   <footer>
     <p>🐦 บ้านกรงนก | Baan Krong Nok</p>
     <p>กรงนกสวยงามและอุปกรณ์สำหรับนก</p>
