@@ -1,701 +1,131 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>บ้านกรงนก | Baan Krong Nok</title>
-
-<meta name="description" content="บ้านกรงนก จำหน่ายกรงนกสวยงามทำมือ ซี่ดอกกรงนก สะพานกรงนก และรับสั่งทำตามแบบลูกค้า">
-
-<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-<style>
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  font-family: 'Kanit', sans-serif;
-  background: #FAFCF7;
-  color: #294C35;
-  line-height: 1.7;
-}
-
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-/* HEADER */
-
-header {
-  background: #FFFFFF;
-  padding: 12px 5%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 15px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-.logo-area {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.logo {
-  width: 68px;
-  height: 68px;
-  object-fit: cover;
-  border-radius: 50%;
-  border: 3px solid #39764A;
-}
-
-.logo-text h2 {
-  font-size: 22px;
-  color: #28613B;
-}
-
-.logo-text span {
-  font-size: 13px;
-  color: #777;
-}
-
-nav {
-  display: flex;
-  gap: 18px;
-  flex-wrap: wrap;
-  align-items: center;
-}
-
-nav a {
-  font-size: 15px;
-  font-weight: 500;
-}
-
-nav a:hover {
-  color: #78A96B;
-}
-
-/* HERO */
-
-.hero {
-  padding: 75px 5%;
-  text-align: center;
-  background: linear-gradient(135deg, #EDF4E9, #FAFCF7);
-}
-
-.hero-label {
-  display: inline-block;
-  background: #DDEBD8;
-  color: #28613B;
-  padding: 7px 20px;
-  border-radius: 30px;
-  margin-bottom: 15px;
-  font-size: 14px;
-}
-
-.hero h1 {
-  font-size: clamp(32px, 5vw, 48px);
-  color: #28613B;
-  margin-bottom: 8px;
-}
-
-.hero h2 {
-  font-size: clamp(19px, 3vw, 25px);
-  margin-bottom: 15px;
-  font-weight: 500;
-}
-
-.hero p {
-  max-width: 700px;
-  margin: auto;
-  color: #617264;
-  font-size: 16px;
-}
-
-.hero-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  margin-top: 25px;
-}
-
-.btn {
-  display: inline-block;
-  padding: 12px 25px;
-  border-radius: 30px;
-  font-weight: 500;
-  transition: 0.3s;
-}
-
-.btn-primary {
-  background: #39764A;
-  color: white;
-}
-
-.btn-primary:hover {
-  background: #28613B;
-}
-
-.btn-outline {
-  border: 2px solid #39764A;
-  color: #39764A;
-}
-
-.btn-outline:hover {
-  background: #39764A;
-  color: white;
-}
-
-/* SECTION */
-
-.section {
-  padding: 55px 5%;
-  text-align: center;
-}
-
-.section-title {
-  font-size: 30px;
-  color: #28613B;
-  margin-bottom: 10px;
-}
-
-.section-description {
-  color: #718072;
-  margin-bottom: 30px;
-}
-
-/* SHOP INTRO */
-
-.shop-intro {
-  max-width: 950px;
-  margin: 0 auto;
-  background: white;
-  padding: 35px;
-  border-radius: 18px;
-  box-shadow: 0 4px 18px rgba(0,0,0,0.05);
-}
-
-.shop-intro p {
-  color: #617264;
-  font-size: 16px;
-}
-
-/* CATEGORY */
-
-.category-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
-  max-width: 1100px;
-  margin: 30px auto;
-}
-
-.category-card {
-  display: block;
-  background: white;
-  border-radius: 15px;
-  padding: 28px 15px;
-  border: 1px solid #E5EDE1;
-  transition: 0.3s;
-}
-
-.category-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 7px 20px rgba(0,0,0,0.08);
-}
-
-.category-icon {
-  font-size: 42px;
-  margin-bottom: 10px;
-}
-
-.category-card h3 {
-  color: #28613B;
-  font-size: 18px;
-  margin-bottom: 7px;
-}
-
-.category-card p {
-  font-size: 14px;
-  color: #788579;
-}
-
-/* PREORDER */
-
-.preorder-section {
-  background: #EDF4E9;
-}
-
-.preorder-box {
-  max-width: 850px;
-  margin: auto;
-}
-
-.preorder-box p {
-  color: #617264;
-  margin-top: 12px;
-}
-
-/* CUSTOM ORDER */
-
-.custom-box {
-  max-width: 900px;
-  margin: auto;
-  background: white;
-  padding: 35px;
-  border-radius: 18px;
-  box-shadow: 0 4px 18px rgba(0,0,0,0.05);
-}
-
-.custom-box p {
-  color: #617264;
-  margin: 12px 0;
-}
-
-/* ABOUT */
-
-.about-section {
-  background: #EDF4E9;
-}
-
-.about-content {
-  max-width: 850px;
-  margin: auto;
-}
-
-.about-content p {
-  color: #617264;
-  margin-top: 12px;
-}
-
-/* CONTACT */
-
-.contact-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
-  max-width: 850px;
-  margin: 30px auto 0;
-}
-
-.contact-card {
-  display: block;
-  background: white;
-  padding: 25px 15px;
-  border-radius: 15px;
-  border: 1px solid #E5EDE1;
-  transition: 0.3s;
-}
-
-.contact-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 5px 18px rgba(0,0,0,0.08);
-}
-
-.contact-icon {
-  font-size: 32px;
-  margin-bottom: 8px;
-}
-
-.contact-card h3 {
-  color: #28613B;
-  margin-bottom: 5px;
-}
-
-.contact-card p {
-  color: #718072;
-  font-size: 14px;
-  overflow-wrap: anywhere;
-}
-
-/* FOOTER */
-
-footer {
-  background: #294C35;
-  color: white;
-  text-align: center;
-  padding: 25px 15px;
-  font-size: 14px;
-}
-
-footer p + p {
-  margin-top: 5px;
-}
-
-/* MOBILE */
-
-@media (max-width: 700px) {
-  header {
-    justify-content: center;
-    text-align: center;
-  }
-
-  .logo-area {
-    justify-content: center;
-  }
-
-  nav {
-    justify-content: center;
-    gap: 12px;
-  }
-
-  nav a {
-    font-size: 13px;
-  }
-
-  .logo {
-    width: 60px;
-    height: 60px;
-  }
-
-  .section {
-    padding: 40px 5%;
-  }
-
-  .shop-intro,
-  .custom-box {
-    padding: 25px 18px;
-  }
-
-  .category-grid,
-  .contact-grid {
-    grid-template-columns: 1fr;
-  }
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>บ้านกรงนก | Baan Krong Nok</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Kanit', sans-serif;
+      background: #FAFCF7;
+      color: #294C35;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 25px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 750px;
+      background: white;
+      padding: 45px 30px;
+      border-radius: 22px;
+      text-align: center;
+      box-shadow: 0 5px 25px rgba(41, 76, 53, 0.10);
+    }
+
+    .logo {
+      width: 150px;
+      height: 150px;
+      object-fit: contain;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 34px;
+      margin-bottom: 5px;
+      color: #294C35;
+    }
+
+    .english-name {
+      font-size: 19px;
+      color: #39764A;
+      margin-bottom: 25px;
+    }
+
+    .description {
+      font-size: 17px;
+      line-height: 2;
+      color: #555;
+      margin-bottom: 18px;
+    }
+
+    .product-info {
+      font-size: 16px;
+      line-height: 2;
+      color: #555;
+      margin-bottom: 28px;
+    }
+
+    .next-button {
+      display: inline-block;
+      background: #39764A;
+      color: white;
+      text-decoration: none;
+      padding: 13px 35px;
+      border-radius: 30px;
+      font-size: 18px;
+      transition: 0.3s;
+    }
+
+    .next-button:hover {
+      background: #28613B;
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 35px 20px;
+      }
+
+      h1 {
+        font-size: 28px;
+      }
+
+      .description {
+        font-size: 15px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<!-- HEADER -->
+  <main class="container">
 
-<header>
+    <img src="Logo.JPG" alt="โลโก้บ้านกรงนก" class="logo">
 
-  <a href="https://kchkrhyngsta-maker.github.io/baan-krong-nok/" class="logo-area">
+    <h1>บ้านกรงนก</h1>
+    <div class="english-name">Baan Krong Nok</div>
 
-    <img src="./Logo.JPG" alt="โลโก้บ้านกรงนก" class="logo">
-
-    <div class="logo-text">
-      <h2>บ้านกรงนก</h2>
-      <span>Baan Krong Nok</span>
-    </div>
-
-  </a>
-
-  <nav>
-
-    <a href="https://kchkrhyngsta-maker.github.io/baan-krong-nok/">
-      หน้าแรก
-    </a>
-
-    <a href="./products.html">
-      สินค้าทั้งหมด
-    </a>
-
-    <a href="./custom-order.html">
-      สั่งทำตามแบบ
-    </a>
-
-    <a href="#about">
-      เกี่ยวกับร้าน
-    </a>
-
-    <a href="#contact">
-      ติดต่อเรา
-    </a>
-
-  </nav>
-
-</header>
-
-<!-- HERO -->
-
-<section class="hero">
-
-  <span class="hero-label">
-    🐦 ยินดีต้อนรับสู่บ้านกรงนก
-  </span>
-
-  <h1>บ้านกรงนก</h1>
-
-  <h2>เสน่ห์ของกรงนกสวยงาม ใส่ใจทุกรายละเอียด</h2>
-
-  <p>
-    จำหน่ายกรงนกสวยงามทำมือ ซี่ดอกกรงนก
-    และสะพานกรงนก พร้อมบริการรับสั่งทำตามแบบที่ลูกค้าต้องการ
-  </p>
-
-  <div class="hero-buttons">
-
-    <a href="./products.html" class="btn btn-primary">
-      เลือกชมสินค้า
-    </a>
-
-    <a href="./custom-order.html" class="btn btn-outline">
-      สั่งทำตามแบบ
-    </a>
-
-  </div>
-
-</section>
-
-<!-- SHOP INTRODUCTION -->
-
-<section class="section">
-
-  <h2 class="section-title">
-    ยินดีต้อนรับสู่บ้านกรงนก
-  </h2>
-
-  <p class="section-description">
-    ร้านจำหน่ายกรงนกสวยงามทำมือและส่วนประกอบกรงนก
-  </p>
-
-  <div class="shop-intro">
-
-    <p>
-      บ้านกรงนกเป็นร้านจำหน่ายกรงนกสวยงามทำมือ
+    <p class="description">
+      ยินดีต้อนรับสู่บ้านกรงนก
+      ร้านจำหน่ายกรงนกสวยงามทำมือ
       ซี่ดอกกรงนก และสะพานกรงนก
-      พร้อมบริการรับสั่งทำตามแบบที่ลูกค้าต้องการ
-      ลูกค้าสามารถเลือกชมสินค้าและสอบถามรายละเอียดเพิ่มเติม
-      ผ่านช่องทางติดต่อของร้านได้
     </p>
 
-  </div>
-
-</section>
-
-<!-- 3 CATEGORIES -->
-
-<section class="section" id="categories">
-
-  <h2 class="section-title">
-    หมวดหมู่สินค้า
-  </h2>
-
-  <p class="section-description">
-    เลือกชมสินค้าของบ้านกรงนกทั้ง 3 หมวดหมู่
-  </p>
-
-  <div class="category-grid">
-
-    <a href="./products.html?category=handmade-bird-cages" class="category-card">
-
-      <div class="category-icon">🪺</div>
-
-      <h3>กรงนกสวยงามทำมือ</h3>
-
-      <p>
-        กรงนกทำมือที่ใส่ใจในรายละเอียดและความสวยงาม
-      </p>
-
-    </a>
-
-    <a href="./products.html?category=cage-bars" class="category-card">
-
-      <div class="category-icon">🌸</div>
-
-      <h3>ซี่ดอกกรงนก</h3>
-
-      <p>
-        ซี่ดอกกรงนกสำหรับตกแต่งเพิ่มความสวยงามให้กรง
-      </p>
-
-    </a>
-
-    <a href="./products.html?category=bird-bridges" class="category-card">
-
-      <div class="category-icon">🌿</div>
-
-      <h3>สะพานกรงนก</h3>
-
-      <p>
-        สะพานกรงนกสำหรับตกแต่งและประกอบเข้ากับกรง
-      </p>
-
-    </a>
-
-  </div>
-
-  <a href="./products.html" class="btn btn-primary">
-    ดูสินค้าทั้งหมด
-  </a>
-
-</section>
-
-<!-- PREORDER -->
-
-<section class="section preorder-section">
-
-  <div class="preorder-box">
-
-    <h2 class="section-title">
-      สินค้าทุกชิ้นเป็นแบบพรีออเดอร์
-    </h2>
-
-    <p>
-      บ้านกรงนกเปิดรับสั่งผลิตสินค้าตามรายการที่ร้านกำหนด
+    <p class="product-info">
+      พร้อมบริการรับสั่งทำกรงนกและส่วนประกอบกรงนก
+      ตามแบบที่ลูกค้าต้องการ สามารถแจ้งขนาด
+      รูปทรง ลวดลาย และรายละเอียดเพิ่มเติมได้
     </p>
 
-    <p>
-      ระยะเวลาผลิตขึ้นอยู่กับรายละเอียดของสินค้าแต่ละรายการ
-      ลูกค้าสามารถสอบถามระยะเวลาผลิตก่อนสั่งซื้อได้
-    </p>
-
-    <br>
-
-    <a href="./products.html" class="btn btn-primary">
-      เลือกชมสินค้า
+    <a href="./products.html" class="next-button">
+      เลือกหมวดหมู่สินค้า →
     </a>
 
-  </div>
-
-</section>
-
-<!-- CUSTOM ORDER -->
-
-<section class="section" id="custom-order">
-
-  <div class="custom-box">
-
-    <h2 class="section-title">
-      บริการรับสั่งทำตามแบบลูกค้า
-    </h2>
-
-    <p>
-      หากลูกค้ามีแบบกรงนกหรือรูปแบบสินค้าที่ต้องการ
-      สามารถส่งภาพตัวอย่างและแจ้งรายละเอียดให้ทางร้านพิจารณาได้
-    </p>
-
-    <p>
-      ระบุขนาด รูปทรง ลวดลาย จำนวน
-      และรายละเอียดเพิ่มเติมเพื่อให้ทางร้านตรวจสอบและเสนอราคา
-    </p>
-
-    <br>
-
-    <a href="./custom-order.html" class="btn btn-primary">
-      ส่งคำขอสั่งทำ
-    </a>
-
-  </div>
-
-</section>
-
-<!-- ABOUT -->
-
-<section class="section about-section" id="about">
-
-  <div class="about-content">
-
-    <h2 class="section-title">
-      เกี่ยวกับบ้านกรงนก
-    </h2>
-
-    <p>
-      บ้านกรงนกมุ่งเน้นการจำหน่ายกรงนกสวยงามทำมือ
-      ซี่ดอกกรงนก และสะพานกรงนก
-      รวมถึงบริการรับสั่งทำตามแบบที่ลูกค้าต้องการ
-      โดยใส่ใจในรายละเอียดและความต้องการของลูกค้า
-    </p>
-
-  </div>
-
-</section>
-
-<!-- CONTACT -->
-
-<section class="section" id="contact">
-
-  <h2 class="section-title">
-    ติดต่อเรา
-  </h2>
-
-  <p class="section-description">
-    สอบถามรายละเอียดสินค้าและบริการสั่งทำได้ผ่านช่องทางต่อไปนี้
-  </p>
-
-  <div class="contact-grid">
-
-    <a
-      href="https://www.facebook.com/napawan.chaijinda.9?"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="contact-card"
-    >
-
-      <div class="contact-icon">📘</div>
-
-      <h3>Facebook</h3>
-
-      <p>ติดต่อผ่าน Facebook</p>
-
-    </a>
-
-    <a
-      href="https://line.me/ti/p/aZASyIlg-H"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="contact-card"
-    >
-
-      <div class="contact-icon">💚</div>
-
-      <h3>LINE</h3>
-
-      <p>พูดคุยและสอบถามสินค้า</p>
-
-    </a>
-
-    <a href="tel:0889732402" class="contact-card">
-
-      <div class="contact-icon">📞</div>
-
-      <h3>โทรศัพท์</h3>
-
-      <p>088-973-2402</p>
-
-    </a>
-
-  </div>
-
-</section>
-
-<!-- FOOTER -->
-
-<footer>
-
-  <p>🐦 บ้านกรงนก | Baan Krong Nok</p>
-
-  <p>
-    กรงนกสวยงามทำมือ ซี่ดอกกรงนก และสะพานกรงนก
-  </p>
-
-  <p>
-    © <span id="year"></span> Baan Krong Nok. All Rights Reserved.
-  </p>
-
-</footer>
-
-<script>
-document.getElementById('year').textContent =
-  new Date().getFullYear();
-</script>
+  </main>
 
 </body>
 </html>
