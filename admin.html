@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="th">
 <head>
 <meta charset="UTF-8">
@@ -133,6 +132,7 @@ th, td {
   padding: 12px;
   border-bottom: 1px solid #E5EDE3;
   font-size: 14px;
+  vertical-align: middle;
 }
 
 th {
@@ -164,6 +164,11 @@ th {
 .delete-btn {
   background: #FCE8E8;
   color: #A52A2A;
+}
+
+.view-btn {
+  background: #E7F1E5;
+  color: #294C35;
 }
 
 #pageMessage {
@@ -254,6 +259,32 @@ th {
   display: none;
 }
 
+.custom-detail {
+  line-height: 1.9;
+  margin-bottom: 15px;
+  overflow-wrap: anywhere;
+}
+
+.custom-detail strong {
+  color: #294C35;
+}
+
+.custom-reference-image {
+  display: block;
+  max-width: 100%;
+  max-height: 350px;
+  object-fit: contain;
+  border-radius: 10px;
+  margin: 10px 0 18px;
+  background: #EDF4E9;
+}
+
+.empty-message {
+  text-align: center;
+  color: #66806C;
+  padding: 20px;
+}
+
 @media(max-width:600px) {
   header h1 {
     font-size: 17px;
@@ -266,9 +297,16 @@ th {
   .form-row {
     grid-template-columns: 1fr;
   }
+
+  .modal {
+    padding: 10px;
+  }
+
+  .modal-content {
+    padding: 18px;
+  }
 }
 </style>
-
 </head>
 
 <body>
@@ -311,69 +349,103 @@ th {
 
 </div>
 
+<!-- จัดการสินค้า -->
 <section class="section">
 
   <div class="section-header">
     <h2>📦 จัดการสินค้า</h2>
-
-<button type="button" class="add-btn" id="addProductButton">
-  + เพิ่มสินค้าใหม่
-</button>
-
+    <button type="button" class="add-btn" id="addProductButton">
+      + เพิ่มสินค้าใหม่
+    </button>
   </div>
 
   <div class="table-wrap">
     <table>
+      <thead>
+        <tr>
+          <th>รูปภาพ</th>
+          <th>ชื่อสินค้า</th>
+          <th>ราคา</th>
+          <th>จำนวนคงเหลือ</th>
+          <th>รูปแบบสินค้า</th>
+          <th>สถานะ</th>
+          <th>จัดการ</th>
+        </tr>
+      </thead>
 
-  <thead>
-    <tr>
-      <th>รูปภาพ</th>
-      <th>ชื่อสินค้า</th>
-      <th>ราคา</th>
-      <th>จำนวนคงเหลือ</th>
-      <th>รูปแบบสินค้า</th>
-      <th>สถานะ</th>
-      <th>จัดการ</th>
-    </tr>
-  </thead>
-
-  <tbody id="productTable">
-    <tr>
-      <td colspan="7">กำลังโหลดข้อมูล...</td>
-    </tr>
-  </tbody>
-
-</table>
-
+      <tbody id="productTable">
+        <tr>
+          <td colspan="7">กำลังโหลดข้อมูล...</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
 </section>
 
+<!-- รายการคำสั่งซื้อ -->
 <section class="section">
 
   <h2>🧾 รายการคำสั่งซื้อ</h2>
 
   <div class="table-wrap">
     <table>
+      <thead>
+        <tr>
+          <th>เลขที่คำสั่งซื้อ</th>
+          <th>ชื่อลูกค้า</th>
+          <th>เบอร์โทรศัพท์</th>
+          <th>ยอดรวม</th>
+          <th>สถานะ</th>
+        </tr>
+      </thead>
 
-  <thead>
-    <tr>
-      <th>เลขที่คำสั่งซื้อ</th>
-      <th>ชื่อลูกค้า</th>
-      <th>เบอร์โทรศัพท์</th>
-      <th>ยอดรวม</th>
-      <th>สถานะ</th>
-    </tr>
-  </thead>
+      <tbody id="orderTable">
+        <tr>
+          <td colspan="5">กำลังโหลดข้อมูล...</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-  <tbody id="orderTable">
-    <tr>
-      <td colspan="5">กำลังโหลดข้อมูล...</td>
-    </tr>
-  </tbody>
+</section>
 
-</table>
+<!-- คำขอสั่งทำ -->
+<section class="section">
 
+  <div class="section-header">
+    <h2>🛠️ รายการคำขอสั่งทำสินค้า</h2>
+
+    <button
+      type="button"
+      class="add-btn"
+      id="refreshCustomRequestsButton"
+    >
+      รีเฟรชรายการ
+    </button>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>เลขที่คำขอ</th>
+          <th>ชื่อลูกค้า</th>
+          <th>เบอร์โทรศัพท์</th>
+          <th>ประเภทสินค้า</th>
+          <th>จำนวน</th>
+          <th>สถานะ</th>
+          <th>วันที่ส่งคำขอ</th>
+          <th>รายละเอียด</th>
+        </tr>
+      </thead>
+
+      <tbody id="customRequestTable">
+        <tr>
+          <td colspan="8">กำลังโหลดข้อมูล...</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
 </section>
@@ -381,96 +453,156 @@ th {
 </main>
 
 <!-- PRODUCT MODAL -->
-
 <div class="modal" id="productModal">
 
   <div class="modal-content">
 
-<h2 id="modalTitle">เพิ่มสินค้าใหม่</h2>
+    <h2 id="modalTitle">เพิ่มสินค้าใหม่</h2>
 
-<form id="productForm">
+    <form id="productForm">
 
-  <input type="hidden" id="productId">
+      <input type="hidden" id="productId">
 
-  <div class="form-group">
-    <label for="productName">ชื่อสินค้า</label>
-    <input type="text" id="productName" required>
-  </div>
+      <div class="form-group">
+        <label for="productName">ชื่อสินค้า</label>
+        <input type="text" id="productName" required>
+      </div>
 
-  <div class="form-group">
-    <label for="productCategory">หมวดหมู่สินค้า</label>
-    <select id="productCategory" required>
-      <option value="">กำลังโหลดหมวดหมู่...</option>
-    </select>
-  </div>
+      <div class="form-group">
+        <label for="productCategory">หมวดหมู่สินค้า</label>
+        <select id="productCategory" required>
+          <option value="">กำลังโหลดหมวดหมู่...</option>
+        </select>
+      </div>
 
-  <div class="form-group">
-    <label for="productDescription">รายละเอียดสินค้า</label>
-    <textarea id="productDescription"></textarea>
-  </div>
+      <div class="form-group">
+        <label for="productDescription">รายละเอียดสินค้า</label>
+        <textarea id="productDescription"></textarea>
+      </div>
 
-  <div class="form-row">
+      <div class="form-row">
 
-    <div class="form-group">
-      <label for="productPrice">ราคา (บาท)</label>
-      <input type="number" id="productPrice" min="0" step="0.01" required>
-    </div>
+        <div class="form-group">
+          <label for="productPrice">ราคา (บาท)</label>
+          <input type="number" id="productPrice" min="0" step="0.01" required>
+        </div>
 
-    <div class="form-group">
-      <label for="productStock">จำนวนคงเหลือ</label>
-      <input type="number" id="productStock" min="0" step="1" required>
-    </div>
+        <div class="form-group">
+          <label for="productStock">จำนวนคงเหลือ</label>
+          <input type="number" id="productStock" min="0" step="1" required>
+        </div>
 
-  </div>
+      </div>
 
-  <div class="form-group">
-    <label for="fulfillmentType">รูปแบบสินค้า</label>
-    <select id="fulfillmentType">
-      <option value="ready_to_ship">สินค้าพร้อมส่ง</option>
-      <option value="preorder">สินค้าพรีออเดอร์</option>
-    </select>
-  </div>
+      <div class="form-group">
+        <label for="fulfillmentType">รูปแบบสินค้า</label>
+        <select id="fulfillmentType">
+          <option value="ready_to_ship">สินค้าพร้อมส่ง</option>
+          <option value="preorder">สินค้าพรีออเดอร์</option>
+        </select>
+      </div>
 
-  <div class="form-group" id="productionDaysGroup" style="display:none;">
-    <label for="productionDays">ระยะเวลาผลิต (วัน)</label>
-    <input type="number" id="productionDays" min="1">
-  </div>
+      <div class="form-group" id="productionDaysGroup" style="display:none;">
+        <label for="productionDays">ระยะเวลาผลิต (วัน)</label>
+        <input type="number" id="productionDays" min="1">
+      </div>
 
-  <div class="form-group">
-    <label for="productImage">รูปภาพสินค้า</label>
-    <input type="file" id="productImage" accept="image/*">
-    <img id="imagePreview" class="preview-image" alt="ตัวอย่างรูปสินค้า">
-  </div>
+      <div class="form-group">
+        <label for="productImage">รูปภาพสินค้า</label>
+        <input type="file" id="productImage" accept="image/*">
+        <img id="imagePreview" class="preview-image" alt="ตัวอย่างรูปสินค้า">
+      </div>
 
-  <div class="form-group">
-    <label for="productActive">สถานะการขาย</label>
-    <select id="productActive">
-      <option value="true">เปิดขาย</option>
-      <option value="false">ปิดขาย</option>
-    </select>
-  </div>
+      <div class="form-group">
+        <label for="productActive">สถานะการขาย</label>
+        <select id="productActive">
+          <option value="true">เปิดขาย</option>
+          <option value="false">ปิดขาย</option>
+        </select>
+      </div>
 
-  <button type="submit" class="save-btn" id="saveProductButton">
-    บันทึกสินค้า
-  </button>
+      <button type="submit" class="save-btn" id="saveProductButton">
+        บันทึกสินค้า
+      </button>
 
-  <button type="button" class="cancel-btn" id="cancelButton">
-    ยกเลิก
-  </button>
+      <button type="button" class="cancel-btn" id="cancelButton">
+        ยกเลิก
+      </button>
 
-</form>
+    </form>
 
   </div>
 
 </div>
 
-<!-- LIBRARIES -->
+<!-- CUSTOM REQUEST MODAL -->
+<div class="modal" id="customRequestModal">
+
+  <div class="modal-content">
+
+    <h2>รายละเอียดคำขอสั่งทำ</h2>
+
+    <div id="customRequestDetails" class="custom-detail">
+      กำลังโหลดรายละเอียด...
+    </div>
+
+    <form id="customRequestForm">
+
+      <input type="hidden" id="customRequestId">
+
+      <div class="form-group">
+        <label for="customQuotedPrice">ราคาเสนอให้ลูกค้า (บาท)</label>
+        <input
+          type="number"
+          id="customQuotedPrice"
+          min="0"
+          step="0.01"
+          placeholder="กรอกราคาเสนอ"
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="customRequestStatus">สถานะคำขอ</label>
+        <select id="customRequestStatus" required>
+          <option value="pending">รอตรวจสอบ</option>
+          <option value="reviewing">กำลังตรวจสอบ</option>
+          <option value="quoted">เสนอราคาแล้ว</option>
+          <option value="approved">ลูกค้าอนุมัติ</option>
+          <option value="in_production">กำลังผลิต</option>
+          <option value="completed">ดำเนินการเสร็จสิ้น</option>
+          <option value="rejected">ไม่รับคำขอ</option>
+          <option value="cancelled">ยกเลิก</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="customAdminNote">หมายเหตุจากร้าน</label>
+        <textarea
+          id="customAdminNote"
+          placeholder="บันทึกข้อมูลเพิ่มเติมหรือรายละเอียดการเสนอราคา"
+        ></textarea>
+      </div>
+
+      <button type="submit" class="save-btn" id="saveCustomRequestButton">
+        บันทึกข้อมูลคำขอ
+      </button>
+
+      <button
+        type="button"
+        class="cancel-btn"
+        id="closeCustomRequestButton"
+      >
+        ปิดหน้าต่าง
+      </button>
+
+    </form>
+
+  </div>
+
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<!-- ADMIN JAVASCRIPT: CACHE VERSION -->
-
-<script src="admin-dashboard.js?v=20261127"></script>
+<script src="admin-dashboard.js?v=20261128"></script>
 
 </body>
 </html>
