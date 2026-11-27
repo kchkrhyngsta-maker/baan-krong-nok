@@ -1,21 +1,26 @@
 <!DOCTYPE html>
+
 <html lang="th">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>จัดการร้านค้า | บ้านกรงนก</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
+
 <style>
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
+
 body {
   font-family: 'Kanit', sans-serif;
   background: #FAFCF7;
   color: #294C35;
 }
+
 header {
   background: #294C35;
   color: white;
@@ -26,9 +31,11 @@ header {
   flex-wrap: wrap;
   gap: 12px;
 }
+
 header h1 {
   font-size: 21px;
 }
+
 button {
   font-family: inherit;
   cursor: pointer;
@@ -36,51 +43,63 @@ button {
   border-radius: 8px;
   padding: 10px 16px;
 }
+
 .logout {
   background: white;
   color: #294C35;
 }
+
 main {
   max-width: 1200px;
   margin: 30px auto;
   padding: 0 18px;
 }
+
 .welcome {
   margin-bottom: 25px;
 }
+
 .welcome h2 {
   font-size: 25px;
 }
+
 .welcome p {
   color: #66806C;
 }
+
 .stats {
   display: grid;
   grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
   gap: 16px;
   margin-bottom: 25px;
 }
+
 .stat-card, .section {
   background: white;
   padding: 22px;
   border-radius: 14px;
   box-shadow: 0 3px 12px rgba(41,76,53,.08);
 }
+
 .stat-card p {
   color: #66806C;
   margin-bottom: 8px;
 }
+
 .stat-card h3 {
   font-size: 30px;
   color: #39764A;
 }
+
 .section {
   margin-bottom: 25px;
 }
+
 .section h2 {
   margin-bottom: 16px;
   font-size: 21px;
 }
+
 .section-header {
   display: flex;
   justify-content: space-between;
@@ -89,52 +108,64 @@ main {
   gap: 12px;
   margin-bottom: 18px;
 }
+
 .section-header h2 {
   margin: 0;
 }
+
 .add-btn {
   background: #39764A;
   color: white;
 }
+
 .table-wrap {
   overflow-x: auto;
 }
+
 table {
   width: 100%;
   border-collapse: collapse;
   min-width: 850px;
 }
+
 th, td {
   text-align: left;
   padding: 12px;
   border-bottom: 1px solid #E5EDE3;
   font-size: 14px;
 }
+
 th {
   background: #EDF4E9;
 }
+
 .status {
   font-weight: 500;
 }
+
 .product-image {
   width: 55px;
   height: 55px;
   object-fit: cover;
   border-radius: 8px;
 }
+
 .action-btn {
   padding: 7px 11px;
   margin: 2px;
   font-size: 13px;
 }
+
 .edit-btn {
   background: #E7F1E5;
   color: #294C35;
 }
+
 .delete-btn {
   background: #FCE8E8;
   color: #A52A2A;
 }
+
 #pageMessage {
   padding: 12px;
   margin-bottom: 18px;
@@ -143,6 +174,7 @@ th {
   display: none;
   overflow-wrap: anywhere;
 }
+
 .modal {
   display: none;
   position: fixed;
@@ -152,6 +184,7 @@ th {
   overflow-y: auto;
   padding: 20px;
 }
+
 .modal-content {
   background: white;
   max-width: 600px;
@@ -159,17 +192,21 @@ th {
   padding: 24px;
   border-radius: 14px;
 }
+
 .modal-content h2 {
   margin-bottom: 18px;
 }
+
 .form-group {
   margin-bottom: 14px;
 }
+
 .form-group label {
   display: block;
   margin-bottom: 6px;
   font-weight: 500;
 }
+
 .form-group input,
 .form-group textarea,
 .form-group select {
@@ -182,27 +219,32 @@ th {
   background: white;
   color: #294C35;
 }
+
 .form-group textarea {
   min-height: 90px;
   resize: vertical;
 }
+
 .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
 }
+
 .save-btn {
   background: #39764A;
   color: white;
   width: 100%;
   margin-top: 10px;
 }
+
 .cancel-btn {
   background: #EDF4E9;
   color: #294C35;
   width: 100%;
   margin-top: 8px;
 }
+
 .preview-image {
   width: 100px;
   height: 100px;
@@ -211,57 +253,78 @@ th {
   margin-top: 8px;
   display: none;
 }
+
 @media(max-width:600px) {
   header h1 {
     font-size: 17px;
   }
+
   .section {
     padding: 15px;
   }
+
   .form-row {
     grid-template-columns: 1fr;
   }
 }
 </style>
+
 </head>
+
 <body>
+
 <header>
   <h1>🐦 บ้านกรงนก | ระบบผู้ดูแลร้านค้า</h1>
   <button class="logout" id="logoutButton">ออกจากระบบ</button>
 </header>
+
 <main>
+
 <div class="welcome">
   <h2>แดชบอร์ดจัดการร้านค้า</h2>
   <p>ยินดีต้อนรับเข้าสู่ระบบจัดการร้านบ้านกรงนก</p>
 </div>
+
 <div id="pageMessage"></div>
+
 <div class="stats">
+
   <div class="stat-card">
     <p>สินค้าทั้งหมด</p>
     <h3 id="productCount">-</h3>
   </div>
+
   <div class="stat-card">
     <p>สินค้าพร้อมจำหน่าย</p>
     <h3 id="activeProductCount">-</h3>
   </div>
+
   <div class="stat-card">
     <p>คำสั่งซื้อทั้งหมด</p>
     <h3 id="orderCount">-</h3>
   </div>
+
   <div class="stat-card">
     <p>คำสั่งซื้อรอยืนยัน</p>
     <h3 id="pendingOrderCount">-</h3>
   </div>
+
 </div>
+
 <section class="section">
+
   <div class="section-header">
     <h2>📦 จัดการสินค้า</h2>
+
 <button type="button" class="add-btn" id="addProductButton">
   + เพิ่มสินค้าใหม่
 </button>
+
   </div>
+
   <div class="table-wrap">
     <table>
+
   <thead>
     <tr>
       <th>รูปภาพ</th>
@@ -273,18 +336,26 @@ th {
       <th>จัดการ</th>
     </tr>
   </thead>
+
   <tbody id="productTable">
     <tr>
       <td colspan="7">กำลังโหลดข้อมูล...</td>
     </tr>
   </tbody>
+
 </table>
+
   </div>
+
 </section>
+
 <section class="section">
+
   <h2>🧾 รายการคำสั่งซื้อ</h2>
+
   <div class="table-wrap">
     <table>
+
   <thead>
     <tr>
       <th>เลขที่คำสั่งซื้อ</th>
@@ -294,45 +365,64 @@ th {
       <th>สถานะ</th>
     </tr>
   </thead>
+
   <tbody id="orderTable">
     <tr>
       <td colspan="5">กำลังโหลดข้อมูล...</td>
     </tr>
   </tbody>
+
 </table>
+
   </div>
+
 </section>
+
 </main>
+
 <!-- PRODUCT MODAL -->
+
 <div class="modal" id="productModal">
+
   <div class="modal-content">
+
 <h2 id="modalTitle">เพิ่มสินค้าใหม่</h2>
+
 <form id="productForm">
+
   <input type="hidden" id="productId">
+
   <div class="form-group">
     <label for="productName">ชื่อสินค้า</label>
     <input type="text" id="productName" required>
   </div>
+
   <div class="form-group">
     <label for="productCategory">หมวดหมู่สินค้า</label>
     <select id="productCategory" required>
       <option value="">กำลังโหลดหมวดหมู่...</option>
     </select>
   </div>
+
   <div class="form-group">
     <label for="productDescription">รายละเอียดสินค้า</label>
     <textarea id="productDescription"></textarea>
   </div>
+
   <div class="form-row">
+
     <div class="form-group">
       <label for="productPrice">ราคา (บาท)</label>
       <input type="number" id="productPrice" min="0" step="0.01" required>
     </div>
+
     <div class="form-group">
       <label for="productStock">จำนวนคงเหลือ</label>
       <input type="number" id="productStock" min="0" step="1" required>
     </div>
+
   </div>
+
   <div class="form-group">
     <label for="fulfillmentType">รูปแบบสินค้า</label>
     <select id="fulfillmentType">
@@ -340,15 +430,18 @@ th {
       <option value="preorder">สินค้าพรีออเดอร์</option>
     </select>
   </div>
+
   <div class="form-group" id="productionDaysGroup" style="display:none;">
     <label for="productionDays">ระยะเวลาผลิต (วัน)</label>
     <input type="number" id="productionDays" min="1">
   </div>
+
   <div class="form-group">
     <label for="productImage">รูปภาพสินค้า</label>
     <input type="file" id="productImage" accept="image/*">
     <img id="imagePreview" class="preview-image" alt="ตัวอย่างรูปสินค้า">
   </div>
+
   <div class="form-group">
     <label for="productActive">สถานะการขาย</label>
     <select id="productActive">
@@ -356,18 +449,28 @@ th {
       <option value="false">ปิดขาย</option>
     </select>
   </div>
+
   <button type="submit" class="save-btn" id="saveProductButton">
     บันทึกสินค้า
   </button>
+
   <button type="button" class="cancel-btn" id="cancelButton">
     ยกเลิก
   </button>
+
 </form>
+
   </div>
+
 </div>
+
 <!-- LIBRARIES -->
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <!-- ADMIN JAVASCRIPT: CACHE VERSION -->
+
 <script src="admin-dashboard.js?v=20261127"></script>
+
 </body>
 </html>
