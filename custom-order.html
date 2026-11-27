@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>สั่งทำตามแบบ | บ้านกรงนก</title>
+
+<meta name="description" content="บริการสั่งทำกรงนก ซี่ดอกกรงนก และสะพานกรงนกตามแบบที่ลูกค้าต้องการ">
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #FAFCF7;
+  color: #294C35;
+}
+
+header {
+  background: #174d2b;
+  color: white;
+  text-align: center;
+  padding: 25px 15px;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 27px;
+}
+
+header p {
+  margin-bottom: 0;
+  line-height: 1.7;
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 15px;
+  background: white;
+  box-shadow: 0 2px 5px #ddd;
+}
+
+nav a {
+  color: #174d2b;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+nav a:hover {
+  color: #16824b;
+}
+
+main {
+  max-width: 750px;
+  margin: auto;
+  padding: 20px 15px 40px;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 18px;
+  color: #28613B;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.card {
+  background: white;
+  padding: 22px;
+  border-radius: 18px;
+  box-shadow: 0 3px 12px #00000012;
+}
+
+.card h2 {
+  color: #174d2b;
+  margin-top: 5px;
+}
+
+.intro {
+  line-height: 1.8;
+  color: #555;
+  background: #EDF4E9;
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 22px;
+}
+
+.section-title {
+  margin-top: 28px;
+  padding-bottom: 9px;
+  border-bottom: 2px solid #EDF4E9;
+}
+
+label {
+  display: block;
+  margin-top: 17px;
+  font-weight: bold;
+}
+
+.required {
+  color: #c0392b;
+}
+
+input,
+select,
+textarea {
+  display: block;
+  width: 100%;
+  padding: 13px;
+  margin-top: 7px;
+  border: 1px solid #ccd5ca;
+  border-radius: 10px;
+  background: white;
+  color: #294C35;
+  font-size: 16px;
+  font-family: inherit;
+}
+
+textarea {
+  resize: vertical;
+  line-height: 1.6;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: #39764A;
+  box-shadow: 0 0 0 2px #39764a20;
+}
+
+.help {
+  color: #777;
+  font-size: 13px;
+  margin-top: 6px;
+  line-height: 1.6;
+}
+
+.file-box {
+  background: #f7faf5;
+  border: 1px dashed #8da88e;
+  border-radius: 12px;
+  padding: 15px;
+  margin-top: 8px;
+}
+
+.preview {
+  display: none;
+  width: 100%;
+  max-height: 300px;
+  object-fit: contain;
+  margin-top: 12px;
+  border-radius: 10px;
+  background: #f2f2f2;
+}
+
+.remove-image {
+  display: none;
+  background: #a33;
+  margin-top: 10px;
+}
+
+button {
+  width: 100%;
+  border: none;
+  border-radius: 25px;
+  padding: 15px;
+  margin-top: 22px;
+  background: #18834a;
+  color: white;
+  font-size: 17px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #126638;
+}
+
+button:disabled {
+  background: #999;
+  cursor: not-allowed;
+}
+
+.message {
+  display: none;
+  padding: 16px;
+  border-radius: 12px;
+  margin-top: 20px;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+
+.success {
+  background: #e8f7e9;
+  color: #17602d;
+  border: 1px solid #9bd0a5;
+}
+
+.error {
+  background: #fff0f0;
+  color: #a32626;
+  border: 1px solid #e8aaaa;
+}
+
+.notice {
+  color: #777;
+  font-size: 13px;
+  line-height: 1.8;
+  margin-top: 18px;
+}
+
+footer {
+  text-align: center;
+  background: #174d2b;
+  color: white;
+  padding: 22px 15px;
+  line-height: 1.8;
+}
+
+footer p {
+  margin: 5px;
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 16px;
+  }
+
+  header h1 {
+    font-size: 23px;
+  }
+
+  nav {
+    gap: 13px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>🐦 บ้านกรงนก</h1>
+  <p>บริการสั่งทำตามแบบที่ลูกค้าต้องการ</p>
+</header>
+
+<nav>
+  <a href="index.html">หน้าหลัก</a>
+  <a href="categories.html">หมวดหมู่สินค้า</a>
+  <a href="products.html">รายการสินค้า</a>
+  <a href="contact.html">ติดต่อเรา</a>
+</nav>
+
+<main>
+
+<a href="products.html" class="back-link">
+  ← กลับไปหน้าสินค้า
+</a>
+
+<div class="card">
+
+  <h2>📝 แบบฟอร์มสั่งทำตามแบบ</h2>
+
+  <div class="intro">
+    <strong>ยินดีต้อนรับสู่บ้านกรงนก</strong><br>
+    ลูกค้าสามารถแจ้งรายละเอียดงานที่ต้องการสั่งทำ
+    พร้อมแนบรูปภาพตัวอย่าง เพื่อให้ทางร้านตรวจสอบ
+    และติดต่อกลับเพื่อแจ้งรายละเอียดและราคา
+    ก่อนยืนยันการสั่งทำค่ะ
+  </div>
+
+  <form id="customOrderForm">
+
+    <h3 class="section-title">👤 ข้อมูลผู้สั่งทำ</h3>
+
+    <label for="customerName">
+      ชื่อ-นามสกุล <span class="required">*</span>
+    </label>
+
+    <input
+      type="text"
+      id="customerName"
+      name="customer_name"
+      maxlength="150"
+      required
+      placeholder="กรอกชื่อ-นามสกุล"
+    >
+
+    <label for="phone">
+      เบอร์โทรศัพท์ <span class="required">*</span>
+    </label>
+
+    <input
+      type="tel"
+      id="phone"
+      name="phone"
+      maxlength="30"
+      required
+      placeholder="กรอกเบอร์โทรศัพท์"
+    >
+
+    <label for="email">
+      อีเมล
+    </label>
+
+    <input
+      type="email"
+      id="email"
+      name="email"
+      maxlength="150"
+      placeholder="กรอกอีเมล (ถ้ามี)"
+    >
+
+    <label for="contactChannel">
+      ช่องทางที่สะดวกให้ติดต่อกลับ
+    </label>
+
+    <select id="contactChannel" name="contact_channel">
+      <option value="">เลือกช่องทางติดต่อ</option>
+      <option value="LINE">LINE</option>
+      <option value="Facebook">Facebook</option>
+      <option value="โทรศัพท์">โทรศัพท์</option>
+    </select>
+
+    <h3 class="section-title">🐦 รายละเอียดงานสั่งทำ</h3>
+
+    <label for="productType">
+      ประเภทงานที่ต้องการ <span class="required">*</span>
+    </label>
+
+    <select
+      id="productType"
+      name="product_type"
+      required
+    >
+      <option value="">เลือกประเภทงาน</option>
+      <option value="กรงนกสวยงามทำมือ">
+        กรงนกสวยงามทำมือ
+      </option>
+      <option value="ซี่ดอกกรงนก">
+        ซี่ดอกกรงนก
+      </option>
+      <option value="สะพานกรงนก">
+        สะพานกรงนก
+      </option>
+    </select>
+
+    <label for="dimensions">
+      ขนาดที่ต้องการ
+    </label>
+
+    <input
+      type="text"
+      id="dimensions"
+      name="dimensions"
+      maxlength="200"
+      placeholder="เช่น สูง 50 ซม. กว้าง 40 ซม."
+    >
+
+    <label for="shape">
+      รูปทรง
+    </label>
+
+    <input
+      type="text"
+      id="shape"
+      name="shape"
+      maxlength="200"
+      placeholder="เช่น ทรงกลม ทรงรี ทรงเหลี่ยม"
+    >
+
+    <label for="pattern">
+      ลวดลายที่ต้องการ
+    </label>
+
+    <textarea
+      id="pattern"
+      name="pattern"
+      rows="3"
+      maxlength="500"
+      placeholder="อธิบายลวดลายหรือรูปแบบที่ต้องการ"
+    ></textarea>
+
+    <label for="quantity">
+      จำนวนที่ต้องการ <span class="required">*</span>
+    </label>
+
+    <input
+      type="number"
+      id="quantity"
+      name="quantity"
+      min="1"
+      max="100"
+      step="1"
+      value="1"
+      required
+    >
+
+    <label for="description">
+      รายละเอียดเพิ่มเติม
+    </label>
+
+    <textarea
+      id="description"
+      name="description"
+      rows="5"
+      maxlength="3000"
+      placeholder="แจ้งรายละเอียดเพิ่มเติม เช่น วัสดุ สี รูปแบบ หรือความต้องการพิเศษ"
+    ></textarea>
+
+    <h3 class="section-title">📷 แนบรูปภาพตัวอย่าง</h3>
+
+    <label for="referenceImage">
+      รูปภาพแบบที่ต้องการ
+    </label>
+
+    <div class="file-box">
+
+      <input
+        type="file"
+        id="referenceImage"
+        name="reference_image"
+        accept="image/jpeg,image/png,image/webp"
+      >
+
+      <p class="help">
+        รองรับไฟล์ JPG, PNG และ WEBP
+        ขนาดไฟล์ไม่เกิน 5 MB
+      </p>
+
+      <img
+        id="imagePreview"
+        class="preview"
+        alt="ภาพตัวอย่างงานสั่งทำ"
+      >
+
+      <button
+        type="button"
+        id="removeImage"
+        class="remove-image"
+      >
+        ลบรูปภาพ
+      </button>
+
+    </div>
+
+    <p class="notice">
+      * ช่องที่มีเครื่องหมายดอกจันเป็นข้อมูลที่จำเป็นต้องกรอก<br>
+      * การส่งแบบฟอร์มนี้ยังไม่ถือเป็นการยืนยันคำสั่งซื้อ<br>
+      * ทางร้านจะตรวจสอบรายละเอียดและติดต่อกลับเพื่อแจ้งราคาและระยะเวลาการผลิต
+    </p>
+
+    <button type="submit" id="submitBtn">
+      ส่งคำขอสั่งทำ
+    </button>
+
+    <div id="resultMessage" class="message"></div>
+
+  </form>
+
+</div>
+
+</main>
+
+<footer>
+  <h3>🐦 บ้านกรงนก</h3>
+  <p>กรงนกสวยงามทำมือ ซี่ดอกกรงนก และสะพานกรงนก</p>
+  <p>ขอบคุณที่สนใจใช้บริการบ้านกรงนกค่ะ</p>
+</footer>
+
+<script>
+
+/* =================================
+   EDGE FUNCTION CONFIGURATION
+================================= */
+
+const FUNCTION_URL =
+  "https://acfrebknwxuybroilgqu.supabase.co/functions/v1/custom-order-request-v2";
+
+/* =================================
+   ELEMENTS
+================================= */
+
+const form = document.getElementById("customOrderForm");
+const submitBtn = document.getElementById("submitBtn");
+const resultMessage = document.getElementById("resultMessage");
+
+const imageInput = document.getElementById("referenceImage");
+const imagePreview = document.getElementById("imagePreview");
+const removeImageBtn = document.getElementById("removeImage");
+
+let previewUrl = null;
+
+/* =================================
+   IMAGE PREVIEW
+================================= */
+
+imageInput.addEventListener("change", function() {
+
+  const file = imageInput.files[0];
+
+  if (previewUrl) {
+    URL.revokeObjectURL(previewUrl);
+    previewUrl = null;
+  }
+
+  imagePreview.style.display = "none";
+  removeImageBtn.style.display = "none";
+
+  if (!file) {
+    return;
+  }
+
+  const allowedTypes = [
+    "image/jpeg",
+    "image/png",
+    "image/webp"
+  ];
+
+  if (!allowedTypes.includes(file.type)) {
+    alert("กรุณาเลือกไฟล์ JPG, PNG หรือ WEBP เท่านั้น");
+    imageInput.value = "";
+    return;
+  }
+
+  if (file.size > 5 * 1024 * 1024) {
+    alert("รูปภาพต้องมีขนาดไม่เกิน 5 MB");
+    imageInput.value = "";
+    return;
+  }
+
+  previewUrl = URL.createObjectURL(file);
+
+  imagePreview.src = previewUrl;
+  imagePreview.style.display = "block";
+  removeImageBtn.style.display = "block";
+
+});
+
+/* =================================
+   REMOVE IMAGE
+================================= */
+
+removeImageBtn.addEventListener("click", function() {
+
+  imageInput.value = "";
+
+  if (previewUrl) {
+    URL.revokeObjectURL(previewUrl);
+    previewUrl = null;
+  }
+
+  imagePreview.removeAttribute("src");
+  imagePreview.style.display = "none";
+  removeImageBtn.style.display = "none";
+
+});
+
+/* =================================
+   SHOW MESSAGE
+================================= */
+
+function showMessage(message, type) {
+
+  resultMessage.className = "message " + type;
+  resultMessage.textContent = message;
+  resultMessage.style.display = "block";
+
+  resultMessage.scrollIntoView({
+    behavior: "smooth",
+    block: "center"
+  });
+
+}
+
+/* =================================
+   SUBMIT FORM
+================================= */
+
+form.addEventListener("submit", async function(event) {
+
+  event.preventDefault();
+
+  resultMessage.style.display = "none";
+
+  const customerName =
+    document.getElementById("customerName").value.trim();
+
+  const phone =
+    document.getElementById("phone").value.trim();
+
+  const email =
+    document.getElementById("email").value.trim();
+
+  const productType =
+    document.getElementById("productType").value;
+
+  const quantity =
+    Number(document.getElementById("quantity").value);
+
+  const imageFile =
+    imageInput.files[0];
+
+  /* VALIDATE */
+
+  if (!customerName || !phone || !productType) {
+    showMessage(
+      "กรุณากรอกชื่อ เบอร์โทรศัพท์ และประเภทงานให้ครบถ้วน",
+      "error"
+    );
+    return;
+  }
+
+  if (!Number.isInteger(quantity) || quantity < 1 || quantity > 100) {
+    showMessage(
+      "กรุณาระบุจำนวนตั้งแต่ 1 ถึง 100 ชิ้น",
+      "error"
+    );
+    return;
+  }
+
+  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    showMessage(
+      "รูปแบบอีเมลไม่ถูกต้อง กรุณาตรวจสอบอีกครั้ง",
+      "error"
+    );
+    return;
+  }
+
+  if (imageFile) {
+
+    const allowedTypes = [
+      "image/jpeg",
+      "image/png",
+      "image/webp"
+    ];
+
+    if (!allowedTypes.includes(imageFile.type)) {
+      showMessage(
+        "ไฟล์รูปภาพต้องเป็น JPG, PNG หรือ WEBP เท่านั้น",
+        "error"
+      );
+      return;
+    }
+
+    if (imageFile.size > 5 * 1024 * 1024) {
+      showMessage(
+        "รูปภาพต้องมีขนาดไม่เกิน 5 MB",
+        "error"
+      );
+      return;
+    }
+
+  }
+
+  /* PREPARE FORM DATA */
+
+  const formData = new FormData();
+
+  formData.append("customer_name", customerName);
+  formData.append("phone", phone);
+  formData.append("email", email);
+
+  formData.append(
+    "contact_channel",
+    document.getElementById("contactChannel").value
+  );
+
+  formData.append("product_type", productType);
+
+  formData.append(
+    "dimensions",
+    document.getElementById("dimensions").value.trim()
+  );
+
+  formData.append(
+    "shape",
+    document.getElementById("shape").value.trim()
+  );
+
+  formData.append(
+    "pattern",
+    document.getElementById("pattern").value.trim()
+  );
+
+  formData.append("quantity", String(quantity));
+
+  formData.append(
+    "description",
+    document.getElementById("description").value.trim()
+  );
+
+  if (imageFile) {
+    formData.append("reference_image", imageFile);
+  }
+
+  /* SEND REQUEST */
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = "กำลังส่งคำขอสั่งทำ...";
+
+  try {
+
+    const response = await fetch(FUNCTION_URL, {
+      method: "POST",
+      body: formData
+    });
+
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+      throw new Error(
+        result.message || "ไม่สามารถส่งคำขอสั่งทำได้"
+      );
+    }
+
+    /* SUCCESS */
+
+    const requestNumber =
+      result.data?.request_number || "-";
+
+    form.reset();
+
+    if (previewUrl) {
+      URL.revokeObjectURL(previewUrl);
+      previewUrl = null;
+    }
+
+    imagePreview.removeAttribute("src");
+    imagePreview.style.display = "none";
+    removeImageBtn.style.display = "none";
+
+    showMessage(
+      "ส่งคำขอสั่งทำเรียบร้อยแล้วค่ะ\n" +
+      "หมายเลขคำขอ: " + requestNumber +
+      "\nสถานะ: รอตรวจสอบ\n\n" +
+      "ทางร้านจะตรวจสอบรายละเอียดและติดต่อกลับค่ะ",
+      "success"
+    );
+
+  } catch (error) {
+
+    console.error("Custom order error:", error);
+
+    showMessage(
+      error.message ||
+      "เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง",
+      "error"
+    );
+
+  } finally {
+
+    submitBtn.disabled = false;
+    submitBtn.textContent = "ส่งคำขอสั่งทำ";
+
+  }
+
+});
+
+</script>
+
+</body>
+</html>
