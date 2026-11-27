@@ -1,36 +1,34 @@
 <!DOCTYPE html>
-
 <html lang="th">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>รายการสินค้า | บ้านกรงนก</title>
-
+<meta name="description" content="เลือกชมกรงนกสวยงามและอุปกรณ์ตกแต่งจากบ้านกรงนก">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <style>
 * {
   box-sizing: border-box;
 }
-
 body {
   margin: 0;
   font-family: Arial, sans-serif;
   background: #FAFCF7;
   color: #294C35;
 }
-
 header {
   background: #174d2b;
   color: white;
   padding: 22px 15px;
   text-align: center;
 }
-
 header h1 {
   margin: 0;
+  font-size: 28px;
 }
-
+header p {
+  margin-bottom: 0;
+}
 nav {
   display: flex;
   justify-content: center;
@@ -38,20 +36,25 @@ nav {
   gap: 25px;
   padding: 15px;
   background: white;
+  box-shadow: 0 2px 5px #ddd;
 }
-
 nav a {
   color: #174d2b;
   text-decoration: none;
   font-weight: bold;
 }
-
+nav a:hover {
+  color: #16824b;
+}
 main {
   max-width: 1100px;
+  min-height: 400px;
   margin: auto;
   padding: 20px;
 }
-
+.page-title {
+  margin-bottom: 20px;
+}
 input, select {
   width: 100%;
   padding: 13px;
@@ -61,68 +64,57 @@ input, select {
   font-size: 16px;
   background: white;
 }
-
 .products {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 15px;
 }
-
 .card {
   background: white;
   border-radius: 14px;
   overflow: hidden;
   box-shadow: 0 2px 7px #ddd;
 }
-
 .card img {
   width: 100%;
   height: 180px;
   object-fit: cover;
   background: #eee;
 }
-
 .no-image {
   height: 180px;
   display: grid;
   place-items: center;
   background: #f1f1e8;
-  font-size: 40px;
+  font-size: 45px;
 }
-
 .info {
   padding: 13px;
 }
-
 .info h3 {
   font-size: 17px;
   margin: 5px 0 8px;
 }
-
 .category-name {
   color: #777;
   font-size: 13px;
 }
-
 .description {
   font-size: 14px;
   color: #555;
   line-height: 1.6;
   min-height: 44px;
 }
-
 .price {
   font-size: 20px;
   font-weight: bold;
   color: #16824b;
   margin: 10px 0;
 }
-
 .stock {
   color: #666;
   font-size: 13px;
 }
-
 button {
   width: 100%;
   border: 0;
@@ -134,23 +126,27 @@ button {
   cursor: pointer;
   margin-top: 8px;
 }
-
 button:hover {
   background: #126638;
 }
-
 .status {
   text-align: center;
   padding: 25px;
   grid-column: 1 / -1;
   background: white;
   border-radius: 12px;
+  line-height: 1.7;
 }
-
 .error {
   color: #a32626;
 }
-
+.error-detail {
+  background: #fff5f5;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
 footer {
   text-align: center;
   background: #174d2b;
@@ -158,85 +154,80 @@ footer {
   padding: 20px;
   margin-top: 35px;
 }
-
-@media(min-width:650px) {
+@media (min-width: 650px) {
   .products {
     grid-template-columns: repeat(4, 1fr);
   }
 }
+@media (max-width: 400px) {
+  .products {
+    gap: 10px;
+  }
+  .card img {
+    height: 140px;
+  }
+  .info {
+    padding: 10px;
+  }
+}
 </style>
-
 </head>
-
 <body>
-
 <header>
   <h1>🐦 บ้านกรงนก</h1>
   <p>กรงนกสวยงามและอุปกรณ์ตกแต่ง</p>
 </header>
-
 <nav>
   <a href="index.html">หน้าหลัก</a>
   <a href="categories.html">หมวดหมู่สินค้า</a>
   <a href="products.html">รายการสินค้า</a>
   <a href="contact.html">ติดต่อเรา</a>
 </nav>
-
 <main>
-
-  <h2 id="pageTitle">🛒 สินค้าทั้งหมด</h2>
+  <h2 class="page-title" id="pageTitle">🛒 สินค้าทั้งหมด</h2>
 
 <input
-id="search"
-type="search"
-placeholder="🔍 ค้นหาชื่อสินค้า..."
-
-
+id=“search”
+type=“search”
+placeholder=“🔍 ค้นหาชื่อสินค้า…”
 
   <select id="category">
     <option value="">สินค้าทุกประเภท</option>
   </select>
-
   <p id="count">กำลังโหลดสินค้า...</p>
-
   <div class="products" id="product-list">
     <p class="status">กำลังโหลดข้อมูล...</p>
   </div>
-
 </main>
-
 <footer>
   <h3>🐦 บ้านกรงนก</h3>
   <p>จำหน่ายกรงนกสวยงามและอุปกรณ์ตกแต่ง</p>
   <p>ขอบคุณที่ใช้บริการค่ะ</p>
 </footer>
-
 <script>
+/* =================================
+   SUPABASE CONFIGURATION
+================================= */
 const SUPABASE_URL =
   "https://acfrebknwxuybroilgqu.supabase.co";
-
 const SUPABASE_KEY =
   "sb_publishable_UjWZN8YsBLoBTKsbQ3GZsw_A1X3lSPK";
-
-const db = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
-
+/* =================================
+   INITIALIZE
+================================= */
 const list = document.getElementById("product-list");
 const count = document.getElementById("count");
 const categorySelect = document.getElementById("category");
 const searchInput = document.getElementById("search");
 const pageTitle = document.getElementById("pageTitle");
-
+let db = null;
 let products = [];
 let categories = [];
-
-// อ่าน slug จาก URL
 const params = new URLSearchParams(window.location.search);
 const selectedSlug = params.get("category") || "";
-
-// ป้องกันข้อความ HTML ที่ไม่ปลอดภัย
+/* =================================
+   SAFE TEXT
+================================= */
 function safeText(value) {
   return String(value ?? "").replace(/[&<>"']/g, function(c) {
     return {
@@ -248,122 +239,115 @@ function safeText(value) {
     }[c];
   });
 }
-
-// ตรวจสอบ URL รูปภาพ
+/* =================================
+   SAFE IMAGE
+================================= */
 function safeImage(value) {
   if (!value) return "";
-
   try {
     const url = new URL(value);
-
     if (url.protocol === "https:" || url.protocol === "http:") {
       return url.href;
     }
   } catch (error) {
     return "";
   }
-
   return "";
 }
-
-// แสดงราคา
+/* =================================
+   FORMAT PRICE
+================================= */
 function formatPrice(price) {
   if (price === null || price === undefined || price === "") {
     return "ยังไม่ได้ระบุราคา";
   }
-
   const number = Number(price);
-
   if (!Number.isFinite(number)) {
     return "ยังไม่ได้ระบุราคา";
   }
-
   return "฿" + number.toLocaleString("th-TH");
 }
-
-// แสดงข้อผิดพลาด
+/* =================================
+   SHOW ERROR
+================================= */
 function showError(message) {
   count.textContent = "ไม่สามารถโหลดสินค้าได้";
-
   list.innerHTML = `
     <div class="status error">
       <h3>⚠️ โหลดสินค้าไม่สำเร็จ</h3>
-      <p>${safeText(message)}</p>
-      <button onclick="loadProducts()">ลองโหลดอีกครั้ง</button>
+      <p>ระบบไม่สามารถดึงข้อมูลจากฐานข้อมูลได้</p>
+      <div class="error-detail">
+        ${safeText(message)}
+      </div>
+      <button onclick="loadProducts()">
+        ลองโหลดอีกครั้ง
+      </button>
     </div>
   `;
 }
-
-// โหลดหมวดหมู่จาก Supabase
+/* =================================
+   LOAD CATEGORIES
+================================= */
 async function loadCategories() {
-
   const { data, error } = await db
     .from("categories")
     .select("id,name,slug,sort_order,is_active")
     .eq("is_active", true)
     .order("sort_order", { ascending: true });
-
   if (error) {
-    throw new Error("โหลดหมวดหมู่ไม่สำเร็จ: " + error.message);
+    throw new Error(
+      "ไม่สามารถโหลดหมวดหมู่ได้: " + error.message
+    );
   }
-
   categories = data || [];
-
   categorySelect.innerHTML =
     '<option value="">สินค้าทุกประเภท</option>';
-
   categories.forEach(function(category) {
-
     const option = document.createElement("option");
-
-    option.value = category.id;
+    option.value = String(category.id);
     option.textContent = category.name;
-
     categorySelect.appendChild(option);
-
   });
-
 }
-
-// โหลดสินค้า
+/* =================================
+   LOAD PRODUCTS
+================================= */
 async function loadProducts() {
-
   list.innerHTML =
     '<p class="status">กำลังโหลดข้อมูล...</p>';
-
   count.textContent = "กำลังโหลดสินค้า...";
-
   try {
-
+    if (!window.supabase) {
+      throw new Error(
+        "ไม่สามารถโหลด Supabase JavaScript ได้ กรุณาตรวจสอบอินเทอร์เน็ต"
+      );
+    }
+    if (!db) {
+      db = window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+      );
+    }
     // โหลดหมวดหมู่
     await loadCategories();
-
-    // หาหมวดหมู่จาก slug ที่อยู่ใน URL
+    // ตรวจสอบหมวดหมู่จาก URL
     let selectedCategory = null;
-
     if (selectedSlug) {
-
       selectedCategory = categories.find(function(category) {
         return category.slug === selectedSlug;
       });
-
       if (!selectedCategory) {
         throw new Error(
-          "ไม่พบหมวดหมู่ที่เลือก: " + selectedSlug
+          "ไม่พบหมวดหมู่ " + selectedSlug +
+          " ในตาราง categories หรือหมวดหมู่นี้ถูกปิดใช้งาน"
         );
       }
-
-      categorySelect.value = selectedCategory.id;
-
+      categorySelect.value = String(selectedCategory.id);
       pageTitle.textContent =
         "🛒 " + selectedCategory.name;
-
     } else {
-
       pageTitle.textContent = "🛒 สินค้าทั้งหมด";
-
     }
-
     // โหลดสินค้าที่เปิดขาย
     const { data, error } = await db
       .from("products")
@@ -376,100 +360,82 @@ async function loadProducts() {
         price,
         image_url,
         stock,
-        is_active,
-        fulfillment_type,
-        production_days
+        is_active
       `)
       .eq("is_active", true)
       .order("id", { ascending: false });
-
     if (error) {
-      throw new Error("โหลดสินค้าไม่สำเร็จ: " + error.message);
+      throw new Error(
+        "ไม่สามารถโหลดสินค้าได้: " + error.message
+      );
     }
-
     products = data || [];
-
-    console.log("ข้อมูลสินค้า:", products);
-    console.log("ข้อมูลหมวดหมู่:", categories);
-
-    // แสดงสินค้าตามหมวดหมู่ที่เลือก
+    console.log("หมวดหมู่:", categories);
+    console.log("สินค้า:", products);
+    console.log("หมวดหมู่ที่เลือก:", selectedSlug);
     showProducts();
-
   } catch (error) {
-
-    console.error("เกิดข้อผิดพลาด:", error);
-
-    showError(error.message || "เกิดข้อผิดพลาดในการโหลดข้อมูล");
-
+    console.error("Products page error:", error);
+    showError(
+      error.message || "เกิดข้อผิดพลาดในการโหลดข้อมูล"
+    );
   }
-
 }
-
-// แสดงสินค้า
+/* =================================
+   SHOW PRODUCTS
+================================= */
 function showProducts() {
-
-  const keyword = searchInput.value.toLowerCase().trim();
-
+  const keyword = searchInput.value
+    .toLowerCase()
+    .trim();
   const categoryId = categorySelect.value;
-
+  const selectedCategory = categories.find(function(c) {
+    return String(c.id) === String(categoryId);
+  });
   const filtered = products.filter(function(p) {
-
     const name = String(p.name || "").toLowerCase();
-
-    const description =
-      String(p.description || "").toLowerCase();
-
+    const description = String(
+      p.description || ""
+    ).toLowerCase();
     const matchesKeyword =
       name.includes(keyword) ||
       description.includes(keyword);
-
-    const matchesCategory =
-      !categoryId ||
-      String(p.category_id) === String(categoryId);
-
+    let matchesCategory = true;
+    if (selectedCategory) {
+      matchesCategory =
+        String(p.category_id || "") === String(selectedCategory.id) ||
+        String(p.category || "") === String(selectedCategory.name);
+    }
     return matchesKeyword && matchesCategory;
-
   });
-
   count.textContent =
     "พบสินค้า " + filtered.length + " รายการ";
-
   if (filtered.length === 0) {
-
     list.innerHTML = `
-      <p class="status">
-        🛒 ยังไม่มีสินค้าที่เปิดขายในหมวดหมู่นี้
-      </p>
+      <div class="status">
+        <h3>🛒 ยังไม่มีสินค้าที่เปิดขายในหมวดหมู่นี้</h3>
+        <p>กรุณาเลือกหมวดหมู่อื่น หรือกลับมาดูสินค้าอีกครั้ง</p>
+      </div>
     `;
-
     return;
-
   }
-
   list.innerHTML = filtered.map(function(p) {
-
     const image = safeImage(p.image_url);
-
     const description = p.description
       ? safeText(p.description)
       : "ยังไม่มีรายละเอียดสินค้า";
-
     const stock = p.stock === null || p.stock === undefined
       ? "ไม่ระบุจำนวนสินค้า"
       : "คงเหลือ " +
         Number(p.stock).toLocaleString("th-TH") +
         " ชิ้น";
-
     const categoryName = p.category ||
       (categories.find(function(c) {
         return String(c.id) === String(p.category_id);
       }) || {}).name ||
       "สินค้า";
-
     return `
-
       <div class="card">
-
         ${
           image
           ? `
@@ -481,81 +447,69 @@ function showProducts() {
           `
           : '<div class="no-image">🐦</div>'
         }
-
         <div class="info">
-
           <h3>${safeText(p.name)}</h3>
-
           <small class="category-name">
             ${safeText(categoryName)}
           </small>
-
           <p class="description">
             ${description}
           </p>
-
           <p class="price">
             ${formatPrice(p.price)}
           </p>
-
           <p class="stock">
             ${safeText(stock)}
           </p>
-
           <button onclick="viewProduct('${encodeURIComponent(p.id)}')">
             ดูรายละเอียดสินค้า
           </button>
-
         </div>
-
       </div>
-
     `;
-
   }).join("");
-
 }
-
-// ไปหน้ารายละเอียดสินค้า
+/* =================================
+   PRODUCT DETAIL
+================================= */
 function viewProduct(id) {
-
   window.location.href =
     "product-detail.html?id=" + id;
-
 }
-
-// ค้นหาสินค้า
-searchInput.addEventListener("input", showProducts);
-
-// เปลี่ยนหมวดหมู่
+/* =================================
+   SEARCH
+================================= */
+searchInput.addEventListener("input", function() {
+  showProducts();
+});
+/* =================================
+   CATEGORY CHANGE
+================================= */
 categorySelect.addEventListener("change", function() {
-
   const selectedId = categorySelect.value;
-
   const selected = categories.find(function(category) {
     return String(category.id) === String(selectedId);
   });
-
   const newUrl = new URL(window.location.href);
-
   if (selected) {
-    newUrl.searchParams.set("category", selected.slug);
-    pageTitle.textContent = "🛒 " + selected.name;
+    newUrl.searchParams.set(
+      "category",
+      selected.slug
+    );
+    pageTitle.textContent =
+      "🛒 " + selected.name;
   } else {
     newUrl.searchParams.delete("category");
-    pageTitle.textContent = "🛒 สินค้าทั้งหมด";
+    pageTitle.textContent =
+      "🛒 สินค้าทั้งหมด";
   }
-
   window.history.replaceState({}, "", newUrl);
-
   showProducts();
-
 });
-
-// เริ่มต้นโหลดข้อมูล
+/* =================================
+   START
+================================= */
 loadProducts();
-
 </script>
-
 </body>
 </html>
