@@ -14,17 +14,21 @@ let productList = [];
 let categoryList = [];
 let customRequestList = [];
 
-// สินค้าที่ไม่ต้องการแสดงในหน้าแอดมิน
-const HIDDEN_PRODUCT_NAMES = [
-  'ซี่กรงเหล็กสีทอง',
-  'สินค้าตัวอย่าง'
+// =====================================
+// สินค้าที่อนุญาตให้แสดงในร้าน
+// =====================================
+
+const ALLOWED_PRODUCT_NAMES = [
+  'กรงนกไม้หวายทรงกลม',
+  'กรงนกแขวนลายสวยงาม',
+  'ซี่ดอกกรงนกลายดอกไม้'
 ];
 
 // =====================================
 // ELEMENTS
 // =====================================
 
-const getElement = (id) => document.getElementById(id);
+const getElement = id => document.getElementById(id);
 
 // =====================================
 // MESSAGE
@@ -151,24 +155,14 @@ async function loadCategories() {
 }
 
 // =====================================
-// FILTER STORE PRODUCTS
+// FILTER PRODUCTS
 // =====================================
 
 function filterStoreProducts(products) {
-  const activeCategoryIds = categoryList.map(
-    category => String(category.id)
-  );
-
   return products.filter(product => {
-    const categoryIsActive = activeCategoryIds.includes(
-      String(product.category_id)
-    );
+    const productName = String(product.name || '').trim();
 
-    const isHiddenProduct = HIDDEN_PRODUCT_NAMES.includes(
-      String(product.name || '').trim()
-    );
-
-    return categoryIsActive && !isHiddenProduct;
+    return ALLOWED_PRODUCT_NAMES.includes(productName);
   });
 }
 
@@ -192,29 +186,35 @@ async function loadProducts() {
       fulfillment_type,
       production_days
     `)
-    .order('id', { ascending: false });
+    .order('id', { ascending: true });
 
   if (error) throw error;
 
-  // แสดงเฉพาะสินค้าที่อยู่ในหมวดหมู่ร้าน
-  // และไม่ใช่สินค้าที่กำหนดให้ซ่อน
   productList = filterStoreProducts(data || []);
 
-  getElement('productCount').textContent =
-    productList.length;
-
-  getElement('activeProductCount').textContent =
-    productList.filter(product => product.is_active).length;
-
+  const countElement = getElement('productCount');
+  const activeCountElement = getElement('activeProductCount');
   const table = getElement('productTable');
+
+  if (countElement) {
+    countElement.textContent = productList.length;
+  }
+
+  if (activeCountElement) {
+    activeCountElement.textContent =
+      productList.filter(product => product.is_active).length;
+  }
+
+  if (!table) return;
 
   if (productList.length === 0) {
     table.innerHTML = `
       <tr>
-        <td colspan="7">ยังไม่มีสินค้าในหมวดหมู่ของร้าน</td>
+        <td colspan="7">
+          ยังไม่มีสินค้าในรายการที่กำหนด
+        </td>
       </tr>
     `;
-
     return;
   }
 
@@ -299,8 +299,7 @@ async function loadOrders() {
 
   const orders = data || [];
 
-  getElement('orderCount').textContent =
-    orders.length;
+  getElement('orderCount').textContent = orders.length;
 
   getElement('pendingOrderCount').textContent =
     orders.filter(
@@ -315,7 +314,6 @@ async function loadOrders() {
         <td colspan="5">ยังไม่มีคำสั่งซื้อ</td>
       </tr>
     `;
-
     return;
   }
 
@@ -376,28 +374,18 @@ async function loadCustomRequests() {
         <td colspan="8">ยังไม่มีคำขอสั่งทำสินค้า</td>
       </tr>
     `;
-
     return;
   }
 
   table.innerHTML = customRequestList.map(request => `
     <tr>
       <td>${escapeHTML(request.request_number)}</td>
-
       <td>${escapeHTML(request.customer_name)}</td>
-
       <td>${escapeHTML(request.phone)}</td>
-
       <td>${escapeHTML(request.product_type)}</td>
-
       <td>${Number(request.quantity || 1)}</td>
-
-      <td class="status">
-        ${escapeHTML(getCustomStatusLabel(request.status))}
-      </td>
-
+      <td>${escapeHTML(getCustomStatusLabel(request.status))}</td>
       <td>${formatDate(request.created_at)}</td>
-
       <td>
         <button
           type="button"
@@ -484,16 +472,12 @@ async function openCustomRequest(request) {
     try {
       const { data, error } = await supabaseClient.storage
         .from('custom-order-images')
-        .createSignedUrl(
-          request.reference_image_path,
-          3600
-        );
+        .createSignedUrl(request.reference_image_path, 3600);
 
       if (error) throw error;
 
       imageArea.innerHTML = `
         <p><strong>รูปภาพตัวอย่างจากลูกค้า:</strong></p>
-
         <a
           href="${escapeHTML(data.signedUrl)}"
           target="_blank"
@@ -505,18 +489,15 @@ async function openCustomRequest(request) {
             alt="รูปภาพตัวอย่างจากลูกค้า"
           >
         </a>
-
         <p>กดที่รูปภาพเพื่อเปิดดูขนาดเต็ม</p>
       `;
     } catch (error) {
       imageArea.innerHTML = `
-        <p><strong>รูปภาพตัวอย่างจากลูกค้า:</strong></p>
         <p>ไม่สามารถเปิดรูปภาพได้: ${escapeHTML(error.message)}</p>
       `;
     }
   } else {
     imageArea.innerHTML = `
-      <p><strong>รูปภาพตัวอย่างจากลูกค้า:</strong></p>
       <p>ลูกค้าไม่ได้แนบรูปภาพ</p>
     `;
   }
@@ -560,15 +541,9 @@ async function saveCustomRequest(event) {
 
   try {
     const id = getElement('customRequestId').value;
-
-    const priceInput =
-      getElement('customQuotedPrice').value.trim();
-
-    const status =
-      getElement('customRequestStatus').value;
-
-    const adminNote =
-      getElement('customAdminNote').value.trim();
+    const priceInput = getElement('customQuotedPrice').value.trim();
+    const status = getElement('customRequestStatus').value;
+    const adminNote = getElement('customAdminNote').value.trim();
 
     const allowedStatuses = [
       'pending',
@@ -594,24 +569,19 @@ async function saveCustomRequest(event) {
     if (priceInput !== '') {
       quotedPrice = Number(priceInput);
 
-      if (
-        !Number.isFinite(quotedPrice) ||
-        quotedPrice < 0
-      ) {
+      if (!Number.isFinite(quotedPrice) || quotedPrice < 0) {
         throw new Error('กรุณาตรวจสอบราคาเสนอ');
       }
     }
 
-    const updateData = {
-      quoted_price: quotedPrice,
-      status: status,
-      admin_note: adminNote,
-      updated_at: new Date().toISOString()
-    };
-
     const { error } = await supabaseClient
       .from('custom_order_requests')
-      .update(updateData)
+      .update({
+        quoted_price: quotedPrice,
+        status,
+        admin_note: adminNote,
+        updated_at: new Date().toISOString()
+      })
       .eq('id', id);
 
     if (error) throw error;
@@ -649,9 +619,7 @@ function openProductModal(product = null) {
   form.reset();
 
   getElement('productId').value = '';
-
   getElement('imagePreview').style.display = 'none';
-
   getElement('imagePreview').removeAttribute('src');
 
   getElement('modalTitle').textContent =
@@ -659,21 +627,11 @@ function openProductModal(product = null) {
 
   if (product) {
     getElement('productId').value = product.id;
-
-    getElement('productName').value =
-      product.name || '';
-
-    getElement('productCategory').value =
-      product.category_id || '';
-
-    getElement('productDescription').value =
-      product.description || '';
-
-    getElement('productPrice').value =
-      product.price ?? 0;
-
-    getElement('productStock').value =
-      product.stock ?? 0;
+    getElement('productName').value = product.name || '';
+    getElement('productCategory').value = product.category_id || '';
+    getElement('productDescription').value = product.description || '';
+    getElement('productPrice').value = product.price ?? 0;
+    getElement('productStock').value = product.stock ?? 0;
 
     getElement('fulfillmentType').value =
       product.fulfillment_type || 'ready_to_ship';
@@ -686,9 +644,7 @@ function openProductModal(product = null) {
 
     if (product.image_url) {
       const preview = getElement('imagePreview');
-
       preview.src = product.image_url;
-
       preview.style.display = 'block';
     }
   }
@@ -712,7 +668,6 @@ function closeProductModal() {
 
 function updateProductionField() {
   const type = getElement('fulfillmentType').value;
-
   const group = getElement('productionDaysGroup');
 
   group.style.display =
@@ -727,26 +682,16 @@ function updateProductionField() {
 // =====================================
 
 async function uploadProductImage(file) {
-  const extension =
-    file.name.split('.').pop().toLowerCase();
+  const extension = file.name.split('.').pop().toLowerCase();
 
-  const allowedExtensions = [
-    'jpg',
-    'jpeg',
-    'png',
-    'webp',
-    'gif'
-  ];
+  const allowedExtensions = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
 
   if (!allowedExtensions.includes(extension)) {
     throw new Error('รองรับไฟล์ JPG, PNG, WEBP และ GIF เท่านั้น');
   }
 
-  const fileName =
-    `${crypto.randomUUID()}.${extension}`;
-
-  const filePath =
-    `products/${fileName}`;
+  const fileName = `${crypto.randomUUID()}.${extension}`;
+  const filePath = `products/${fileName}`;
 
   const { error } = await supabaseClient.storage
     .from('product-images')
@@ -778,9 +723,7 @@ async function saveProduct(event) {
 
   try {
     const id = getElement('productId').value;
-
-    const categoryId =
-      getElement('productCategory').value;
+    const categoryId = getElement('productCategory').value;
 
     const category = categoryList.find(
       item => String(item.id) === String(categoryId)
@@ -790,22 +733,14 @@ async function saveProduct(event) {
       throw new Error('กรุณาเลือกหมวดหมู่สินค้า');
     }
 
-    const name =
-      getElement('productName').value.trim();
+    const name = getElement('productName').value.trim();
 
     if (!name) {
       throw new Error('กรุณากรอกชื่อสินค้า');
     }
 
-    if (HIDDEN_PRODUCT_NAMES.includes(name)) {
-      throw new Error('ไม่สามารถใช้ชื่อสินค้านี้ในรายการร้านได้');
-    }
-
-    const price =
-      Number(getElement('productPrice').value);
-
-    const stock =
-      Number(getElement('productStock').value);
+    const price = Number(getElement('productPrice').value);
+    const stock = Number(getElement('productStock').value);
 
     if (
       !Number.isFinite(price) ||
@@ -816,11 +751,8 @@ async function saveProduct(event) {
       throw new Error('กรุณาตรวจสอบราคาและจำนวนสินค้า');
     }
 
-    const fulfillment =
-      getElement('fulfillmentType').value;
-
-    const productionDays =
-      getElement('productionDays').value;
+    const fulfillment = getElement('fulfillmentType').value;
+    const productionDays = getElement('productionDays').value;
 
     if (
       fulfillment === 'preorder' &&
@@ -839,8 +771,7 @@ async function saveProduct(event) {
       imageUrl = oldProduct?.image_url || null;
     }
 
-    const imageFile =
-      getElement('productImage').files[0];
+    const imageFile = getElement('productImage').files[0];
 
     if (imageFile) {
       if (!imageFile.type.startsWith('image/')) {
@@ -855,21 +786,17 @@ async function saveProduct(event) {
     }
 
     const productData = {
-      name: name,
+      name,
       category_id: category.id,
       category: category.name,
-      description:
-        getElement('productDescription').value.trim(),
-      price: price,
-      stock: stock,
+      description: getElement('productDescription').value.trim(),
+      price,
+      stock,
       image_url: imageUrl,
       fulfillment_type: fulfillment,
       production_days:
-        fulfillment === 'preorder'
-          ? Number(productionDays)
-          : null,
-      is_active:
-        getElement('productActive').value === 'true'
+        fulfillment === 'preorder' ? Number(productionDays) : null,
+      is_active: getElement('productActive').value === 'true'
     };
 
     if (id) {
@@ -910,9 +837,7 @@ async function saveProduct(event) {
 // =====================================
 
 async function handleProductAction(event) {
-  const button = event.target.closest(
-    'button[data-action]'
-  );
+  const button = event.target.closest('button[data-action]');
 
   if (!button) return;
 
@@ -943,9 +868,7 @@ async function handleProductAction(event) {
     try {
       const { error } = await supabaseClient
         .from('products')
-        .update({
-          is_active: newStatus
-        })
+        .update({ is_active: newStatus })
         .eq('id', id);
 
       if (error) throw error;
@@ -960,7 +883,6 @@ async function handleProductAction(event) {
 
     } catch (error) {
       showMessage('ไม่สามารถเปลี่ยนสถานะได้: ' + error.message);
-
       button.disabled = false;
     }
   }
@@ -977,16 +899,13 @@ function previewProductImage(event) {
 
   if (!file.type.startsWith('image/')) {
     showMessage('กรุณาเลือกไฟล์รูปภาพ');
-
     event.target.value = '';
-
     return;
   }
 
   const preview = getElement('imagePreview');
 
   preview.src = URL.createObjectURL(file);
-
   preview.style.display = 'block';
 }
 
@@ -996,9 +915,7 @@ function previewProductImage(event) {
 
 function setupEvents() {
   getElement('addProductButton')
-    .addEventListener('click', () => {
-      openProductModal();
-    });
+    .addEventListener('click', () => openProductModal());
 
   getElement('cancelButton')
     .addEventListener('click', closeProductModal);
@@ -1022,8 +939,6 @@ function setupEvents() {
       }
     });
 
-  // รายการคำขอสั่งทำ
-
   getElement('customRequestTable')
     .addEventListener('click', handleCustomRequestAction);
 
@@ -1031,9 +946,7 @@ function setupEvents() {
     .addEventListener('click', async () => {
       try {
         await loadCustomRequests();
-
         showMessage('รีเฟรชรายการคำขอเรียบร้อยแล้ว');
-
       } catch (error) {
         showMessage('โหลดรายการคำขอไม่สำเร็จ: ' + error.message);
       }
@@ -1052,12 +965,9 @@ function setupEvents() {
       }
     });
 
-  // ออกจากระบบ
-
   getElement('logoutButton')
     .addEventListener('click', async () => {
-      const { error } =
-        await supabaseClient.auth.signOut();
+      const { error } = await supabaseClient.auth.signOut();
 
       if (error) {
         showMessage(error.message);
@@ -1081,17 +991,12 @@ async function startDashboard() {
     if (!allowed) return;
 
     await loadCategories();
-
     await loadProducts();
-
     await loadOrders();
-
     await loadCustomRequests();
 
   } catch (error) {
-    showMessage(
-      'ไม่สามารถโหลดข้อมูลได้: ' + error.message
-    );
+    showMessage('ไม่สามารถโหลดข้อมูลได้: ' + error.message);
   }
 }
 
