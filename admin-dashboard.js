@@ -1,410 +1,795 @@
-const SUPABASE_URL = ‘https://acfrebknwxuybroilgqu.supabase.co’;
-const SUPABASE_KEY = ‘sb_publishable_UjWZN8YsBLoBTKsbQ3GZsw_A1X3lSPK’;
+// =====================================
+// BAAN KRONG NOK - ADMIN DASHBOARD
+// =====================================
+
+const SUPABASE_URL = 'https://acfrebknwxuybroilgqu.supabase.co';
+
+const SUPABASE_KEY = 'sb_publishable_UjWZN8YsBLoBTKsbQ3GZsw_A1X3lSPK';
 
 const supabaseClient = window.supabase.createClient(
-SUPABASE_URL,
-SUPABASE_KEY
+  SUPABASE_URL,
+  SUPABASE_KEY
 );
-
-const messageBox = document.getElementById(‘pageMessage’);
 
 let productList = [];
 let categoryList = [];
 
+// =====================================
+// ELEMENTS
+// =====================================
+
+const getElement = (id) => document.getElementById(id);
+
+// =====================================
+// MESSAGE
+// =====================================
+
 function showMessage(message) {
-messageBox.style.display = ‘block’;
-messageBox.textContent = message;
-window.scrollTo({top: 0, behavior: ‘smooth’});
+  const box = getElement('pageMessage');
+
+  if (!box) {
+    alert(message);
+    return;
+  }
+
+  box.style.display = 'block';
+  box.textContent = message;
+
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
 }
 
+// =====================================
+// SECURITY / HTML
+// =====================================
+
 function escapeHTML(value) {
-return String(value ?? ‘’).replace(/[&<>”’]/g, character => ({
-‘&’: ‘&’,
-‘<’: ‘<’,
-‘>’: ‘>’,
-‘”’: ‘"’,
-“’”: ‘'’
-})[character]);
+  return String(value ?? '').replace(/[&<>"']/g, character => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  })[character]);
 }
 
 function formatPrice(price) {
-return Number(price || 0).toLocaleString(‘th-TH’);
+  return Number(price || 0).toLocaleString('th-TH');
 }
 
-// ตรวจสอบสิทธิ์แอดมิน
+// =====================================
+// CHECK ADMIN
+// =====================================
+
 async function checkAdmin() {
-const {data, error} = await supabaseClient.auth.getSession();
 
-if (error || !data.session) {
-window.location.href = ‘admin-login.html’;
-return false;
+  const { data, error } =
+    await supabaseClient.auth.getSession();
+
+  if (error || !data.session) {
+    window.location.href = 'admin-login.html';
+    return false;
+  }
+
+  const { data: isAdmin, error: adminError } =
+    await supabaseClient.rpc('is_admin');
+
+  if (adminError || isAdmin !== true) {
+
+    await supabaseClient.auth.signOut();
+
+    window.location.href = 'admin-login.html';
+
+    return false;
+  }
+
+  return true;
 }
 
-const {data: isAdmin, error: adminError} =
-await supabaseClient.rpc(‘is_admin’);
+// =====================================
+// LOAD CATEGORIES
+// =====================================
 
-if (adminError || isAdmin !== true) {
-await supabaseClient.auth.signOut();
-window.location.href = ‘admin-login.html’;
-return false;
-}
-
-return true;
-}
-
-// โหลดหมวดหมู่
 async function loadCategories() {
-const {data, error} = await supabaseClient
-.from(‘categories’)
-.select(‘id,name,slug,is_active’)
-.eq(‘is_active’, true)
-.order(‘sort_order’);
 
-if (error) throw error;
+  const { data, error } = await supabaseClient
+    .from('categories')
+    .select('id,name,slug,is_active,sort_order')
+    .eq('is_active', true)
+    .order('sort_order', { ascending: true });
 
-categoryList = data || [];
+  if (error) throw error;
 
-const select = document.getElementById(‘productCategory’);
+  categoryList = data || [];
 
-select.innerHTML = ‘เลือกหมวดหมู่สินค้า’ +
-categoryList.map(category => <option value="${escapeHTML(category.id)}"> ${escapeHTML(category.name)} </option>).join(’’);
+  const select = getElement('productCategory');
+
+  select.innerHTML =
+    '<option value="">เลือกหมวดหมู่สินค้า</option>';
+
+  categoryList.forEach(category => {
+
+    const option = document.createElement('option');
+
+    option.value = category.id;
+    option.textContent = category.name;
+
+    select.appendChild(option);
+
+  });
 }
 
-// โหลดสินค้า
+// =====================================
+// LOAD PRODUCTS
+// =====================================
+
 async function loadProducts() {
-const {data, error} = await supabaseClient
-.from(‘products’)
-.select(id, name, category, category_id, description, price, image_url, stock, is_active, fulfillment_type, production_days)
-.order(‘id’, {ascending: false});
 
-if (error) throw error;
+  const { data, error } = await supabaseClient
+    .from('products')
+    .select(`
+      id,
+      name,
+      category,
+      category_id,
+      description,
+      price,
+      image_url,
+      stock,
+      is_active,
+      fulfillment_type,
+      production_days
+    `)
+    .order('id', { ascending: false });
 
-productList = data || [];
+  if (error) throw error;
 
-document.getElementById(‘productCount’).textContent =
-productList.length;
+  productList = data || [];
 
-document.getElementById(‘activeProductCount’).textContent =
-productList.filter(p => p.is_active).length;
+  getElement('productCount').textContent =
+    productList.length;
 
-const table = document.getElementById(‘productTable’);
+  getElement('activeProductCount').textContent =
+    productList.filter(p => p.is_active).length;
 
-if (!productList.length) {
-table.innerHTML = ‘ยังไม่มีสินค้า’;
-return;
+  const table = getElement('productTable');
+
+  if (productList.length === 0) {
+
+    table.innerHTML = `
+      <tr>
+        <td colspan="7">ยังไม่มีสินค้า</td>
+      </tr>
+    `;
+
+    return;
+  }
+
+  table.innerHTML = productList.map(product => {
+
+    const image = product.image_url
+      ? `<img
+          src="${escapeHTML(product.image_url)}"
+          class="product-image"
+          alt="รูปสินค้า"
+          loading="lazy"
+        >`
+      : 'ไม่มีรูป';
+
+    const fulfillment =
+      product.fulfillment_type === 'preorder'
+        ? 'พรีออเดอร์'
+        : 'พร้อมส่ง';
+
+    const status =
+      product.is_active
+        ? 'เปิดขาย'
+        : 'ปิดขาย';
+
+    const actionText =
+      product.is_active
+        ? 'ปิดขาย'
+        : 'เปิดขาย';
+
+    return `
+      <tr>
+
+        <td>${image}</td>
+
+        <td>${escapeHTML(product.name)}</td>
+
+        <td>${formatPrice(product.price)} บาท</td>
+
+        <td>${Number(product.stock || 0)}</td>
+
+        <td>${fulfillment}</td>
+
+        <td class="status">${status}</td>
+
+        <td>
+
+          <button
+            type="button"
+            class="action-btn edit-btn"
+            data-action="edit"
+            data-id="${escapeHTML(product.id)}"
+          >
+            แก้ไข
+          </button>
+
+          <button
+            type="button"
+            class="action-btn delete-btn"
+            data-action="toggle"
+            data-id="${escapeHTML(product.id)}"
+          >
+            ${actionText}
+          </button>
+
+        </td>
+
+      </tr>
+    `;
+
+  }).join('');
 }
 
-table.innerHTML = productList.map(product => <tr> <td> ${product.image_url ?`
-: ‘ไม่มีรูป’}
-  <td>${escapeHTML(product.name)}</td>
-  <td>${formatPrice(product.price)} บาท</td>
-  <td>${Number(product.stock || 0)}</td>
-  <td>
-    ${product.fulfillment_type === 'preorder'
-      ? 'พรีออเดอร์'
-      : 'พร้อมส่ง'}
-  </td>
-  <td class="status">
-    ${product.is_active ? 'เปิดขาย' : 'ปิดขาย'}
-  </td>
-  <td>
-    <button class="action-btn edit-btn"
-      data-action="edit"
-      data-id="${escapeHTML(product.id)}">
-      แก้ไข
-    </button>
-    <button class="action-btn delete-btn"
-      data-action="delete"
-      data-id="${escapeHTML(product.id)}">
-      ปิดขาย
-    </button>
-  </td>
-</tr>
+// =====================================
+// LOAD ORDERS
+// =====================================
 
-`).join(’’);
-}
-
-// โหลดคำสั่งซื้อ
 async function loadOrders() {
-const {data, error} = await supabaseClient
-.from(‘orders’)
-.select(‘id,order_number,customer_name,phone,total_amount,order_status’)
-.order(‘created_at’, {ascending: false});
 
-if (error) throw error;
+  const { data, error } = await supabaseClient
+    .from('orders')
+    .select(`
+      id,
+      order_number,
+      customer_name,
+      phone,
+      total_amount,
+      order_status
+    `)
+    .order('created_at', { ascending: false });
 
-const orders = data || [];
+  if (error) throw error;
 
-document.getElementById(‘orderCount’).textContent = orders.length;
+  const orders = data || [];
 
-document.getElementById(‘pendingOrderCount’).textContent =
-orders.filter(o => o.order_status === ‘pending_confirmation’).length;
+  getElement('orderCount').textContent =
+    orders.length;
 
-document.getElementById(‘orderTable’).innerHTML = orders.length
-? orders.map(order => <tr> <td>${escapeHTML(order.order_number)}</td> <td>${escapeHTML(order.customer_name)}</td> <td>${escapeHTML(order.phone)}</td> <td>${formatPrice(order.total_amount)} บาท</td> <td>${escapeHTML(order.order_status)}</td> </tr>).join(’’)
-: ‘ยังไม่มีคำสั่งซื้อ’;
+  getElement('pendingOrderCount').textContent =
+    orders.filter(
+      order => order.order_status === 'pending_confirmation'
+    ).length;
+
+  const table = getElement('orderTable');
+
+  if (orders.length === 0) {
+
+    table.innerHTML = `
+      <tr>
+        <td colspan="5">ยังไม่มีคำสั่งซื้อ</td>
+      </tr>
+    `;
+
+    return;
+  }
+
+  table.innerHTML = orders.map(order => `
+
+    <tr>
+
+      <td>${escapeHTML(order.order_number)}</td>
+
+      <td>${escapeHTML(order.customer_name)}</td>
+
+      <td>${escapeHTML(order.phone)}</td>
+
+      <td>${formatPrice(order.total_amount)} บาท</td>
+
+      <td>${escapeHTML(order.order_status)}</td>
+
+    </tr>
+
+  `).join('');
 }
 
-// เปิดหน้าต่างสินค้า
+// =====================================
+// OPEN PRODUCT MODAL
+// =====================================
+
 function openProductModal(product = null) {
-document.getElementById(‘productForm’).reset();
 
-document.getElementById(‘productId’).value = ‘’;
-document.getElementById(‘imagePreview’).style.display = ‘none’;
+  const form = getElement('productForm');
 
-document.getElementById(‘modalTitle’).textContent =
-product ? ‘แก้ไขสินค้า’ : ‘เพิ่มสินค้าใหม่’;
+  form.reset();
 
-if (product) {
-document.getElementById(‘productId’).value = product.id;
-document.getElementById(‘productName’).value = product.name || ‘’;
+  getElement('productId').value = '';
 
-document.getElementById('productCategory').value =
-  product.category_id || '';
-document.getElementById('productDescription').value =
-  product.description || '';
-document.getElementById('productPrice').value =
-  product.price ?? 0;
-document.getElementById('productStock').value =
-  product.stock ?? 0;
-document.getElementById('fulfillmentType').value =
-  product.fulfillment_type || 'ready_to_ship';
-document.getElementById('productionDays').value =
-  product.production_days || '';
-document.getElementById('productActive').value =
-  String(product.is_active);
-if (product.image_url) {
-  const preview = document.getElementById('imagePreview');
-  preview.src = product.image_url;
-  preview.style.display = 'block';
+  getElement('imagePreview').style.display = 'none';
+
+  getElement('imagePreview').removeAttribute('src');
+
+  getElement('modalTitle').textContent =
+    product ? 'แก้ไขสินค้า' : 'เพิ่มสินค้าใหม่';
+
+  if (product) {
+
+    getElement('productId').value = product.id;
+
+    getElement('productName').value =
+      product.name || '';
+
+    getElement('productCategory').value =
+      product.category_id || '';
+
+    getElement('productDescription').value =
+      product.description || '';
+
+    getElement('productPrice').value =
+      product.price ?? 0;
+
+    getElement('productStock').value =
+      product.stock ?? 0;
+
+    getElement('fulfillmentType').value =
+      product.fulfillment_type || 'ready_to_ship';
+
+    getElement('productionDays').value =
+      product.production_days || '';
+
+    getElement('productActive').value =
+      String(product.is_active);
+
+    if (product.image_url) {
+
+      const preview = getElement('imagePreview');
+
+      preview.src = product.image_url;
+
+      preview.style.display = 'block';
+
+    }
+
+  }
+
+  updateProductionField();
+
+  getElement('productModal').style.display = 'block';
+
 }
 
-}
+// =====================================
+// CLOSE PRODUCT MODAL
+// =====================================
 
-updateProductionField();
-
-document.getElementById(‘productModal’).style.display = ‘block’;
-}
-
-// ปิดหน้าต่าง
 function closeProductModal() {
-document.getElementById(‘productModal’).style.display = ‘none’;
+
+  getElement('productModal').style.display = 'none';
+
 }
 
-// แสดงช่องระยะเวลาผลิต
+// =====================================
+// PREORDER FIELD
+// =====================================
+
 function updateProductionField() {
-const type = document.getElementById(‘fulfillmentType’).value;
 
-document.getElementById(‘productionDaysGroup’).style.display =
-type === ‘preorder’ ? ‘block’ : ‘none’;
+  const type = getElement('fulfillmentType').value;
+
+  const group = getElement('productionDaysGroup');
+
+  group.style.display =
+    type === 'preorder' ? 'block' : 'none';
+
+  getElement('productionDays').required =
+    type === 'preorder';
+
 }
 
-// อัปโหลดรูปภาพ
+// =====================================
+// UPLOAD IMAGE
+// =====================================
+
 async function uploadProductImage(file) {
-const extension = file.name.split(’.’).pop().toLowerCase();
-const fileName =
-${crypto.randomUUID()}.${extension};
 
-const filePath = products/${fileName};
+  const extension =
+    file.name.split('.').pop().toLowerCase();
 
-const {error} = await supabaseClient.storage
-.from(‘product-images’)
-.upload(filePath, file, {
-cacheControl: ‘3600’,
-upsert: false
-});
+  const allowedExtensions = [
+    'jpg',
+    'jpeg',
+    'png',
+    'webp',
+    'gif'
+  ];
 
-if (error) throw error;
+  if (!allowedExtensions.includes(extension)) {
+    throw new Error('รองรับไฟล์ JPG, PNG, WEBP และ GIF เท่านั้น');
+  }
 
-const {data} = supabaseClient.storage
-.from(‘product-images’)
-.getPublicUrl(filePath);
+  const fileName =
+    `${crypto.randomUUID()}.${extension}`;
 
-return data.publicUrl;
+  const filePath =
+    `products/${fileName}`;
+
+  const { error } = await supabaseClient.storage
+    .from('product-images')
+    .upload(filePath, file, {
+      cacheControl: '3600',
+      upsert: false
+    });
+
+  if (error) throw error;
+
+  const { data } = supabaseClient.storage
+    .from('product-images')
+    .getPublicUrl(filePath);
+
+  return data.publicUrl;
+
 }
 
-// บันทึกสินค้า
+// =====================================
+// SAVE PRODUCT
+// =====================================
+
 async function saveProduct(event) {
-event.preventDefault();
 
-const button = document.getElementById(‘saveProductButton’);
+  event.preventDefault();
 
-button.disabled = true;
-button.textContent = ‘กำลังบันทึก…’;
+  const button = getElement('saveProductButton');
 
-try {
-const id = document.getElementById(‘productId’).value;
-const categoryId = document.getElementById(‘productCategory’).value;
+  button.disabled = true;
 
-const category = categoryList.find(
-  item => String(item.id) === String(categoryId)
-);
-if (!category) {
-  throw new Error('กรุณาเลือกหมวดหมู่สินค้า');
-}
-const fulfillment =
-  document.getElementById('fulfillmentType').value;
-const productionDays =
-  document.getElementById('productionDays').value;
-if (fulfillment === 'preorder' &&
-    (!productionDays || Number(productionDays) < 1)) {
-  throw new Error('กรุณาระบุระยะเวลาผลิตสินค้า');
-}
-const price = Number(document.getElementById('productPrice').value);
-const stock = Number(document.getElementById('productStock').value);
-if (!Number.isFinite(price) || price < 0 ||
-    !Number.isInteger(stock) || stock < 0) {
-  throw new Error('กรุณาตรวจสอบราคาและจำนวนสต็อก');
-}
-let imageUrl = id
-  ? productList.find(p => String(p.id) === String(id))?.image_url || null
-  : null;
-const imageFile = document.getElementById('productImage').files[0];
-if (imageFile) {
-  if (!imageFile.type.startsWith('image/')) {
-    throw new Error('กรุณาเลือกไฟล์รูปภาพ');
+  button.textContent = 'กำลังบันทึก...';
+
+  try {
+
+    const id = getElement('productId').value;
+
+    const categoryId =
+      getElement('productCategory').value;
+
+    const category = categoryList.find(
+      item => String(item.id) === String(categoryId)
+    );
+
+    if (!category) {
+      throw new Error('กรุณาเลือกหมวดหมู่สินค้า');
+    }
+
+    const name =
+      getElement('productName').value.trim();
+
+    if (!name) {
+      throw new Error('กรุณากรอกชื่อสินค้า');
+    }
+
+    const price =
+      Number(getElement('productPrice').value);
+
+    const stock =
+      Number(getElement('productStock').value);
+
+    if (
+      !Number.isFinite(price) ||
+      price < 0 ||
+      !Number.isInteger(stock) ||
+      stock < 0
+    ) {
+      throw new Error('กรุณาตรวจสอบราคาและจำนวนสินค้า');
+    }
+
+    const fulfillment =
+      getElement('fulfillmentType').value;
+
+    const productionDays =
+      getElement('productionDays').value;
+
+    if (
+      fulfillment === 'preorder' &&
+      (!productionDays || Number(productionDays) < 1)
+    ) {
+      throw new Error('กรุณาระบุระยะเวลาผลิตสินค้า');
+    }
+
+    let imageUrl = null;
+
+    if (id) {
+
+      const oldProduct = productList.find(
+        p => String(p.id) === String(id)
+      );
+
+      imageUrl = oldProduct?.image_url || null;
+
+    }
+
+    const imageFile =
+      getElement('productImage').files[0];
+
+    if (imageFile) {
+
+      if (!imageFile.type.startsWith('image/')) {
+        throw new Error('กรุณาเลือกไฟล์รูปภาพ');
+      }
+
+      if (imageFile.size > 5 * 1024 * 1024) {
+        throw new Error('รูปภาพต้องมีขนาดไม่เกิน 5 MB');
+      }
+
+      imageUrl = await uploadProductImage(imageFile);
+
+    }
+
+    const productData = {
+
+      name: name,
+
+      category_id: category.id,
+
+      category: category.name,
+
+      description:
+        getElement('productDescription').value.trim(),
+
+      price: price,
+
+      stock: stock,
+
+      image_url: imageUrl,
+
+      fulfillment_type: fulfillment,
+
+      production_days:
+        fulfillment === 'preorder'
+          ? Number(productionDays)
+          : null,
+
+      is_active:
+        getElement('productActive').value === 'true'
+
+    };
+
+    if (id) {
+
+      const { error } = await supabaseClient
+        .from('products')
+        .update(productData)
+        .eq('id', id);
+
+      if (error) throw error;
+
+      showMessage('แก้ไขสินค้าเรียบร้อยแล้ว');
+
+    } else {
+
+      const { error } = await supabaseClient
+        .from('products')
+        .insert([productData]);
+
+      if (error) throw error;
+
+      showMessage('เพิ่มสินค้าเรียบร้อยแล้ว');
+
+    }
+
+    closeProductModal();
+
+    await loadProducts();
+
+  } catch (error) {
+
+    showMessage('บันทึกไม่สำเร็จ: ' + error.message);
+
+  } finally {
+
+    button.disabled = false;
+
+    button.textContent = 'บันทึกสินค้า';
+
   }
-  if (imageFile.size > 5 * 1024 * 1024) {
-    throw new Error('รูปภาพต้องมีขนาดไม่เกิน 5 MB');
-  }
-  imageUrl = await uploadProductImage(imageFile);
-}
-const productData = {
-  name: document.getElementById('productName').value.trim(),
-  category_id: category.id,
-  category: category.name,
-  description: document.getElementById('productDescription').value.trim(),
-  price,
-  stock,
-  image_url: imageUrl,
-  fulfillment_type: fulfillment,
-  production_days: fulfillment === 'preorder'
-    ? Number(productionDays)
-    : null,
-  is_active:
-    document.getElementById('productActive').value === 'true'
-};
-if (id) {
-  const {error} = await supabaseClient
-    .from('products')
-    .update(productData)
-    .eq('id', id);
-  if (error) throw error;
-  showMessage('แก้ไขสินค้าเรียบร้อยแล้ว');
-} else {
-  const {error} = await supabaseClient
-    .from('products')
-    .insert([productData]);
-  if (error) throw error;
-  showMessage('เพิ่มสินค้าเรียบร้อยแล้ว');
-}
-closeProductModal();
-await loadProducts();
 
-} catch (error) {
-showMessage(’บันทึกไม่สำเร็จ: ’ + error.message);
-} finally {
-button.disabled = false;
-button.textContent = ‘บันทึกสินค้า’;
-}
 }
 
-// จัดการปุ่มแก้ไขและปิดขาย
+// =====================================
+// EDIT / ACTIVE / INACTIVE PRODUCT
+// =====================================
+
 async function handleProductAction(event) {
-const button = event.target.closest(‘button[data-action]’);
 
-if (!button) return;
+  const button = event.target.closest(
+    'button[data-action]'
+  );
 
-const id = button.dataset.id;
+  if (!button) return;
 
-const product = productList.find(
-p => String(p.id) === String(id)
-);
+  const id = button.dataset.id;
 
-if (!product) return;
+  const product = productList.find(
+    p => String(p.id) === String(id)
+  );
 
-if (button.dataset.action === ‘edit’) {
-openProductModal(product);
-return;
+  if (!product) return;
+
+  if (button.dataset.action === 'edit') {
+
+    openProductModal(product);
+
+    return;
+
+  }
+
+  if (button.dataset.action === 'toggle') {
+
+    const newStatus = !product.is_active;
+
+    const message = newStatus
+      ? `ต้องการเปิดขาย "${product.name}" หรือไม่?`
+      : `ต้องการปิดการขาย "${product.name}" หรือไม่?`;
+
+    if (!confirm(message)) return;
+
+    button.disabled = true;
+
+    try {
+
+      const { error } = await supabaseClient
+        .from('products')
+        .update({
+          is_active: newStatus
+        })
+        .eq('id', id);
+
+      if (error) throw error;
+
+      showMessage(
+        newStatus
+          ? 'เปิดขายสินค้าเรียบร้อยแล้ว'
+          : 'ปิดการขายสินค้าเรียบร้อยแล้ว'
+      );
+
+      await loadProducts();
+
+    } catch (error) {
+
+      showMessage('ไม่สามารถเปลี่ยนสถานะได้: ' + error.message);
+
+      button.disabled = false;
+
+    }
+
+  }
+
 }
 
-if (button.dataset.action === ‘delete’) {
-if (!confirm(ต้องการปิดการขาย "${product.name}" หรือไม่?)) {
-return;
+// =====================================
+// IMAGE PREVIEW
+// =====================================
+
+function previewProductImage(event) {
+
+  const file = event.target.files[0];
+
+  if (!file) return;
+
+  if (!file.type.startsWith('image/')) {
+
+    showMessage('กรุณาเลือกไฟล์รูปภาพ');
+
+    event.target.value = '';
+
+    return;
+
+  }
+
+  const preview = getElement('imagePreview');
+
+  preview.src = URL.createObjectURL(file);
+
+  preview.style.display = 'block';
+
 }
 
-const {error} = await supabaseClient
-  .from('products')
-  .update({is_active: false})
-  .eq('id', id);
-if (error) {
-  showMessage('ปิดการขายไม่สำเร็จ: ' + error.message);
-  return;
-}
-showMessage('ปิดการขายสินค้าเรียบร้อยแล้ว');
-await loadProducts();
+// =====================================
+// EVENT LISTENERS
+// =====================================
+
+function setupEvents() {
+
+  // เพิ่มสินค้า
+  getElement('addProductButton')
+    .addEventListener('click', () => {
+
+      openProductModal();
+
+    });
+
+  // ยกเลิก
+  getElement('cancelButton')
+    .addEventListener('click', closeProductModal);
+
+  // บันทึกสินค้า
+  getElement('productForm')
+    .addEventListener('submit', saveProduct);
+
+  // เลือกพร้อมส่ง / พรีออเดอร์
+  getElement('fulfillmentType')
+    .addEventListener('change', updateProductionField);
+
+  // แสดงตัวอย่างรูปภาพ
+  getElement('productImage')
+    .addEventListener('change', previewProductImage);
+
+  // จัดการสินค้า
+  getElement('productTable')
+    .addEventListener('click', handleProductAction);
+
+  // คลิกพื้นที่ด้านนอกเพื่อปิดหน้าต่าง
+  getElement('productModal')
+    .addEventListener('click', event => {
+
+      if (event.target.id === 'productModal') {
+        closeProductModal();
+      }
+
+    });
+
+  // ออกจากระบบ
+  getElement('logoutButton')
+    .addEventListener('click', async () => {
+
+      const { error } =
+        await supabaseClient.auth.signOut();
+
+      if (error) {
+
+        showMessage(error.message);
+
+        return;
+
+      }
+
+      window.location.href = 'admin-login.html';
+
+    });
 
 }
-}
 
-// ออกจากระบบ
-document.getElementById(‘logoutButton’)
-.addEventListener(‘click’, async () => {
-const {error} = await supabaseClient.auth.signOut();
+// =====================================
+// START DASHBOARD
+// =====================================
 
-if (error) {
-  showMessage(error.message);
-  return;
-}
-window.location.href = 'admin-login.html';
-
-});
-
-// ปุ่มเพิ่มสินค้า
-document.getElementById(‘addProductButton’)
-.addEventListener(‘click’, () => openProductModal());
-
-// ปุ่มยกเลิก
-document.getElementById(‘cancelButton’)
-.addEventListener(‘click’, closeProductModal);
-
-// บันทึกฟอร์ม
-document.getElementById(‘productForm’)
-.addEventListener(‘submit’, saveProduct);
-
-// เลือกประเภทสินค้า
-document.getElementById(‘fulfillmentType’)
-.addEventListener(‘change’, updateProductionField);
-
-// แสดงตัวอย่างรูป
-document.getElementById(‘productImage’)
-.addEventListener(‘change’, event => {
-const file = event.target.files[0];
-if (!file) return;
-
-const preview = document.getElementById('imagePreview');
-preview.src = URL.createObjectURL(file);
-preview.style.display = 'block';
-
-});
-
-// ปุ่มจัดการสินค้า
-document.getElementById(‘productTable’)
-.addEventListener(‘click’, handleProductAction);
-
-// เริ่มระบบ
 async function startDashboard() {
-try {
-const allowed = await checkAdmin();
 
-if (!allowed) return;
-await loadCategories();
-await loadProducts();
-await loadOrders();
+  try {
 
-} catch (error) {
-showMessage(’ไม่สามารถโหลดข้อมูลได้: ’ + error.message);
-}
+    setupEvents();
+
+    const allowed = await checkAdmin();
+
+    if (!allowed) return;
+
+    await loadCategories();
+
+    await loadProducts();
+
+    await loadOrders();
+
+  } catch (error) {
+
+    showMessage(
+      'ไม่สามารถโหลดข้อมูลได้: ' + error.message
+    );
+
+  }
+
 }
 
 startDashboard();
