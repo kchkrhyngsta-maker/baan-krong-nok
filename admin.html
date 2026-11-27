@@ -60,7 +60,7 @@ main {
   gap: 16px;
   margin-bottom: 25px;
 }
-.stat-card,.section {
+.stat-card, .section {
   background: white;
   padding: 22px;
   border-radius: 14px;
@@ -104,7 +104,7 @@ table {
   border-collapse: collapse;
   min-width: 850px;
 }
-th,td {
+th, td {
   text-align: left;
   padding: 12px;
   border-bottom: 1px solid #E5EDE3;
@@ -141,6 +141,7 @@ th {
   border-radius: 8px;
   background: #EDF4E9;
   display: none;
+  overflow-wrap: anywhere;
 }
 .modal {
   display: none;
@@ -211,9 +212,15 @@ th {
   display: none;
 }
 @media(max-width:600px) {
-  header h1 {font-size:17px;}
-  .section {padding:15px;}
-  .form-row {grid-template-columns:1fr;}
+  header h1 {
+    font-size: 17px;
+  }
+  .section {
+    padding: 15px;
+  }
+  .form-row {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
 </head>
@@ -249,25 +256,27 @@ th {
 <section class="section">
   <div class="section-header">
     <h2>📦 จัดการสินค้า</h2>
-    <button class="add-btn" id="addProductButton">
-      + เพิ่มสินค้าใหม่
-    </button>
+<button type="button" class="add-btn" id="addProductButton">
+  + เพิ่มสินค้าใหม่
+</button>
   </div>
   <div class="table-wrap">
     <table>
-      <thead>
-        <tr>
-          <th>รูปภาพ</th>
-          <th>ชื่อสินค้า</th>
-          <th>ราคา</th>
-          <th>จำนวนคงเหลือ</th>
-          <th>รูปแบบสินค้า</th>
-          <th>สถานะ</th>
-          <th>จัดการ</th>
-        </tr>
-      </thead>
+  <thead>
+    <tr>
+      <th>รูปภาพ</th>
+      <th>ชื่อสินค้า</th>
+      <th>ราคา</th>
+      <th>จำนวนคงเหลือ</th>
+      <th>รูปแบบสินค้า</th>
+      <th>สถานะ</th>
+      <th>จัดการ</th>
+    </tr>
+  </thead>
   <tbody id="productTable">
-    <tr><td colspan="7">กำลังโหลดข้อมูล...</td></tr>
+    <tr>
+      <td colspan="7">กำลังโหลดข้อมูล...</td>
+    </tr>
   </tbody>
 </table>
   </div>
@@ -276,85 +285,89 @@ th {
   <h2>🧾 รายการคำสั่งซื้อ</h2>
   <div class="table-wrap">
     <table>
-      <thead>
-        <tr>
-          <th>เลขที่คำสั่งซื้อ</th>
-          <th>ชื่อลูกค้า</th>
-          <th>เบอร์โทรศัพท์</th>
-          <th>ยอดรวม</th>
-          <th>สถานะ</th>
-        </tr>
-      </thead>
+  <thead>
+    <tr>
+      <th>เลขที่คำสั่งซื้อ</th>
+      <th>ชื่อลูกค้า</th>
+      <th>เบอร์โทรศัพท์</th>
+      <th>ยอดรวม</th>
+      <th>สถานะ</th>
+    </tr>
+  </thead>
   <tbody id="orderTable">
-    <tr><td colspan="5">กำลังโหลดข้อมูล...</td></tr>
+    <tr>
+      <td colspan="5">กำลังโหลดข้อมูล...</td>
+    </tr>
   </tbody>
 </table>
   </div>
 </section>
 </main>
-<!-- FORM ADD / EDIT PRODUCT -->
+<!-- PRODUCT MODAL -->
 <div class="modal" id="productModal">
-<div class="modal-content">
+  <div class="modal-content">
 <h2 id="modalTitle">เพิ่มสินค้าใหม่</h2>
 <form id="productForm">
-<input type="hidden" id="productId">
-<div class="form-group">
-<label>ชื่อสินค้า</label>
-<input type="text" id="productName" required>
-</div>
-<div class="form-group">
-<label>หมวดหมู่สินค้า</label>
-<select id="productCategory" required>
-<option value="">กำลังโหลดหมวดหมู่...</option>
-</select>
-</div>
-<div class="form-group">
-<label>รายละเอียดสินค้า</label>
-<textarea id="productDescription"></textarea>
-</div>
-<div class="form-row">
-<div class="form-group">
-<label>ราคา (บาท)</label>
-<input type="number" id="productPrice" min="0" step="0.01" required>
-</div>
-<div class="form-group">
-<label>จำนวนคงเหลือ</label>
-<input type="number" id="productStock" min="0" step="1" required>
-</div>
-</div>
-<div class="form-group">
-<label>รูปแบบสินค้า</label>
-<select id="fulfillmentType">
-<option value="ready_to_ship">สินค้าพร้อมส่ง</option>
-<option value="preorder">สินค้าพรีออเดอร์</option>
-</select>
-</div>
-<div class="form-group" id="productionDaysGroup" style="display:none;">
-<label>ระยะเวลาผลิต (วัน)</label>
-<input type="number" id="productionDays" min="1">
-</div>
-<div class="form-group">
-<label>รูปภาพสินค้า</label>
-<input type="file" id="productImage" accept="image/*">
-<img id="imagePreview" class="preview-image" alt="ตัวอย่างรูปสินค้า">
-</div>
-<div class="form-group">
-<label>สถานะการขาย</label>
-<select id="productActive">
-<option value="true">เปิดขาย</option>
-<option value="false">ปิดขาย</option>
-</select>
-</div>
-<button type="submit" class="save-btn" id="saveProductButton">
-บันทึกสินค้า
-</button>
-<button type="button" class="cancel-btn" id="cancelButton">
-ยกเลิก
-</button>
+  <input type="hidden" id="productId">
+  <div class="form-group">
+    <label for="productName">ชื่อสินค้า</label>
+    <input type="text" id="productName" required>
+  </div>
+  <div class="form-group">
+    <label for="productCategory">หมวดหมู่สินค้า</label>
+    <select id="productCategory" required>
+      <option value="">กำลังโหลดหมวดหมู่...</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="productDescription">รายละเอียดสินค้า</label>
+    <textarea id="productDescription"></textarea>
+  </div>
+  <div class="form-row">
+    <div class="form-group">
+      <label for="productPrice">ราคา (บาท)</label>
+      <input type="number" id="productPrice" min="0" step="0.01" required>
+    </div>
+    <div class="form-group">
+      <label for="productStock">จำนวนคงเหลือ</label>
+      <input type="number" id="productStock" min="0" step="1" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="fulfillmentType">รูปแบบสินค้า</label>
+    <select id="fulfillmentType">
+      <option value="ready_to_ship">สินค้าพร้อมส่ง</option>
+      <option value="preorder">สินค้าพรีออเดอร์</option>
+    </select>
+  </div>
+  <div class="form-group" id="productionDaysGroup" style="display:none;">
+    <label for="productionDays">ระยะเวลาผลิต (วัน)</label>
+    <input type="number" id="productionDays" min="1">
+  </div>
+  <div class="form-group">
+    <label for="productImage">รูปภาพสินค้า</label>
+    <input type="file" id="productImage" accept="image/*">
+    <img id="imagePreview" class="preview-image" alt="ตัวอย่างรูปสินค้า">
+  </div>
+  <div class="form-group">
+    <label for="productActive">สถานะการขาย</label>
+    <select id="productActive">
+      <option value="true">เปิดขาย</option>
+      <option value="false">ปิดขาย</option>
+    </select>
+  </div>
+  <button type="submit" class="save-btn" id="saveProductButton">
+    บันทึกสินค้า
+  </button>
+  <button type="button" class="cancel-btn" id="cancelButton">
+    ยกเลิก
+  </button>
 </form>
+  </div>
 </div>
-</div>
+<!-- LIBRARIES -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="admin-dashboard.js"></script>
+<!-- ADMIN JAVASCRIPT: CACHE VERSION -->
+<script src="admin-dashboard.js?v=20261127"></script>
 </body>
 </html>
