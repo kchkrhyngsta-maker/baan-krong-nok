@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>บ้านกรงนก | Baan Krong Nok</title>
   <meta name="description" content="บ้านกรงนก จำหน่ายกรงนกสวยงามทำมือ ซี่ดอกกรงนก สะพานกรงนก และรับสั่งทำตามแบบลูกค้า">
-  
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -45,7 +45,6 @@
       margin: auto;
     }
 
-    /* HEADER */
     header {
       background: #fff;
       position: sticky;
@@ -103,7 +102,6 @@
       border-radius: 25px;
     }
 
-    /* HERO */
     .hero {
       background: linear-gradient(135deg, #EDF4E9, #FAFCF7);
       padding: 85px 0;
@@ -156,7 +154,6 @@
       background: #EDF4E9;
     }
 
-    /* SECTION */
     .section {
       padding: 65px 0;
     }
@@ -174,7 +171,6 @@
       margin-bottom: 35px;
     }
 
-    /* CATEGORIES */
     .category-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -210,7 +206,6 @@
       font-size: 14px;
     }
 
-    /* PRODUCTS */
     .product-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -279,8 +274,8 @@
       padding: 25px;
     }
 
-    /* PREORDER */
-    .preorder-section {
+    .preorder-section,
+    .contact-section {
       background: #EDF4E9;
       text-align: center;
     }
@@ -300,7 +295,6 @@
       margin-bottom: 12px;
     }
 
-    /* CUSTOM ORDER */
     .custom-section {
       background: white;
     }
@@ -325,7 +319,6 @@
       margin-bottom: 20px;
     }
 
-    /* ABOUT */
     .about-box {
       max-width: 850px;
       margin: auto;
@@ -334,12 +327,6 @@
 
     .about-box p {
       color: #718273;
-    }
-
-    /* CONTACT */
-    .contact-section {
-      background: #EDF4E9;
-      text-align: center;
     }
 
     .contact-links {
@@ -362,7 +349,6 @@
       color: white;
     }
 
-    /* FOOTER */
     footer {
       background: #294C35;
       color: white;
@@ -423,8 +409,8 @@
   <header>
     <div class="container navbar">
 
-      <a href="index.html" class="brand">
-        <img src="Logo.JPG" alt="โลโก้บ้านกรงนก">
+      <a href="./" class="brand">
+        <img src="./Logo.JPG" alt="โลโก้บ้านกรงนก">
         <span>
           บ้านกรงนก
           <small>Baan Krong Nok</small>
@@ -432,12 +418,12 @@
       </a>
 
       <nav>
-        <a href="index.html">หน้าแรก</a>
-        <a href="products.html">สินค้า</a>
+        <a href="./">หน้าแรก</a>
+        <a href="./products.html">สินค้า</a>
         <a href="#custom-order">สั่งทำตามแบบ</a>
         <a href="#about">เกี่ยวกับร้าน</a>
         <a href="#contact">ติดต่อเรา</a>
-        <a href="products.html" class="nav-button">เลือกชมสินค้า</a>
+        <a href="./products.html" class="nav-button">เลือกชมสินค้า</a>
       </nav>
 
     </div>
@@ -446,7 +432,6 @@
   <!-- HERO -->
   <section class="hero">
     <div class="container">
-
       <h1>ยินดีต้อนรับสู่บ้านกรงนก</h1>
 
       <p>
@@ -455,22 +440,15 @@
       </p>
 
       <div class="hero-buttons">
-        <a href="products.html" class="btn btn-primary">
-          เลือกชมสินค้า
-        </a>
-
-        <a href="custom-order.html" class="btn btn-outline">
-          สั่งทำตามแบบ
-        </a>
+        <a href="./products.html" class="btn btn-primary">เลือกชมสินค้า</a>
+        <a href="./custom-order.html" class="btn btn-outline">สั่งทำตามแบบ</a>
       </div>
-
     </div>
   </section>
 
   <!-- CATEGORIES -->
   <section class="section" id="categories">
     <div class="container">
-
       <h2 class="section-title">หมวดหมู่สินค้า</h2>
 
       <p class="section-description">
@@ -479,33 +457,31 @@
 
       <div class="category-grid">
 
-        <a href="products.html?category=handmade-bird-cages" class="category-card">
+        <a href="./products.html?category=handmade-bird-cages" class="category-card">
           <div class="category-icon">🪺</div>
           <h3>กรงนกสวยงามทำมือ</h3>
           <p>กรงนกทำมือที่ใส่ใจในรายละเอียดและความสวยงาม</p>
         </a>
 
-        <a href="products.html?category=cage-bars" class="category-card">
+        <a href="./products.html?category=cage-bars" class="category-card">
           <div class="category-icon">🌸</div>
           <h3>ซี่ดอกกรงนก</h3>
           <p>ซี่ดอกกรงนกสำหรับตกแต่งเพิ่มความสวยงามให้กรง</p>
         </a>
 
-        <a href="products.html?category=bird-bridges" class="category-card">
+        <a href="./products.html?category=bird-bridges" class="category-card">
           <div class="category-icon">🌿</div>
           <h3>สะพานกรงนก</h3>
           <p>สะพานกรงนกสำหรับตกแต่งและประกอบเข้ากับกรง</p>
         </a>
 
       </div>
-
     </div>
   </section>
 
   <!-- FEATURED PRODUCTS -->
   <section class="section" id="products">
     <div class="container">
-
       <h2 class="section-title">สินค้าแนะนำ</h2>
 
       <p class="section-description">
@@ -517,18 +493,14 @@
       </div>
 
       <div style="text-align:center;margin-top:30px;">
-        <a href="products.html" class="btn btn-primary">
-          ดูสินค้าทั้งหมด
-        </a>
+        <a href="./products.html" class="btn btn-primary">ดูสินค้าทั้งหมด</a>
       </div>
-
     </div>
   </section>
 
   <!-- PREORDER -->
   <section class="section preorder-section">
     <div class="container preorder-box">
-
       <h2>สินค้าทุกชิ้นเป็นแบบพรีออเดอร์</h2>
 
       <p>
@@ -540,19 +512,14 @@
         ลูกค้าสามารถสอบถามรายละเอียดและระยะเวลาผลิตก่อนสั่งซื้อได้
       </p>
 
-      <a href="products.html" class="btn btn-primary">
-        เลือกชมสินค้า
-      </a>
-
+      <a href="./products.html" class="btn btn-primary">เลือกชมสินค้า</a>
     </div>
   </section>
 
   <!-- CUSTOM ORDER -->
   <section class="section custom-section" id="custom-order">
     <div class="container">
-
       <div class="custom-box">
-
         <h2>บริการรับสั่งทำตามแบบลูกค้า</h2>
 
         <p>
@@ -565,19 +532,14 @@
           เพื่อให้ทางร้านตรวจสอบและเสนอราคา
         </p>
 
-        <a href="custom-order.html" class="btn btn-primary">
-          ส่งคำขอสั่งทำ
-        </a>
-
+        <a href="./custom-order.html" class="btn btn-primary">ส่งคำขอสั่งทำ</a>
       </div>
-
     </div>
   </section>
 
   <!-- ABOUT -->
   <section class="section" id="about">
     <div class="container about-box">
-
       <h2 class="section-title">เกี่ยวกับบ้านกรงนก</h2>
 
       <p>
@@ -586,14 +548,12 @@
         พร้อมบริการรับสั่งทำตามแบบที่ลูกค้าต้องการ
         เราใส่ใจในรายละเอียดของสินค้าและความต้องการของลูกค้า
       </p>
-
     </div>
   </section>
 
   <!-- CONTACT -->
   <section class="section contact-section" id="contact">
     <div class="container">
-
       <h2 class="section-title">ติดต่อบ้านกรงนก</h2>
 
       <p class="section-description">
@@ -601,7 +561,6 @@
       </p>
 
       <div class="contact-links">
-
         <a href="https://www.facebook.com/napawan.chaijinda.9?" target="_blank" rel="noopener">
           💙 Facebook
         </a>
@@ -613,9 +572,7 @@
         <a href="tel:0889732402">
           📞 088-973-2402
         </a>
-
       </div>
-
     </div>
   </section>
 
@@ -640,12 +597,20 @@
       SUPABASE_KEY
     );
 
-    async function loadFeaturedProducts() {
+    function escapeHTML(value) {
+      return String(value ?? '').replace(/[&<>"']/g, char => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+      })[char]);
+    }
 
+    async function loadFeaturedProducts() {
       const container = document.getElementById('featuredProducts');
 
       try {
-
         const { data, error } = await supabaseClient
           .from('products')
           .select('id,name,price,image_url,fulfillment_type,production_days')
@@ -666,12 +631,10 @@
         }
 
         container.innerHTML = data.map(product => {
-
           const image = product.image_url ||
             'https://placehold.co/600x400?text=Baan+Krong+Nok';
 
-          const price = Number(product.price || 0)
-            .toLocaleString('th-TH');
+          const price = Number(product.price || 0).toLocaleString('th-TH');
 
           const production = product.production_days
             ? `ระยะเวลาผลิตประมาณ ${product.production_days} วัน`
@@ -679,8 +642,7 @@
 
           return `
             <div class="product-card">
-
-              <a href="product-detail.html?id=${product.id}">
+              <a href="./product-detail.html?id=${encodeURIComponent(product.id)}">
                 <img
                   src="${escapeHTML(image)}"
                   alt="${escapeHTML(product.name)}"
@@ -689,61 +651,40 @@
               </a>
 
               <div class="product-info">
-
                 <h3>${escapeHTML(product.name)}</h3>
 
-                <div class="product-price">
-                  ฿${price}
-                </div>
+                <div class="product-price">฿${price}</div>
 
-                <span class="preorder-label">
-                  พรีออเดอร์
-                </span>
+                <span class="preorder-label">พรีออเดอร์</span>
 
                 <p style="font-size:13px;color:#718273;">
                   ${escapeHTML(production)}
                 </p>
 
                 <a
-                  href="product-detail.html?id=${product.id}"
+                  href="./product-detail.html?id=${encodeURIComponent(product.id)}"
                   class="product-button"
                 >
                   ดูรายละเอียดสินค้า
                 </a>
-
               </div>
-
             </div>
           `;
-
         }).join('');
 
       } catch (error) {
-
         console.error('Product loading error:', error);
 
         container.innerHTML = `
           <p class="empty-message">
             ไม่สามารถโหลดข้อมูลสินค้าได้ในขณะนี้
-            กรุณาเลือกชมสินค้าทั้งหมด
             <br>
-            <a href="products.html" style="color:#39764A;">
+            <a href="./products.html" style="color:#39764A;">
               ไปยังหน้าสินค้า
             </a>
           </p>
         `;
-
       }
-    }
-
-    function escapeHTML(value) {
-      return String(value ?? '').replace(/[&<>"']/g, char => ({
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#39;'
-      })[char]);
     }
 
     loadFeaturedProducts();
