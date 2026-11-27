@@ -6,7 +6,6 @@
   <title>สินค้าทั้งหมด | บ้านกรงนก</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
@@ -159,6 +158,12 @@
       margin-bottom: 12px;
     }
 
+    .production {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 12px;
+    }
+
     .detail-button {
       display: block;
       text-align: center;
@@ -179,6 +184,13 @@
       padding: 35px 15px;
       color: #666;
       grid-column: 1 / -1;
+    }
+
+    .error-detail {
+      font-size: 13px;
+      color: #B3261E;
+      margin-top: 10px;
+      overflow-wrap: anywhere;
     }
 
     footer {
@@ -252,117 +264,142 @@
 </footer>
 
 <script>
-  const SUPABASE_URL = 'https://acfrebknwxuybroilgqu.supabase.co';
+  const SUPABASE_URL =
+    'https://acfrebknwxuybroilgqu.supabase.co';
 
   const SUPABASE_KEY =
-    'sb_publishable_UjWZN8YsBLoBTKsbQG3Zsw_A1X3lSPK';
-
-  const db = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
+    'sb_publishable_UjWZN8YsBLoBTKsbQ3GZsw_A1X3lSPK';
 
   const productGrid = document.getElementById('productGrid');
-  const categoryButtons = document.querySelectorAll('.category-button');
 
+  const categoryButtons =
+    document.querySelectorAll('.category-button');
+
+  let db = null;
   let allProducts = [];
   let selectedCategory = 'all';
 
   async function loadProducts() {
+
     productGrid.innerHTML =
       '<div class="message">กำลังโหลดสินค้า...</div>';
 
-    const { data, error } = await db
-      .from('products')
-      .select(`
-        id,
-        name,
-        category_id,
-        description,
-        price,
-        image_url,
-        is_active,
-        fulfillment_type,
-        production_days
-      `)
-      .eq('is_active', true)
-      .order('id', { ascending: true });
+    try {
 
-    if (error) {
-      console.error('โหลดสินค้าไม่สำเร็จ:', error);
+      if (!window.supabase) {
+        throw new Error('ไม่สามารถโหลด Supabase Library ได้');
+      }
 
-      productGrid.innerHTML =
-        '<div class="message">ไม่สามารถโหลดสินค้าได้ กรุณาลองใหม่อีกครั้ง</div>';
+      if (!db) {
+        db = window.supabase.createClient(
+          SUPABASE_URL,
+          SUPABASE_KEY
+        );
+      }
 
-      return;
+      const { data, error } = await db
+        .from('products')
+        .select('id,name,category_id,description,price,image_url,is_active,fulfillment_type,production_days')
+        .eq('is_active', true)
+        .order('id', { ascending: true });
+
+      if (error) {
+        throw error;
+      }
+
+      allProducts = (data || []).filter(product => {
+
+        // แสดงเฉพาะ 3 หมวดหมู่ของร้าน
+        return [1, 2, 21].includes(
+          Number(product.category_id)
+        );
+
+      });
+
+      showProducts();
+
+    } catch (error) {
+
+      console.error('ข้อผิดพลาดในการโหลดสินค้า:', error);
+
+      productGrid.innerHTML = `
+        <div class="message">
+          <h3>ไม่สามารถโหลดสินค้าได้</h3>
+          <p>รายละเอียดข้อผิดพลาด:</p>
+          <p class="error-detail">
+            ${escapeHTML(error.message || String(error))}
+          </p>
+          <button
+            onclick="loadProducts()"
+            class="category-button"
+            style="margin-top:15px"
+          >
+            ลองโหลดอีกครั้ง
+          </button>
+        </div>
+      `;
     }
-
-    const allowedProducts = [
-      'กรงนกไม้หวายทรงกลม',
-      'กรงนกแขวนลายสวยงาม',
-      'ซี่ดอกกรงนกลายดอกไม้'
-    ];
-
-    allProducts = (data || []).filter(product =>
-      allowedProducts.includes(product.name)
-    );
-
-    showProducts();
   }
 
   function showProducts() {
+
     let products = allProducts;
 
     if (selectedCategory !== 'all') {
+
       products = products.filter(product =>
         String(product.category_id) === selectedCategory
       );
+
     }
 
     if (products.length === 0) {
+
       productGrid.innerHTML = `
         <div class="message">
           ยังไม่มีสินค้าในหมวดหมู่นี้
         </div>
       `;
+
       return;
     }
 
     productGrid.innerHTML = products.map(product => {
 
-      const image = product.image_url
-        ? product.image_url
-        : '';
+      const image = product.image_url || '';
 
-      const price = Number(product.price).toLocaleString('th-TH');
+      const price = product.price !== null &&
+                    product.price !== ''
+        ? '฿' + Number(product.price).toLocaleString('th-TH')
+        : 'สอบถามราคา';
 
       const production = product.production_days
-        ? `<p>ระยะเวลาผลิตประมาณ ${product.production_days} วัน</p>`
+        ? `<p class="production">ระยะเวลาผลิตประมาณ ${Number(product.production_days)} วัน</p>`
         : '';
 
       return `
         <article class="product-card">
 
-          <img
-            src="${escapeHTML(image)}"
-            alt="${escapeHTML(product.name)}"
-            class="product-image"
-            onerror="this.style.display='none'"
-          >
+          ${image ? `
+            <img
+              src="${escapeHTML(image)}"
+              alt="${escapeHTML(product.name)}"
+              class="product-image"
+              onerror="this.style.display='none'"
+            >
+          ` : ''}
 
           <div class="product-info">
 
             <h3>${escapeHTML(product.name)}</h3>
 
             <p class="description">
-              ${escapeHTML(product.description || 'สินค้าจากร้านบ้านกรงนก')}
+              ${escapeHTML(
+                product.description || 'สินค้าจากร้านบ้านกรงนก'
+              )}
             </p>
 
-            <p class="price">
-              ${product.price !== null
-                ? '฿' + price
-                : 'สอบถามราคา'}
-            </p>
+            <p class="price">${price}</p>
 
             <span class="preorder">สินค้าพรีออเดอร์</span>
 
@@ -376,12 +413,15 @@
             </a>
 
           </div>
+
         </article>
       `;
+
     }).join('');
   }
 
   function escapeHTML(value) {
+
     return String(value).replace(/[&<>"']/g, char => ({
       '&': '&amp;',
       '<': '&lt;',
@@ -389,9 +429,11 @@
       '"': '&quot;',
       "'": '&#039;'
     })[char]);
+
   }
 
   categoryButtons.forEach(button => {
+
     button.addEventListener('click', () => {
 
       categoryButtons.forEach(item =>
@@ -403,7 +445,9 @@
       selectedCategory = button.dataset.category;
 
       showProducts();
+
     });
+
   });
 
   loadProducts();
