@@ -1,37 +1,30 @@
 <!DOCTYPE html>
-
 <html lang="th">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>ระบบผู้ดูแลร้านค้า | บ้านกรงนก</title>
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
   <style>
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
-
     body {
       font-family: 'Kanit', sans-serif;
       background: #F4F7F1;
       color: #294C35;
     }
-
-    button,
-    input,
-    select,
-    textarea {
+    button, input, select, textarea {
       font-family: inherit;
       font-size: 14px;
     }
-
+    button {
+      cursor: pointer;
+    }
     .topbar {
       background: #294C35;
       color: white;
@@ -42,45 +35,36 @@
       gap: 15px;
       flex-wrap: wrap;
     }
-
     .brand {
       font-size: 21px;
       font-weight: 600;
     }
-
     .logout-btn {
       border: 1px solid white;
       background: transparent;
       color: white;
       padding: 9px 18px;
       border-radius: 8px;
-      cursor: pointer;
     }
-
     .logout-btn:hover {
       background: white;
       color: #294C35;
     }
-
     .container {
       width: 92%;
       max-width: 1250px;
       margin: 30px auto;
     }
-
     .welcome {
       margin-bottom: 25px;
     }
-
     .welcome h1 {
       font-size: 27px;
       margin-bottom: 5px;
     }
-
     .welcome p {
       color: #718174;
     }
-
     .message {
       display: none;
       background: #E5F3E4;
@@ -90,14 +74,12 @@
       margin-bottom: 20px;
       border: 1px solid #C5DFC6;
     }
-
     .stats {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 17px;
       margin-bottom: 28px;
     }
-
     .stat-card {
       background: white;
       padding: 22px;
@@ -105,17 +87,14 @@
       box-shadow: 0 3px 12px rgba(0,0,0,0.05);
       border-left: 5px solid #39764A;
     }
-
     .stat-card p {
       color: #718174;
       margin-bottom: 8px;
     }
-
     .stat-card h2 {
       font-size: 30px;
       color: #294C35;
     }
-
     .section {
       background: white;
       padding: 23px;
@@ -123,7 +102,6 @@
       margin-bottom: 25px;
       box-shadow: 0 3px 12px rgba(0,0,0,0.05);
     }
-
     .section-header {
       display: flex;
       justify-content: space-between;
@@ -132,64 +110,79 @@
       flex-wrap: wrap;
       margin-bottom: 20px;
     }
-
     .section-header h2 {
       font-size: 21px;
     }
-
     .primary-btn {
       background: #39764A;
       color: white;
       border: none;
       padding: 10px 17px;
       border-radius: 8px;
-      cursor: pointer;
     }
-
     .primary-btn:hover {
       background: #28613B;
     }
-
     .refresh-btn {
       background: #EDF4E9;
       color: #28613B;
       border: 1px solid #C9DCC7;
       padding: 9px 15px;
       border-radius: 8px;
-      cursor: pointer;
     }
-
+    /* CATEGORY FILTER */
+    .category-filter {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 18px 0 22px;
+    }
+    .category-btn {
+      background: #EDF4E9;
+      color: #294C35;
+      border: 1px solid #C9DCC7;
+      padding: 11px 17px;
+      border-radius: 9px;
+      transition: 0.2s;
+    }
+    .category-btn:hover {
+      background: #DCEBDD;
+    }
+    .category-btn.active {
+      background: #39764A;
+      color: white;
+      border-color: #39764A;
+    }
+    .category-description {
+      color: #718174;
+      font-size: 13px;
+      margin: -10px 0 15px;
+    }
     .table-wrapper {
       width: 100%;
       overflow-x: auto;
     }
-
     table {
       width: 100%;
       border-collapse: collapse;
       min-width: 700px;
     }
-
-    th,
-    td {
+    th, td {
       padding: 13px 12px;
       border-bottom: 1px solid #E8EEE5;
       text-align: left;
       vertical-align: middle;
       font-size: 14px;
     }
-
     th {
       background: #EDF4E9;
       color: #294C35;
       font-weight: 500;
       white-space: nowrap;
     }
-
     td {
       color: #4E5E51;
     }
-
     .product-image {
       width: 65px;
       height: 65px;
@@ -197,42 +190,33 @@
       border-radius: 8px;
       border: 1px solid #E5EAE2;
     }
-
     .action-btn {
       border: none;
       padding: 7px 11px;
       border-radius: 6px;
-      cursor: pointer;
       margin: 2px;
     }
-
     .edit-btn {
       background: #E7F0FA;
       color: #28609A;
     }
-
     .delete-btn {
       background: #FCEEEA;
       color: #B34D35;
     }
-
     .view-btn {
       background: #EDF4E9;
       color: #28613B;
     }
-
     .status {
       font-weight: 500;
     }
-
     .empty {
       text-align: center;
       padding: 25px;
       color: #89958A;
     }
-
     /* MODAL */
-
     .modal {
       display: none;
       position: fixed;
@@ -242,7 +226,6 @@
       padding: 20px;
       overflow-y: auto;
     }
-
     .modal-content {
       background: white;
       width: 100%;
@@ -251,22 +234,18 @@
       padding: 25px;
       border-radius: 14px;
     }
-
     .modal-content h2 {
       margin-bottom: 20px;
       color: #294C35;
     }
-
     .form-group {
       margin-bottom: 15px;
     }
-
     .form-group label {
       display: block;
       margin-bottom: 6px;
       font-weight: 500;
     }
-
     .form-group input,
     .form-group select,
     .form-group textarea {
@@ -277,49 +256,40 @@
       outline: none;
       background: white;
     }
-
     .form-group input:focus,
     .form-group select:focus,
     .form-group textarea:focus {
       border-color: #39764A;
     }
-
     .form-group textarea {
       min-height: 90px;
       resize: vertical;
     }
-
     .form-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 15px;
     }
-
     .modal-actions {
       display: flex;
       justify-content: flex-end;
       gap: 10px;
       margin-top: 20px;
     }
-
     .cancel-btn {
       background: #E9EDE7;
       color: #4C594D;
       border: none;
       padding: 10px 18px;
       border-radius: 8px;
-      cursor: pointer;
     }
-
     .save-btn {
       background: #39764A;
       color: white;
       border: none;
       padding: 10px 20px;
       border-radius: 8px;
-      cursor: pointer;
     }
-
     #imagePreview {
       display: none;
       max-width: 180px;
@@ -328,7 +298,6 @@
       margin-top: 12px;
       border-radius: 8px;
     }
-
     .custom-reference-image {
       display: block;
       max-width: 100%;
@@ -338,133 +307,139 @@
       border-radius: 9px;
       border: 1px solid #DCE5D9;
     }
-
     #customRequestDetails {
       line-height: 1.9;
       overflow-wrap: anywhere;
     }
-
     #customRequestDetails p {
       margin-bottom: 9px;
     }
-
     @media (max-width: 850px) {
       .stats {
         grid-template-columns: repeat(2, 1fr);
       }
     }
-
     @media (max-width: 550px) {
       .container {
         width: 94%;
         margin: 20px auto;
       }
-
       .stats {
         grid-template-columns: 1fr 1fr;
         gap: 10px;
       }
-
       .stat-card {
         padding: 15px;
       }
-
       .stat-card h2 {
         font-size: 24px;
       }
-
       .section {
         padding: 15px;
       }
-
       .welcome h1 {
         font-size: 22px;
       }
-
       .form-row {
         grid-template-columns: 1fr;
         gap: 0;
       }
-
       .modal-content {
         padding: 18px;
         margin: 10px auto;
       }
+      .category-filter {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+      .category-btn {
+        width: 100%;
+        padding: 10px 6px;
+      }
     }
   </style>
-
 </head>
-
 <body>
-
-  <!-- HEADER -->
-
   <header class="topbar">
     <div class="brand">
       🐦 บ้านกรงนก | ระบบผู้ดูแลร้านค้า
     </div>
-
 <button type="button" class="logout-btn" id="logoutButton">
   ออกจากระบบ
 </button>
-
   </header>
-
   <main class="container">
-
-<!-- MESSAGE -->
-
 <div id="pageMessage" class="message"></div>
-
-<!-- WELCOME -->
-
 <section class="welcome">
   <h1>แดชบอร์ดจัดการร้านค้า</h1>
   <p>ยินดีต้อนรับเข้าสู่ระบบจัดการร้านบ้านกรงนก</p>
 </section>
-
 <!-- STATISTICS -->
-
 <section class="stats">
-
   <div class="stat-card">
     <p>สินค้าทั้งหมด</p>
     <h2 id="productCount">0</h2>
   </div>
-
   <div class="stat-card">
     <p>สินค้าพร้อมจำหน่าย</p>
     <h2 id="activeProductCount">0</h2>
   </div>
-
   <div class="stat-card">
     <p>คำสั่งซื้อทั้งหมด</p>
     <h2 id="orderCount">0</h2>
   </div>
-
   <div class="stat-card">
     <p>คำสั่งซื้อรอยืนยัน</p>
     <h2 id="pendingOrderCount">0</h2>
   </div>
-
 </section>
-
 <!-- PRODUCTS -->
-
 <section class="section">
-
   <div class="section-header">
     <h2>📦 จัดการสินค้า</h2>
-
     <button
       type="button"
       class="primary-btn"
-      id="addProductButton"
-    >
+      id="addProductButton">
       + เพิ่มสินค้าใหม่
     </button>
   </div>
-
+  <!-- CATEGORY BUTTONS -->
+  <div class="category-filter" id="categoryFilter">
+    <button
+      type="button"
+      class="category-btn active"
+      data-category="all">
+      📦 สินค้าทั้งหมด
+    </button>
+    <button
+      type="button"
+      class="category-btn"
+      data-category="1">
+      🐦 กรงนกสวยงาม
+    </button>
+    <button
+      type="button"
+      class="category-btn"
+      data-category="2">
+      🌸 ซี่ดอกกรงนก
+    </button>
+    <button
+      type="button"
+      class="category-btn"
+      data-category="3">
+      🧩 ส่วนประกอบกรงนก
+    </button>
+    <button
+      type="button"
+      class="category-btn"
+      data-category="4">
+      🌉 สะพานกรงนก
+    </button>
+  </div>
+  <p class="category-description" id="categoryDescription">
+    กำลังแสดงสินค้าทั้งหมด
+  </p>
   <div class="table-wrapper">
     <table>
       <thead>
@@ -478,7 +453,6 @@
           <th>จัดการ</th>
         </tr>
       </thead>
-
       <tbody id="productTable">
         <tr>
           <td colspan="7" class="empty">
@@ -488,17 +462,12 @@
       </tbody>
     </table>
   </div>
-
 </section>
-
 <!-- ORDERS -->
-
 <section class="section">
-
   <div class="section-header">
     <h2>🧾 รายการคำสั่งซื้อ</h2>
   </div>
-
   <div class="table-wrapper">
     <table>
       <thead>
@@ -510,7 +479,6 @@
           <th>สถานะ</th>
         </tr>
       </thead>
-
       <tbody id="orderTable">
         <tr>
           <td colspan="5" class="empty">
@@ -520,25 +488,18 @@
       </tbody>
     </table>
   </div>
-
 </section>
-
 <!-- CUSTOM REQUESTS -->
-
 <section class="section">
-
   <div class="section-header">
     <h2>🛠️ รายการคำขอสั่งทำสินค้า</h2>
-
     <button
       type="button"
       class="refresh-btn"
-      id="refreshCustomRequestsButton"
-    >
+      id="refreshCustomRequestsButton">
       รีเฟรชรายการ
     </button>
   </div>
-
   <div class="table-wrapper">
     <table>
       <thead>
@@ -553,7 +514,6 @@
           <th>รายละเอียด</th>
         </tr>
       </thead>
-
       <tbody id="customRequestTable">
         <tr>
           <td colspan="8" class="empty">
@@ -563,50 +523,43 @@
       </tbody>
     </table>
   </div>
-
 </section>
-
   </main>
-
   <!-- PRODUCT MODAL -->
-
   <div class="modal" id="productModal">
-
 <div class="modal-content">
-
   <h2 id="modalTitle">เพิ่มสินค้าใหม่</h2>
-
   <form id="productForm">
-
     <input type="hidden" id="productId">
-
     <div class="form-group">
       <label for="productName">ชื่อสินค้า</label>
       <input
         type="text"
         id="productName"
         required
-        placeholder="กรอกชื่อสินค้า"
-      >
+        placeholder="กรอกชื่อสินค้า">
     </div>
-
+    <div class="form-group">
+      <label for="productNameEn">ชื่อสินค้า (ภาษาอังกฤษ)</label>
+      <input
+        type="text"
+        id="productNameEn"
+        placeholder="กรอกชื่อภาษาอังกฤษ (ถ้ามี)">
+    </div>
     <div class="form-group">
       <label for="productCategory">หมวดหมู่สินค้า</label>
       <select id="productCategory" required>
         <option value="">กำลังโหลดหมวดหมู่...</option>
       </select>
     </div>
-
     <div class="form-group">
       <label for="productDescription">รายละเอียดสินค้า</label>
       <textarea
         id="productDescription"
-        placeholder="รายละเอียดสินค้า"
-      ></textarea>
+        placeholder="รายละเอียดสินค้า">
+      </textarea>
     </div>
-
     <div class="form-row">
-
       <div class="form-group">
         <label for="productPrice">ราคา (บาท)</label>
         <input
@@ -614,11 +567,8 @@
           id="productPrice"
           min="0"
           step="0.01"
-          value="0"
-          required
-        >
+          placeholder="เว้นว่างหากยังไม่กำหนดราคา">
       </div>
-
       <div class="form-group">
         <label for="productStock">จำนวนสินค้า</label>
         <input
@@ -627,53 +577,41 @@
           min="0"
           step="1"
           value="0"
-          required
-        >
+          required>
       </div>
-
     </div>
-
     <div class="form-group">
       <label for="fulfillmentType">รูปแบบสินค้า</label>
       <select id="fulfillmentType" required>
-        <option value="ready_to_ship">พร้อมส่ง</option>
         <option value="preorder">พรีออเดอร์</option>
+        <option value="ready_stock">พร้อมส่ง</option>
+        <option value="custom">สั่งทำตามแบบ</option>
       </select>
     </div>
-
     <div
       class="form-group"
       id="productionDaysGroup"
-      style="display:none;"
-    >
+      style="display:none;">
       <label for="productionDays">
         ระยะเวลาผลิตสินค้า (วัน)
       </label>
-
       <input
         type="number"
         id="productionDays"
         min="1"
-        placeholder="เช่น 7"
-      >
+        placeholder="กรอกจำนวนวัน">
     </div>
-
     <div class="form-group">
       <label for="productImage">รูปภาพสินค้า</label>
       <input
         type="file"
         id="productImage"
-        accept="image/jpeg,image/png,image/webp,image/gif"
-      >
-
+        accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp">
       <img
         id="imagePreview"
-        alt="ตัวอย่างรูปสินค้า"
-      >
-
-      <small>รองรับ JPG, PNG, WEBP และ GIF ขนาดไม่เกิน 5 MB</small>
+        alt="ตัวอย่างรูปสินค้า">
+      <small>รองรับ JPG, PNG และ WEBP ขนาดไม่เกิน 5 MB</small>
     </div>
-
     <div class="form-group">
       <label for="productActive">สถานะสินค้า</label>
       <select id="productActive" required>
@@ -681,126 +619,87 @@
         <option value="true">เปิดขาย</option>
       </select>
     </div>
-
     <div class="modal-actions">
-
       <button
         type="button"
         class="cancel-btn"
-        id="cancelButton"
-      >
+        id="cancelButton">
         ยกเลิก
       </button>
-
       <button
         type="submit"
         class="save-btn"
-        id="saveProductButton"
-      >
+        id="saveProductButton">
         บันทึกสินค้า
       </button>
-
     </div>
-
   </form>
-
 </div>
-
   </div>
-
   <!-- CUSTOM REQUEST MODAL -->
-
   <div class="modal" id="customRequestModal">
-
 <div class="modal-content">
-
   <h2>รายละเอียดคำขอสั่งทำสินค้า</h2>
-
   <div id="customRequestDetails">
     กำลังโหลดรายละเอียด...
   </div>
-
   <hr style="margin:20px 0;border:0;border-top:1px solid #E5EAE2;">
-
   <form id="customRequestForm">
-
     <input type="hidden" id="customRequestId">
-
     <div class="form-group">
       <label for="customQuotedPrice">
         ราคาเสนอ (บาท)
       </label>
-
       <input
         type="number"
         id="customQuotedPrice"
         min="0"
         step="0.01"
-        placeholder="กรอกราคาเสนอ"
-      >
+        placeholder="กรอกราคาเสนอ">
     </div>
-
     <div class="form-group">
       <label for="customRequestStatus">
         สถานะคำขอ
       </label>
-
       <select id="customRequestStatus" required>
         <option value="pending">รอตรวจสอบ</option>
         <option value="reviewing">กำลังตรวจสอบ</option>
         <option value="quoted">เสนอราคาแล้ว</option>
-        <option value="approved">ลูกค้าอนุมัติ</option>
-        <option value="in_production">กำลังผลิต</option>
-        <option value="completed">เสร็จสิ้น</option>
+        <option value="accepted">ลูกค้ายอมรับราคา</option>
         <option value="rejected">ไม่รับคำขอ</option>
+        <option value="completed">เสร็จสิ้น</option>
         <option value="cancelled">ยกเลิก</option>
       </select>
     </div>
-
     <div class="form-group">
       <label for="customAdminNote">
         หมายเหตุจากร้าน
       </label>
-
       <textarea
         id="customAdminNote"
-        placeholder="กรอกหมายเหตุเพิ่มเติม"
-      ></textarea>
+        placeholder="กรอกหมายเหตุเพิ่มเติม">
+      </textarea>
     </div>
-
     <div class="modal-actions">
-
       <button
         type="button"
         class="cancel-btn"
-        id="closeCustomRequestButton"
-      >
+        id="closeCustomRequestButton">
         ปิด
       </button>
-
       <button
         type="submit"
         class="save-btn"
-        id="saveCustomRequestButton"
-      >
+        id="saveCustomRequestButton">
         บันทึกข้อมูลคำขอ
       </button>
-
     </div>
-
   </form>
-
 </div>
-
   </div>
-
   <!-- SUPABASE -->
-
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
   <!-- ADMIN DASHBOARD -->
-
-  <script src="admin-dashboard.js?v=20261128-2"></script>
-
+  <script src="admin-dashboard.js?v=20261128-3"></script>
 </body>
 </html>
