@@ -21,6 +21,7 @@
       font-family: 'Kanit', sans-serif;
       background: #FAFCF7;
       color: #294C35;
+      line-height: 1.7;
     }
 
     header {
@@ -58,6 +59,11 @@
       margin-bottom: 25px;
       color: #39764A;
       text-decoration: none;
+      font-size: 15px;
+    }
+
+    .back-button:hover {
+      text-decoration: underline;
     }
 
     .product-detail {
@@ -70,17 +76,32 @@
       box-shadow: 0 3px 15px rgba(0,0,0,0.07);
     }
 
+    .image-wrapper {
+      width: 100%;
+    }
+
     .product-image {
       width: 100%;
       height: 380px;
       object-fit: cover;
       border-radius: 14px;
       background: #EDF4E9;
+      display: block;
+    }
+
+    .no-image {
+      height: 380px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #EDF4E9;
+      border-radius: 14px;
+      color: #777;
     }
 
     .product-info h2 {
       font-size: 27px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .category {
@@ -109,6 +130,7 @@
       padding: 7px 15px;
       border-radius: 20px;
       margin-bottom: 15px;
+      font-size: 14px;
     }
 
     .production {
@@ -119,6 +141,7 @@
     .contact-title {
       margin-top: 20px;
       margin-bottom: 12px;
+      font-size: 19px;
     }
 
     .contact-button {
@@ -133,7 +156,7 @@
     }
 
     .contact-button:hover {
-      background: #28613B;
+      opacity: 0.9;
     }
 
     .facebook {
@@ -151,6 +174,13 @@
       grid-column: 1 / -1;
     }
 
+    .error {
+      color: #B3261E;
+      font-size: 14px;
+      overflow-wrap: anywhere;
+      margin-top: 10px;
+    }
+
     footer {
       text-align: center;
       padding: 22px;
@@ -164,7 +194,8 @@
         padding: 18px;
       }
 
-      .product-image {
+      .product-image,
+      .no-image {
         height: 280px;
       }
 
@@ -178,7 +209,7 @@
 <body>
 
 <header>
-  <img src="Logo.JPG" alt="โลโก้บ้านกรงนก" class="logo">
+  <img src="./Logo.JPG" alt="โลโก้บ้านกรงนก" class="logo">
   <h1>บ้านกรงนก</h1>
   <p>Baan Krong Nok</p>
 </header>
@@ -190,7 +221,9 @@
   </a>
 
   <section id="productContent" class="product-detail">
-    <div class="message">กำลังโหลดรายละเอียดสินค้า...</div>
+    <div class="message">
+      กำลังโหลดรายละเอียดสินค้า...
+    </div>
   </section>
 
 </main>
@@ -200,12 +233,14 @@
 </footer>
 
 <script>
+  // ข้อมูลการเชื่อมต่อ Supabase
   const SUPABASE_URL =
     'https://acfrebknwxuybroilgqu.supabase.co';
 
   const SUPABASE_KEY =
-    'sb_publishable_UjWZN8YsBLoBTKsbQG3Zsw_A1X3lSPK';
+    'sb_publishable_UjWZN8YsBLoBTKsbQ3GZsw_A1X3lSPK';
 
+  // สร้างการเชื่อมต่อ
   const db = window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_KEY
@@ -214,24 +249,31 @@
   const productContent =
     document.getElementById('productContent');
 
+  // อ่านรหัสสินค้าจาก URL
   const params = new URLSearchParams(
     window.location.search
   );
 
   const productId = params.get('id');
 
+  // หมวดหมู่สินค้าของร้าน
   const categories = {
     1: 'กรงนกสวยงามทำมือ',
     2: 'ซี่ดอกกรงนก',
     21: 'สะพานกรงนก'
   };
 
+  // โหลดข้อมูลสินค้า
   async function loadProduct() {
 
     try {
 
       if (!productId || !/^\d+$/.test(productId)) {
         throw new Error('ไม่พบรหัสสินค้า');
+      }
+
+      if (!window.supabase) {
+        throw new Error('ไม่สามารถโหลด Supabase Library ได้');
       }
 
       const { data, error } = await db
@@ -247,7 +289,7 @@
           fulfillment_type,
           production_days
         `)
-        .eq('id', productId)
+        .eq('id', Number(productId))
         .eq('is_active', true)
         .single();
 
@@ -255,33 +297,57 @@
         throw error;
       }
 
-      if (!data || !categories[data.category_id]) {
-        throw new Error('ไม่พบข้อมูลสินค้านี้');
+      if (!data) {
+        throw new Error('ไม่พบข้อมูลสินค้า');
+      }
+
+      if (!categories[Number(data.category_id)]) {
+        throw new Error('สินค้านี้ไม่ได้อยู่ในหมวดหมู่ของร้าน');
       }
 
       showProduct(data);
 
     } catch (error) {
 
-      console.error('โหลดรายละเอียดสินค้าไม่สำเร็จ:', error);
+      console.error(
+        'เกิดข้อผิดพลาดในการโหลดสินค้า:',
+        error
+      );
 
       productContent.innerHTML = `
         <div class="message">
+
           <h2>ไม่สามารถโหลดรายละเอียดสินค้าได้</h2>
-          <p>${escapeHTML(error.message)}</p>
+
+          <p class="error">
+            ${escapeHTML(error.message || String(error))}
+          </p>
+
           <br>
-          <a href="./products.html">กลับไปหน้าสินค้าทั้งหมด</a>
+
+          <a href="./products.html">
+            กลับไปหน้าสินค้าทั้งหมด
+          </a>
+
         </div>
       `;
     }
   }
 
+  // แสดงข้อมูลสินค้า
   function showProduct(product) {
 
-    const price = product.price !== null &&
-                  product.price !== ''
-      ? '฿' + Number(product.price).toLocaleString('th-TH')
-      : 'สอบถามราคา';
+    const price =
+      product.price !== null &&
+      product.price !== ''
+        ? '฿' + Number(product.price).toLocaleString('th-TH')
+        : 'สอบถามราคา';
+
+    const production =
+      product.production_days !== null &&
+      product.production_days !== ''
+        ? `ระยะเวลาผลิตประมาณ ${Number(product.production_days)} วัน`
+        : 'สอบถามระยะเวลาผลิตกับทางร้าน';
 
     const imageHTML = product.image_url
       ? `
@@ -289,19 +355,18 @@
           src="${escapeHTML(product.image_url)}"
           alt="${escapeHTML(product.name)}"
           class="product-image"
+          onerror="this.outerHTML='<div class=&quot;no-image&quot;>ไม่สามารถแสดงรูปภาพสินค้าได้</div>'"
         >
       `
       : `
-        <div class="message">ยังไม่มีรูปภาพสินค้า</div>
+        <div class="no-image">
+          ยังไม่มีรูปภาพสินค้า
+        </div>
       `;
-
-    const productionHTML = product.production_days
-      ? `ระยะเวลาผลิตประมาณ ${Number(product.production_days)} วัน`
-      : 'สอบถามระยะเวลาผลิตกับทางร้าน';
 
     productContent.innerHTML = `
 
-      <div>
+      <div class="image-wrapper">
         ${imageHTML}
       </div>
 
@@ -310,7 +375,8 @@
         <h2>${escapeHTML(product.name)}</h2>
 
         <p class="category">
-          หมวดหมู่: ${categories[product.category_id]}
+          หมวดหมู่:
+          ${categories[Number(product.category_id)]}
         </p>
 
         <p class="description">
@@ -319,14 +385,16 @@
           )}
         </p>
 
-        <p class="price">${price}</p>
+        <p class="price">
+          ${price}
+        </p>
 
         <span class="preorder">
           สินค้าพรีออเดอร์
         </span>
 
         <p class="production">
-          ${productionHTML}
+          ${production}
         </p>
 
         <h3 class="contact-title">
@@ -336,7 +404,7 @@
         <a
           href="https://line.me/ti/p/aZASyIlg-H"
           target="_blank"
-          rel="noopener"
+          rel="noopener noreferrer"
           class="contact-button"
         >
           ติดต่อผ่าน LINE
@@ -345,7 +413,7 @@
         <a
           href="https://www.facebook.com/napawan.chaijinda.9?"
           target="_blank"
-          rel="noopener"
+          rel="noopener noreferrer"
           class="contact-button facebook"
         >
           ติดต่อผ่าน Facebook
@@ -362,7 +430,9 @@
     `;
   }
 
+  // ป้องกันการแทรก HTML
   function escapeHTML(value) {
+
     return String(value).replace(/[&<>"']/g, char => ({
       '&': '&amp;',
       '<': '&lt;',
@@ -370,9 +440,12 @@
       '"': '&quot;',
       "'": '&#039;'
     })[char]);
+
   }
 
+  // เริ่มโหลดข้อมูลสินค้า
   loadProduct();
+
 </script>
 
 </body>
