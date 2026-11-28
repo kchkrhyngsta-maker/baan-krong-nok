@@ -1,22 +1,26 @@
 <!DOCTYPE html>
+
 <html lang="th">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>สั่งซื้อสินค้า | บ้านกรงนก</title>
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
+
   <style>
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
+
     body {
       font-family: 'Kanit', sans-serif;
       background: #FAFCF7;
       color: #294C35;
       line-height: 1.7;
     }
+
     header {
       background: white;
       padding: 16px 5%;
@@ -26,23 +30,28 @@
       gap: 12px;
       box-shadow: 0 2px 8px rgba(0,0,0,.06);
     }
+
     header a {
       color: #39764A;
       text-decoration: none;
     }
+
     main {
       max-width: 850px;
       margin: 30px auto;
       padding: 0 16px;
     }
+
     h1 {
       font-size: 26px;
       margin-bottom: 8px;
     }
+
     .subtitle {
       color: #718273;
       margin-bottom: 22px;
     }
+
     .panel {
       background: white;
       padding: 22px;
@@ -50,15 +59,18 @@
       margin-bottom: 18px;
       box-shadow: 0 2px 8px rgba(0,0,0,.05);
     }
+
     h2 {
       font-size: 20px;
       margin-bottom: 15px;
     }
+
     label {
       display: block;
       margin: 13px 0 5px;
       font-weight: 500;
     }
+
     input, textarea, select {
       width: 100%;
       padding: 12px;
@@ -69,13 +81,16 @@
       color: #294C35;
       background: white;
     }
+
     textarea {
       min-height: 100px;
       resize: vertical;
     }
+
     .required {
       color: #bd5555;
     }
+
     .order-item {
       display: flex;
       justify-content: space-between;
@@ -83,13 +98,16 @@
       padding: 10px 0;
       border-bottom: 1px solid #edf0eb;
     }
+
     .order-item:last-child {
       border-bottom: none;
     }
+
     .muted {
       color: #718273;
       font-size: 14px;
     }
+
     .total {
       display: flex;
       justify-content: space-between;
@@ -99,6 +117,7 @@
       font-size: 20px;
       font-weight: 600;
     }
+
     .notice {
       background: #f1f7ee;
       color: #527052;
@@ -107,6 +126,7 @@
       font-size: 14px;
       margin-top: 15px;
     }
+
     .submit-button {
       width: 100%;
       border: none;
@@ -119,40 +139,51 @@
       margin-top: 18px;
       cursor: not-allowed;
     }
+
     .back {
       display: inline-block;
       margin-bottom: 18px;
       color: #39764A;
       text-decoration: none;
     }
+
     .empty {
       text-align: center;
       padding: 25px;
     }
+
     footer {
       text-align: center;
       padding: 25px;
       color: #718273;
       font-size: 14px;
     }
+
     @media (max-width: 500px) {
       .panel {
         padding: 16px;
       }
     }
   </style>
+
 </head>
+
 <body>
+
 <header>
   <strong>🐦 บ้านกรงนก</strong>
   <a href="cart.html">← กลับไปตะกร้าสินค้า</a>
 </header>
+
 <main>
   <a href="cart.html" class="back">← กลับไปแก้ไขรายการสินค้า</a>
+
   <h1>📝 สั่งซื้อสินค้า</h1>
   <p class="subtitle">กรอกข้อมูลสำหรับติดต่อและจัดส่งสินค้า</p>
+
   <section class="panel">
     <h2>ข้อมูลลูกค้า</h2>
+
 <form id="checkoutForm">
   <label for="customerName">ชื่อ–นามสกุล <span class="required">*</span></label>
   <input
@@ -163,6 +194,7 @@
     required
     placeholder="กรอกชื่อและนามสกุล"
   >
+
   <label for="phone">เบอร์โทรศัพท์ <span class="required">*</span></label>
   <input
     id="phone"
@@ -174,6 +206,7 @@
     required
     placeholder="เช่น 08XXXXXXXX"
   >
+
   <label for="email">อีเมล (ถ้ามี)</label>
   <input
     id="email"
@@ -182,6 +215,7 @@
     autocomplete="email"
     placeholder="example@email.com"
   >
+
   <label for="address">ที่อยู่จัดส่ง <span class="required">*</span></label>
   <textarea
     id="address"
@@ -190,12 +224,16 @@
     required
     placeholder="บ้านเลขที่ หมู่บ้าน ถนน ซอย"
   ></textarea>
+
   <label for="subdistrict">ตำบล/แขวง <span class="required">*</span></label>
   <input id="subdistrict" name="subdistrict" required placeholder="กรอกตำบล/แขวง">
+
   <label for="district">อำเภอ/เขต <span class="required">*</span></label>
   <input id="district" name="district" required placeholder="กรอกอำเภอ/เขต">
+
   <label for="province">จังหวัด <span class="required">*</span></label>
   <input id="province" name="province" required placeholder="กรอกจังหวัด">
+
   <label for="postcode">รหัสไปรษณีย์ <span class="required">*</span></label>
   <input
     id="postcode"
@@ -207,6 +245,7 @@
     required
     placeholder="รหัสไปรษณีย์ 5 หลัก"
   >
+
   <label for="note">หมายเหตุเพิ่มเติม</label>
   <textarea
     id="note"
@@ -214,7 +253,9 @@
     placeholder="รายละเอียดเพิ่มเติมสำหรับร้าน (ถ้ามี)"
   ></textarea>
 </form>
+
   </section>
+
   <section class="panel">
     <h2>รายการสินค้าที่สั่งซื้อ</h2>
     <div id="orderItems"></div>
@@ -222,24 +263,31 @@
       <span>ยอดรวมสินค้า</span>
       <span id="grandTotal">0 บาท</span>
     </div>
+
 <div class="notice">
   ยอดนี้ยังไม่รวมค่าจัดส่ง และยังไม่ถือเป็นคำสั่งซื้อที่ยืนยันแล้ว
   ร้านจะตรวจสอบราคาและระยะเวลาผลิตก่อนแจ้งยืนยันอีกครั้ง
 </div>
+
 <button class="submit-button" type="button" disabled>
   ระบบยืนยันคำสั่งซื้ออยู่ระหว่างพัฒนา
 </button>
+
 <p class="muted" style="margin-top:10px">
   ขณะนี้หน้านี้ใช้ตรวจสอบข้อมูลเท่านั้น ยังไม่มีการส่งข้อมูลลูกค้า
   หรือบันทึกคำสั่งซื้อลงฐานข้อมูล
 </p>
+
   </section>
 </main>
+
 <footer>
   บ้านกรงนก | Baan Krong Nok
 </footer>
+
 <script>
   const CART_KEY = 'baanKrongNokCart';
+
   function getCart() {
     try {
       return JSON.parse(localStorage.getItem(CART_KEY)) || [];
@@ -247,6 +295,7 @@
       return [];
     }
   }
+
   function escapeHTML(value) {
     return String(value).replace(/[&<>"']/g, char => ({
       '&': '&amp;',
@@ -256,13 +305,16 @@
       "'": '&#039;'
     })[char]);
   }
+
   function formatPrice(value) {
     return Number(value).toLocaleString('th-TH') + ' บาท';
   }
+
   function showOrder() {
     const cart = getCart();
     const container = document.getElementById('orderItems');
     const totalElement = document.getElementById('grandTotal');
+
     if (cart.length === 0) {
       container.innerHTML = `
         <div class="empty">
@@ -273,18 +325,23 @@
       totalElement.textContent = '0 บาท';
       return;
     }
+
     let total = 0;
+
     container.innerHTML = cart.map(item => {
       const quantity = Math.max(1, Number(item.quantity) || 1);
       const hasPrice = item.price !== null &&
         item.price !== undefined &&
         item.price !== '' &&
         Number.isFinite(Number(item.price));
+
       let lineTotal = 'รอสอบถามราคา';
+
       if (hasPrice) {
         lineTotal = formatPrice(Number(item.price) * quantity);
         total += Number(item.price) * quantity;
       }
+
       return `
         <div class="order-item">
           <div>
@@ -295,9 +352,12 @@
         </div>
       `;
     }).join('');
+
     totalElement.textContent = formatPrice(total);
   }
+
   showOrder();
 </script>
+
 </body>
 </html>
