@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ตะกร้าสินค้า | บ้านกรงนก</title>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Kanit', sans-serif;
+      background: #FAFCF7;
+      color: #294C35;
+      line-height: 1.7;
+    }
+    header {
+      background: #fff;
+      padding: 14px 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    }
+    .brand {
+      font-size: 21px;
+      font-weight: 600;
+    }
+    .brand a {
+      color: #294C35;
+      text-decoration: none;
+    }
+    .back-link {
+      color: #39734A;
+      text-decoration: none;
+    }
+    main {
+      max-width: 900px;
+      margin: 35px auto;
+      padding: 0 16px;
+    }
+    h1 {
+      font-size: 27px;
+      margin-bottom: 8px;
+    }
+    .subtitle {
+      color: #718273;
+      margin-bottom: 22px;
+    }
+    .cart-list {
+      display: grid;
+      gap: 14px;
+    }
+    .cart-item {
+      background: #fff;
+      border-radius: 12px;
+      padding: 15px;
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,.05);
+    }
+    .cart-item img {
+      width: 105px;
+      height: 105px;
+      object-fit: cover;
+      border-radius: 9px;
+      background: #f1f4ef;
+    }
+    .item-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .item-info h3 {
+      font-size: 17px;
+      margin-bottom: 5px;
+    }
+    .price {
+      color: #39734A;
+      font-weight: 600;
+    }
+    .quantity {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 9px;
+    }
+    .quantity button {
+      width: 32px;
+      height: 32px;
+      border: 1px solid #d7e2d5;
+      background: #f6faf4;
+      border-radius: 6px;
+      color: #294C35;
+      font-size: 18px;
+      cursor: pointer;
+    }
+    .remove {
+      border: none;
+      background: none;
+      color: #bd5555;
+      cursor: pointer;
+      margin-top: 7px;
+      font-family: inherit;
+    }
+    .summary {
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.05);
+    }
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .total {
+      border-top: 1px solid #e5ebe3;
+      padding-top: 13px;
+      font-size: 20px;
+      font-weight: 600;
+    }
+    .notice {
+      background: #f1f7ee;
+      padding: 12px;
+      border-radius: 8px;
+      color: #527052;
+      font-size: 14px;
+      margin-top: 15px;
+    }
+    .checkout-btn {
+      display: block;
+      width: 100%;
+      border: none;
+      background: #39734A;
+      color: #fff;
+      padding: 13px;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 17px;
+      margin-top: 18px;
+      cursor: pointer;
+    }
+    .checkout-btn:disabled {
+      background: #aab8aa;
+      cursor: not-allowed;
+    }
+    .empty {
+      background: #fff;
+      padding: 40px 20px;
+      text-align: center;
+      border-radius: 12px;
+    }
+    .empty a {
+      display: inline-block;
+      margin-top: 15px;
+      color: #39734A;
+    }
+    footer {
+      text-align: center;
+      padding: 25px 10px;
+      color: #718273;
+      font-size: 14px;
+    }
+    @media (max-width: 520px) {
+      .cart-item {
+        align-items: flex-start;
+      }
+      .cart-item img {
+        width: 85px;
+        height: 85px;
+      }
+      .item-info h3 {
+        font-size: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <a href="index.html">🐦 บ้านกรงนก</a>
+  </div>
+  <a class="back-link" href="products.html">← เลือกซื้อสินค้าต่อ</a>
+</header>
+<main>
+  <h1>🛒 ตะกร้าสินค้า</h1>
+  <p class="subtitle">รายการสินค้าที่คุณเลือกจากบ้านกรงนก</p>
+  <div id="cart-list" class="cart-list"></div>
+  <div id="cart-summary"></div>
+</main>
+<footer>
+  © บ้านกรงนก | Baan Krong Nok
+</footer>
+<script>
+  const CART_KEY = 'baanKrongNokCart';
+  function getCart() {
+    try {
+      return JSON.parse(localStorage.getItem(CART_KEY)) || [];
+    } catch {
+      return [];
+    }
+  }
+  function saveCart(cart) {
+    localStorage.setItem(CART_KEY, JSON.stringify(cart));
+  }
+  function formatPrice(price) {
+    return Number(price).toLocaleString('th-TH') + ' บาท';
+  }
+  function renderCart() {
+    const cart = getCart();
+    const list = document.getElementById('cart-list');
+    const summary = document.getElementById('cart-summary');
+    if (cart.length === 0) {
+      list.innerHTML = `
+        <div class="empty">
+          <h2>ยังไม่มีสินค้าในตะกร้า</h2>
+          <p>เลือกชมกรงนกและอุปกรณ์จากร้านบ้านกรงนกได้เลยค่ะ</p>
+          <a href="products.html">เลือกชมสินค้า</a>
+        </div>
+      `;
+      summary.innerHTML = '';
+      return;
+    }
+    let total = 0;
+    list.innerHTML = cart.map((item, index) => {
+      const quantity = Math.max(1, Number(item.quantity) || 1);
+      const hasPrice = item.price !== null &&
+                       item.price !== undefined &&
+                       item.price !== '' &&
+                       Number.isFinite(Number(item.price));
+      const price = hasPrice ? Number(item.price) : null;
+      if (price !== null) {
+        total += price * quantity;
+      }
+      return `
+        <div class="cart-item">
+          <img
+            src="${escapeHTML(item.image_url || '')}"
+            alt="${escapeHTML(item.name || 'สินค้า')}"
+            onerror="this.style.display='none'"
+          >
+          <div class="item-info">
+            <h3>${escapeHTML(item.name || 'สินค้า')}</h3>
+            <div class="price">
+              ${price === null ? 'รอสอบถามราคา' : formatPrice(price)}
+            </div>
+            <div class="quantity">
+              <button type="button" onclick="changeQuantity(${index}, -1)">−</button>
+              <span>${quantity}</span>
+              <button type="button" onclick="changeQuantity(${index}, 1)">+</button>
+            </div>
+            <button class="remove" type="button" onclick="removeItem(${index})">
+              ลบสินค้า
+            </button>
+          </div>
+        </div>
+      `;
+    }).join('');
+    const hasUnpriced = cart.some(item =>
+      item.price === null ||
+      item.price === undefined ||
+      item.price === '' ||
+      !Number.isFinite(Number(item.price))
+    );
+    summary.innerHTML = `
+      <div class="summary">
+        <div class="summary-row">
+          <span>จำนวนรายการสินค้า</span>
+          <strong>${cart.reduce((sum, item) => sum + (Number(item.quantity) || 1), 0)} ชิ้น</strong>
+        </div>
+        <div class="summary-row total">
+          <span>ยอดรวมสินค้าที่มีราคา</span>
+          <strong>${formatPrice(total)}</strong>
+        </div>
+        ${hasUnpriced ? `
+          <div class="notice">
+            มีสินค้าบางรายการที่ยังไม่กำหนดราคา กรุณาติดต่อร้านเพื่อสอบถามราคาก่อนสั่งซื้อ
+          </div>
+        ` : ''}
+        <div class="notice">
+          สินค้าของร้านเป็นสินค้าพรีออเดอร์หรือสั่งทำตามรายการ
+          ระยะเวลาผลิตและรายละเอียดการสั่งซื้อจะต้องได้รับการยืนยันจากร้านก่อนชำระเงิน
+        </div>
+        <button class="checkout-btn" type="button" disabled>
+          ขั้นตอนสั่งซื้อจะเปิดให้ใช้งานในขั้นตอนถัดไป
+        </button>
+      </div>
+    `;
+  }
+  function changeQuantity(index, amount) {
+    const cart = getCart();
+    if (!cart[index]) return;
+    cart[index].quantity = Math.max(
+      1,
+      (Number(cart[index].quantity) || 1) + amount
+    );
+    saveCart(cart);
+    renderCart();
+  }
+  function removeItem(index) {
+    const cart = getCart();
+    cart.splice(index, 1);
+    saveCart(cart);
+    renderCart();
+  }
+  function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, char => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#039;'
+    })[char]);
+  }
+  renderCart();
+</script>
+</body>
+</html>
