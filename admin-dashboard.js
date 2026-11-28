@@ -1,60 +1,38 @@
 // =====================================
 // BAAN KRONG NOK - ADMIN DASHBOARD
 // =====================================
-
 const SUPABASE_URL = 'https://acfrebknwxuybroilgqu.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_UjWZN8YsBLoBTKsbQ3GZsw_A1X3lSPK';
-
 const supabaseClient = window.supabase.createClient(
   SUPABASE_URL,
   SUPABASE_KEY
 );
-
 let productList = [];
 let categoryList = [];
 let customRequestList = [];
-
-// =====================================
-// สินค้าที่อนุญาตให้แสดงในร้าน
-// =====================================
-
-const ALLOWED_PRODUCT_NAMES = [
-  'กรงนกไม้หวายทรงกลม',
-  'กรงนกแขวนลายสวยงาม',
-  'ซี่ดอกกรงนกลายดอกไม้'
-];
-
 // =====================================
 // ELEMENTS
 // =====================================
-
 const getElement = id => document.getElementById(id);
-
 // =====================================
 // MESSAGE
 // =====================================
-
 function showMessage(message) {
   const box = getElement('pageMessage');
-
   if (!box) {
     alert(message);
     return;
   }
-
   box.style.display = 'block';
   box.textContent = message;
-
   window.scrollTo({
     top: 0,
     behavior: 'smooth'
   });
 }
-
 // =====================================
 // SECURITY / HTML
 // =====================================
-
 function escapeHTML(value) {
   return String(value ?? '').replace(/[&<>"']/g, character => ({
     '&': '&amp;',
@@ -64,24 +42,23 @@ function escapeHTML(value) {
     "'": '&#039;'
   })[character]);
 }
-
 function formatPrice(price) {
-  return Number(price || 0).toLocaleString('th-TH');
+  if (price === null || price === undefined || price === '') {
+    return 'ยังไม่กำหนด';
+  }
+  return Number(price).toLocaleString('th-TH');
 }
-
 function formatDate(date) {
   if (!date) return '-';
-
   return new Date(date).toLocaleString('th-TH', {
     dateStyle: 'short',
-    timeStyle: 'short'
+    timeStyle: 'short',
+    timeZone: 'Asia/Bangkok'
   });
 }
-
 // =====================================
 // CUSTOM REQUEST STATUS
 // =====================================
-
 function getCustomStatusLabel(status) {
   const labels = {
     pending: 'รอตรวจสอบ',
@@ -93,83 +70,59 @@ function getCustomStatusLabel(status) {
     rejected: 'ไม่รับคำขอ',
     cancelled: 'ยกเลิก'
   };
-
   return labels[status] || status || '-';
 }
-
 // =====================================
 // CHECK ADMIN
 // =====================================
-
 async function checkAdmin() {
   const { data, error } =
     await supabaseClient.auth.getSession();
-
   if (error || !data.session) {
     window.location.href = 'admin-login.html';
     return false;
   }
-
   const { data: isAdmin, error: adminError } =
     await supabaseClient.rpc('is_admin');
-
   if (adminError || isAdmin !== true) {
     await supabaseClient.auth.signOut();
     window.location.href = 'admin-login.html';
     return false;
   }
-
   return true;
 }
-
 // =====================================
 // LOAD CATEGORIES
 // =====================================
-
 async function loadCategories() {
   const { data, error } = await supabaseClient
     .from('categories')
     .select('id,name,slug,is_active,sort_order')
     .eq('is_active', true)
     .order('sort_order', { ascending: true });
-
   if (error) throw error;
-
   categoryList = data || [];
-
   const select = getElement('productCategory');
-
   if (!select) return;
-
   select.innerHTML =
     '<option value="">เลือกหมวดหมู่สินค้า</option>';
-
   categoryList.forEach(category => {
     const option = document.createElement('option');
-
     option.value = category.id;
     option.textContent = category.name;
-
     select.appendChild(option);
   });
 }
-
 // =====================================
 // FILTER PRODUCTS
+// แสดงสินค้าทุกชิ้นในระบบแอดมิน
 // =====================================
-
 function filterStoreProducts(products) {
-  return products.filter(product => {
-    const productName = String(product.name || '').trim();
-
-    return ALLOWED_PRODUCT_NAMES.includes(productName);
-  });
+  return products;
 }
-
 // =====================================
 // LOAD PRODUCTS
 // =====================================
-
 async function loadProducts() {
   const { data, error } = await supabaseClient
     .from('products')
@@ -187,37 +140,30 @@ async function loadProducts() {
       production_days
     `)
     .order('id', { ascending: true });
-
   if (error) throw error;
-
+  // แสดงสินค้าทั้งหมด ไม่กรองชื่อสินค้า
   productList = filterStoreProducts(data || []);
-
   const countElement = getElement('productCount');
   const activeCountElement = getElement('activeProductCount');
   const table = getElement('productTable');
-
   if (countElement) {
     countElement.textContent = productList.length;
   }
-
   if (activeCountElement) {
     activeCountElement.textContent =
       productList.filter(product => product.is_active).length;
   }
-
   if (!table) return;
-
   if (productList.length === 0) {
     table.innerHTML = `
       <tr>
-        <td colspan="7">
-          ยังไม่มีสินค้าในรายการที่กำหนด
+        <td colspan="7" class="empty">
+          ยังไม่มีสินค้าในระบบ
         </td>
       </tr>
     `;
     return;
   }
-
   table.innerHTML = productList.map(product => {
     const image = product.image_url
       ? `<img
@@ -227,32 +173,22 @@ async function loadProducts() {
           loading="lazy"
         >`
       : 'ไม่มีรูป';
-
     const fulfillment =
       product.fulfillment_type === 'preorder'
         ? 'พรีออเดอร์'
         : 'พร้อมส่ง';
-
     const status =
       product.is_active ? 'เปิดขาย' : 'ปิดขาย';
-
     const actionText =
       product.is_active ? 'ปิดขาย' : 'เปิดขาย';
-
     return `
       <tr>
         <td>${image}</td>
-
         <td>${escapeHTML(product.name)}</td>
-
         <td>${formatPrice(product.price)} บาท</td>
-
         <td>${Number(product.stock || 0)}</td>
-
         <td>${fulfillment}</td>
-
         <td class="status">${status}</td>
-
         <td>
           <button
             type="button"
@@ -262,7 +198,6 @@ async function loadProducts() {
           >
             แก้ไข
           </button>
-
           <button
             type="button"
             class="action-btn delete-btn"
@@ -276,11 +211,9 @@ async function loadProducts() {
     `;
   }).join('');
 }
-
 // =====================================
 // LOAD ORDERS
 // =====================================
-
 async function loadOrders() {
   const { data, error } = await supabaseClient
     .from('orders')
@@ -294,29 +227,24 @@ async function loadOrders() {
       created_at
     `)
     .order('created_at', { ascending: false });
-
   if (error) throw error;
-
   const orders = data || [];
-
   getElement('orderCount').textContent = orders.length;
-
   getElement('pendingOrderCount').textContent =
     orders.filter(
       order => order.order_status === 'pending_confirmation'
     ).length;
-
   const table = getElement('orderTable');
-
   if (orders.length === 0) {
     table.innerHTML = `
       <tr>
-        <td colspan="5">ยังไม่มีคำสั่งซื้อ</td>
+        <td colspan="5" class="empty">
+          ยังไม่มีคำสั่งซื้อ
+        </td>
       </tr>
     `;
     return;
   }
-
   table.innerHTML = orders.map(order => `
     <tr>
       <td>${escapeHTML(order.order_number)}</td>
@@ -327,20 +255,16 @@ async function loadOrders() {
     </tr>
   `).join('');
 }
-
 // =====================================
 // LOAD CUSTOM ORDER REQUESTS
 // =====================================
-
 async function loadCustomRequests() {
   const table = getElement('customRequestTable');
-
   table.innerHTML = `
     <tr>
       <td colspan="8">กำลังโหลดข้อมูล...</td>
     </tr>
   `;
-
   const { data, error } = await supabaseClient
     .from('custom_order_requests')
     .select(`
@@ -363,11 +287,8 @@ async function loadCustomRequests() {
       created_at
     `)
     .order('created_at', { ascending: false });
-
   if (error) throw error;
-
   customRequestList = data || [];
-
   if (customRequestList.length === 0) {
     table.innerHTML = `
       <tr>
@@ -376,7 +297,6 @@ async function loadCustomRequests() {
     `;
     return;
   }
-
   table.innerHTML = customRequestList.map(request => `
     <tr>
       <td>${escapeHTML(request.request_number)}</td>
@@ -399,83 +319,58 @@ async function loadCustomRequests() {
     </tr>
   `).join('');
 }
-
 // =====================================
 // OPEN CUSTOM REQUEST DETAILS
 // =====================================
-
 async function openCustomRequest(request) {
   getElement('customRequestId').value = request.id;
-
   getElement('customQuotedPrice').value =
     request.quoted_price ?? '';
-
   getElement('customRequestStatus').value =
     request.status || 'pending';
-
   getElement('customAdminNote').value =
     request.admin_note || '';
-
   const details = getElement('customRequestDetails');
-
   details.innerHTML = `
     <p><strong>เลขที่คำขอ:</strong>
       ${escapeHTML(request.request_number)}</p>
-
     <p><strong>ชื่อลูกค้า:</strong>
       ${escapeHTML(request.customer_name)}</p>
-
     <p><strong>เบอร์โทรศัพท์:</strong>
       ${escapeHTML(request.phone)}</p>
-
     <p><strong>อีเมล:</strong>
       ${escapeHTML(request.email || '-')}</p>
-
     <p><strong>ช่องทางติดต่อ:</strong>
       ${escapeHTML(request.contact_channel || '-')}</p>
-
     <p><strong>ประเภทสินค้า:</strong>
       ${escapeHTML(request.product_type)}</p>
-
     <p><strong>ขนาด:</strong>
       ${escapeHTML(request.dimensions || '-')}</p>
-
     <p><strong>รูปทรง:</strong>
       ${escapeHTML(request.shape || '-')}</p>
-
     <p><strong>ลวดลาย:</strong>
       ${escapeHTML(request.pattern || '-')}</p>
-
     <p><strong>จำนวน:</strong>
       ${Number(request.quantity || 1)}</p>
-
     <p><strong>รายละเอียดเพิ่มเติม:</strong><br>
       ${escapeHTML(request.description || '-').replace(/\n/g, '<br>')}</p>
-
     <p><strong>วันที่ส่งคำขอ:</strong>
       ${formatDate(request.created_at)}</p>
-
     <p><strong>สถานะปัจจุบัน:</strong>
       ${escapeHTML(getCustomStatusLabel(request.status))}</p>
-
     <div id="customReferenceImageArea">
       <p><strong>รูปภาพตัวอย่างจากลูกค้า:</strong></p>
       <p>กำลังโหลดรูปภาพ...</p>
     </div>
   `;
-
   getElement('customRequestModal').style.display = 'block';
-
   const imageArea = getElement('customReferenceImageArea');
-
   if (request.reference_image_path) {
     try {
       const { data, error } = await supabaseClient.storage
         .from('custom-order-images')
         .createSignedUrl(request.reference_image_path, 3600);
-
       if (error) throw error;
-
       imageArea.innerHTML = `
         <p><strong>รูปภาพตัวอย่างจากลูกค้า:</strong></p>
         <a
@@ -502,49 +397,37 @@ async function openCustomRequest(request) {
     `;
   }
 }
-
 // =====================================
 // HANDLE CUSTOM REQUEST CLICK
 // =====================================
-
 async function handleCustomRequestAction(event) {
   const button = event.target.closest(
     'button[data-custom-action="view"]'
   );
-
   if (!button) return;
-
   const request = customRequestList.find(
     item => String(item.id) === String(button.dataset.id)
   );
-
   if (!request) return;
-
   try {
     await openCustomRequest(request);
   } catch (error) {
     showMessage('ไม่สามารถเปิดรายละเอียดได้: ' + error.message);
   }
 }
-
 // =====================================
 // SAVE CUSTOM REQUEST
 // =====================================
-
 async function saveCustomRequest(event) {
   event.preventDefault();
-
   const button = getElement('saveCustomRequestButton');
-
   button.disabled = true;
   button.textContent = 'กำลังบันทึก...';
-
   try {
     const id = getElement('customRequestId').value;
     const priceInput = getElement('customQuotedPrice').value.trim();
     const status = getElement('customRequestStatus').value;
     const adminNote = getElement('customAdminNote').value.trim();
-
     const allowedStatuses = [
       'pending',
       'reviewing',
@@ -555,25 +438,19 @@ async function saveCustomRequest(event) {
       'rejected',
       'cancelled'
     ];
-
     if (!id) {
       throw new Error('ไม่พบรหัสคำขอสั่งทำ');
     }
-
     if (!allowedStatuses.includes(status)) {
       throw new Error('สถานะคำขอไม่ถูกต้อง');
     }
-
     let quotedPrice = null;
-
     if (priceInput !== '') {
       quotedPrice = Number(priceInput);
-
       if (!Number.isFinite(quotedPrice) || quotedPrice < 0) {
         throw new Error('กรุณาตรวจสอบราคาเสนอ');
       }
     }
-
     const { error } = await supabaseClient
       .from('custom_order_requests')
       .update({
@@ -583,48 +460,34 @@ async function saveCustomRequest(event) {
         updated_at: new Date().toISOString()
       })
       .eq('id', id);
-
     if (error) throw error;
-
     showMessage('บันทึกข้อมูลคำขอสั่งทำเรียบร้อยแล้ว');
-
     closeCustomRequestModal();
-
     await loadCustomRequests();
-
   } catch (error) {
     showMessage('บันทึกข้อมูลไม่สำเร็จ: ' + error.message);
-
   } finally {
     button.disabled = false;
     button.textContent = 'บันทึกข้อมูลคำขอ';
   }
 }
-
 // =====================================
 // CLOSE CUSTOM REQUEST MODAL
 // =====================================
-
 function closeCustomRequestModal() {
   getElement('customRequestModal').style.display = 'none';
 }
-
 // =====================================
 // OPEN PRODUCT MODAL
 // =====================================
-
 function openProductModal(product = null) {
   const form = getElement('productForm');
-
   form.reset();
-
   getElement('productId').value = '';
   getElement('imagePreview').style.display = 'none';
   getElement('imagePreview').removeAttribute('src');
-
   getElement('modalTitle').textContent =
     product ? 'แก้ไขสินค้า' : 'เพิ่มสินค้าใหม่';
-
   if (product) {
     getElement('productId').value = product.id;
     getElement('productName').value = product.name || '';
@@ -632,116 +495,84 @@ function openProductModal(product = null) {
     getElement('productDescription').value = product.description || '';
     getElement('productPrice').value = product.price ?? 0;
     getElement('productStock').value = product.stock ?? 0;
-
     getElement('fulfillmentType').value =
       product.fulfillment_type || 'ready_to_ship';
-
     getElement('productionDays').value =
       product.production_days || '';
-
     getElement('productActive').value =
       String(product.is_active);
-
     if (product.image_url) {
       const preview = getElement('imagePreview');
       preview.src = product.image_url;
       preview.style.display = 'block';
     }
   }
-
   updateProductionField();
-
   getElement('productModal').style.display = 'block';
 }
-
 // =====================================
 // CLOSE PRODUCT MODAL
 // =====================================
-
 function closeProductModal() {
   getElement('productModal').style.display = 'none';
 }
-
 // =====================================
 // PREORDER FIELD
 // =====================================
-
 function updateProductionField() {
   const type = getElement('fulfillmentType').value;
   const group = getElement('productionDaysGroup');
-
   group.style.display =
     type === 'preorder' ? 'block' : 'none';
-
   getElement('productionDays').required =
     type === 'preorder';
 }
-
 // =====================================
 // UPLOAD IMAGE
 // =====================================
-
 async function uploadProductImage(file) {
   const extension = file.name.split('.').pop().toLowerCase();
-
   const allowedExtensions = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
-
   if (!allowedExtensions.includes(extension)) {
     throw new Error('รองรับไฟล์ JPG, PNG, WEBP และ GIF เท่านั้น');
   }
-
   const fileName = `${crypto.randomUUID()}.${extension}`;
   const filePath = `products/${fileName}`;
-
   const { error } = await supabaseClient.storage
     .from('product-images')
     .upload(filePath, file, {
       cacheControl: '3600',
       upsert: false
     });
-
   if (error) throw error;
-
   const { data } = supabaseClient.storage
     .from('product-images')
     .getPublicUrl(filePath);
-
   return data.publicUrl;
 }
-
 // =====================================
 // SAVE PRODUCT
 // =====================================
-
 async function saveProduct(event) {
   event.preventDefault();
-
   const button = getElement('saveProductButton');
-
   button.disabled = true;
   button.textContent = 'กำลังบันทึก...';
-
   try {
     const id = getElement('productId').value;
     const categoryId = getElement('productCategory').value;
-
     const category = categoryList.find(
       item => String(item.id) === String(categoryId)
     );
-
     if (!category) {
       throw new Error('กรุณาเลือกหมวดหมู่สินค้า');
     }
-
     const name = getElement('productName').value.trim();
-
     if (!name) {
       throw new Error('กรุณากรอกชื่อสินค้า');
     }
-
     const price = Number(getElement('productPrice').value);
     const stock = Number(getElement('productStock').value);
-
     if (
       !Number.isFinite(price) ||
       price < 0 ||
@@ -750,41 +581,31 @@ async function saveProduct(event) {
     ) {
       throw new Error('กรุณาตรวจสอบราคาและจำนวนสินค้า');
     }
-
     const fulfillment = getElement('fulfillmentType').value;
     const productionDays = getElement('productionDays').value;
-
     if (
       fulfillment === 'preorder' &&
       (!productionDays || Number(productionDays) < 1)
     ) {
       throw new Error('กรุณาระบุระยะเวลาผลิตสินค้า');
     }
-
     let imageUrl = null;
-
     if (id) {
       const oldProduct = productList.find(
         p => String(p.id) === String(id)
       );
-
       imageUrl = oldProduct?.image_url || null;
     }
-
     const imageFile = getElement('productImage').files[0];
-
     if (imageFile) {
       if (!imageFile.type.startsWith('image/')) {
         throw new Error('กรุณาเลือกไฟล์รูปภาพ');
       }
-
       if (imageFile.size > 5 * 1024 * 1024) {
         throw new Error('รูปภาพต้องมีขนาดไม่เกิน 5 MB');
       }
-
       imageUrl = await uploadProductImage(imageFile);
     }
-
     const productData = {
       name,
       category_id: category.id,
@@ -798,150 +619,108 @@ async function saveProduct(event) {
         fulfillment === 'preorder' ? Number(productionDays) : null,
       is_active: getElement('productActive').value === 'true'
     };
-
     if (id) {
       const { error } = await supabaseClient
         .from('products')
         .update(productData)
         .eq('id', id);
-
       if (error) throw error;
-
       showMessage('แก้ไขสินค้าเรียบร้อยแล้ว');
-
     } else {
       const { error } = await supabaseClient
         .from('products')
         .insert([productData]);
-
       if (error) throw error;
-
       showMessage('เพิ่มสินค้าเรียบร้อยแล้ว');
     }
-
     closeProductModal();
-
     await loadProducts();
-
   } catch (error) {
     showMessage('บันทึกไม่สำเร็จ: ' + error.message);
-
   } finally {
     button.disabled = false;
     button.textContent = 'บันทึกสินค้า';
   }
 }
-
 // =====================================
 // EDIT / ACTIVE / INACTIVE PRODUCT
 // =====================================
-
 async function handleProductAction(event) {
   const button = event.target.closest('button[data-action]');
-
   if (!button) return;
-
   const id = button.dataset.id;
-
   const product = productList.find(
     p => String(p.id) === String(id)
   );
-
   if (!product) return;
-
   if (button.dataset.action === 'edit') {
     openProductModal(product);
     return;
   }
-
   if (button.dataset.action === 'toggle') {
     const newStatus = !product.is_active;
-
     const message = newStatus
       ? `ต้องการเปิดขาย "${product.name}" หรือไม่?`
       : `ต้องการปิดการขาย "${product.name}" หรือไม่?`;
-
     if (!confirm(message)) return;
-
     button.disabled = true;
-
     try {
       const { error } = await supabaseClient
         .from('products')
         .update({ is_active: newStatus })
         .eq('id', id);
-
       if (error) throw error;
-
       showMessage(
         newStatus
           ? 'เปิดขายสินค้าเรียบร้อยแล้ว'
           : 'ปิดการขายสินค้าเรียบร้อยแล้ว'
       );
-
       await loadProducts();
-
     } catch (error) {
       showMessage('ไม่สามารถเปลี่ยนสถานะได้: ' + error.message);
       button.disabled = false;
     }
   }
 }
-
 // =====================================
 // IMAGE PREVIEW
 // =====================================
-
 function previewProductImage(event) {
   const file = event.target.files[0];
-
   if (!file) return;
-
   if (!file.type.startsWith('image/')) {
     showMessage('กรุณาเลือกไฟล์รูปภาพ');
     event.target.value = '';
     return;
   }
-
   const preview = getElement('imagePreview');
-
   preview.src = URL.createObjectURL(file);
   preview.style.display = 'block';
 }
-
 // =====================================
 // EVENT LISTENERS
 // =====================================
-
 function setupEvents() {
   getElement('addProductButton')
     .addEventListener('click', () => openProductModal());
-
   getElement('cancelButton')
     .addEventListener('click', closeProductModal);
-
   getElement('productForm')
     .addEventListener('submit', saveProduct);
-
   getElement('fulfillmentType')
     .addEventListener('change', updateProductionField);
-
   getElement('productImage')
     .addEventListener('change', previewProductImage);
-
   getElement('productTable')
     .addEventListener('click', handleProductAction);
-
   getElement('productModal')
     .addEventListener('click', event => {
       if (event.target.id === 'productModal') {
         closeProductModal();
       }
     });
-
   getElement('customRequestTable')
     .addEventListener('click', handleCustomRequestAction);
-
   getElement('refreshCustomRequestsButton')
     .addEventListener('click', async () => {
       try {
@@ -951,53 +730,40 @@ function setupEvents() {
         showMessage('โหลดรายการคำขอไม่สำเร็จ: ' + error.message);
       }
     });
-
   getElement('customRequestForm')
     .addEventListener('submit', saveCustomRequest);
-
   getElement('closeCustomRequestButton')
     .addEventListener('click', closeCustomRequestModal);
-
   getElement('customRequestModal')
     .addEventListener('click', event => {
       if (event.target.id === 'customRequestModal') {
         closeCustomRequestModal();
       }
     });
-
   getElement('logoutButton')
     .addEventListener('click', async () => {
       const { error } = await supabaseClient.auth.signOut();
-
       if (error) {
         showMessage(error.message);
         return;
       }
-
       window.location.href = 'admin-login.html';
     });
 }
-
 // =====================================
 // START DASHBOARD
 // =====================================
-
 async function startDashboard() {
   try {
     setupEvents();
-
     const allowed = await checkAdmin();
-
     if (!allowed) return;
-
     await loadCategories();
     await loadProducts();
     await loadOrders();
     await loadCustomRequests();
-
   } catch (error) {
     showMessage('ไม่สามารถโหลดข้อมูลได้: ' + error.message);
   }
 }
-
 startDashboard();
