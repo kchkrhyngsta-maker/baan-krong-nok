@@ -1,5 +1,6 @@
 // =====================================
 // BAAN KRONG NOK - ADMIN DASHBOARD
+// FULL VERSION
 // =====================================
 
 const SUPABASE_URL = 'https://acfrebknwxuybroilgqu.supabase.co';
@@ -13,6 +14,7 @@ const supabaseClient = window.supabase.createClient(
 let productList = [];
 let categoryList = [];
 let customRequestList = [];
+let orderList = [];
 let selectedCategory = 'all';
 
 // =====================================
@@ -231,7 +233,7 @@ function renderProducts() {
   if (filteredProducts.length === 0) {
     table.innerHTML = `
       <tr>
-        <td colspan="7">ไม่มีสินค้าในหมวดหมู่นี้</td>
+        <td colspan="6" class="empty">ไม่มีสินค้าในหมวดหมู่นี้</td>
       </tr>
     `;
 
@@ -243,16 +245,15 @@ function renderProducts() {
       ? `
         <img
           src="${escapeHTML(product.image_url)}"
-          class="product-image"
           alt="รูปสินค้า"
           loading="lazy"
         >
       `
       : 'ยังไม่มีรูปภาพ';
 
-    const production = product.production_days
-      ? `${Number(product.production_days)} วัน`
-      : 'ยังไม่กำหนด';
+    const category = categoryList.find(
+      item => String(item.id) === String(product.category_id)
+    );
 
     const status = product.is_active ? 'เปิดขาย' : 'ปิดขาย';
     const actionText = product.is_active ? 'ปิดขาย' : 'เปิดขาย';
@@ -270,22 +271,16 @@ function renderProducts() {
           }
         </td>
 
+        <td>${escapeHTML(category?.name || '-')}</td>
+
         <td>${formatPrice(product.price)} บาท</td>
 
-        <td>${Number(product.stock || 0)}</td>
-
-        <td>
-          ${escapeHTML(getFulfillmentLabel(product.fulfillment_type))}
-          <br>
-          <small>ระยะเวลาผลิต: ${production}</small>
-        </td>
-
-        <td class="status">${status}</td>
+        <td>${status}</td>
 
         <td>
           <button
             type="button"
-            class="action-btn edit-btn"
+            class="small-button"
             data-action="edit"
             data-id="${escapeHTML(product.id)}"
           >
@@ -294,7 +289,7 @@ function renderProducts() {
 
           <button
             type="button"
-            class="action-btn delete-btn"
+            class="danger-button"
             data-action="toggle"
             data-id="${escapeHTML(product.id)}"
           >
@@ -333,19 +328,114 @@ async function loadProducts() {
 
   productList = data || [];
 
-  const countElement = getElement('productCount');
-  const activeCountElement = getElement('activeProductCount');
+  getElement('productCount').textContent = productList.length;
 
-  if (countElement) {
-    countElement.textContent = productList.length;
-  }
-
-  if (activeCountElement) {
-    activeCountElement.textContent =
-      productList.filter(product => product.is_active).length;
-  }
+  getElement('activeProductCount').textContent =
+    productList.filter(product => product.is_active).length;
 
   renderProducts();
+}
+
+// =====================================
+// ORDER STATUS OPTIONS
+// =====================================
+
+const ORDER_STATUSES = [
+  ['pending', 'รอดำเนินการ'],
+  ['awaiting_payment', 'รอชำระเงิน'],
+  ['payment_review', 'รอตรวจสอบการชำระเงิน'],
+  ['paid', 'ชำระเงินแล้ว'],
+  ['processing', 'กำลังดำเนินการ'],
+  ['shipped', 'จัดส่งแล้ว'],
+  ['completed', 'สำเร็จ'],
+  ['cancelled', 'ยกเลิก']
+];
+
+// =====================================
+// CREATE ORDER DETAIL MODAL
+// =====================================
+
+function createOrderModal() {
+  if (getElement('orderDetailModal')) return;
+
+  const modal = document.createElement('div');
+
+  modal.id = 'orderDetailModal';
+  modal.className = 'modal';
+
+  modal.innerHTML = `
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h3>รายละเอียดคำสั่งซื้อ</h3>
+
+        <button
+          type="button"
+          class="secondary-button"
+          id="closeOrderModal"
+        >
+          ปิด
+        </button>
+      </div>
+
+      <div id="orderDetailContent">
+        กำลังโหลดข้อมูล...
+      </div>
+
+      <form id="orderStatusForm">
+
+        <input type="hidden" id="editingOrderId">
+
+        <div class="form-group">
+          <label for="orderStatusSelect">
+            สถานะคำสั่งซื้อ
+          </label>
+
+          <select id="orderStatusSelect" required>
+            ${ORDER_STATUSES.map(item => `
+              <option value="${item[0]}">${item[1]}</option>
+            `).join('')}
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="orderAdminNote">
+            หมายเหตุจากร้าน
+          </label>
+
+          <textarea
+            id="orderAdminNote"
+            placeholder="บันทึกข้อความสำหรับการจัดการคำสั่งซื้อ"
+          ></textarea>
+        </div>
+
+        <div class="modal-actions">
+          <button
+            type="submit"
+            class="primary-button"
+            id="saveOrderButton"
+          >
+            บันทึกการเปลี่ยนแปลง
+          </button>
+        </div>
+
+      </form>
+    </div>
+  `;
+
+  document.body.appendChild(modal);
+
+  getElement('closeOrderModal')
+    .addEventListener('click', closeOrderModal);
+
+  modal.addEventListener('click', event => {
+    if (event.target === modal) {
+      closeOrderModal();
+    }
+  });
+
+  getElement('orderStatusForm')
+    .addEventListener('submit', saveOrderStatus);
 }
 
 // =====================================
@@ -353,6 +443,16 @@ async function loadProducts() {
 // =====================================
 
 async function loadOrders() {
+  const table = getElement('orderTable');
+
+  if (table) {
+    table.innerHTML = `
+      <tr>
+        <td colspan="5" class="empty">กำลังโหลดคำสั่งซื้อ...</td>
+      </tr>
+    `;
+  }
+
   const { data, error } = await supabaseClient
     .from('orders')
     .select(`
@@ -360,53 +460,307 @@ async function loadOrders() {
       order_number,
       customer_name,
       phone,
+      email,
+      shipping_address,
+      subtotal,
+      shipping_fee,
       total_amount,
       order_status,
+      customer_note,
+      admin_note,
       created_at
     `)
     .order('created_at', { ascending: false });
 
   if (error) throw error;
 
-  const orders = data || [];
+  orderList = data || [];
 
-  const orderCount = getElement('orderCount');
-  const pendingCount = getElement('pendingOrderCount');
-  const table = getElement('orderTable');
+  getElement('orderCount').textContent = orderList.length;
 
-  if (orderCount) {
-    orderCount.textContent = orders.length;
-  }
-
-  if (pendingCount) {
-    pendingCount.textContent = orders.filter(order =>
+  getElement('pendingOrderCount').textContent =
+    orderList.filter(order =>
       ['pending', 'awaiting_payment', 'payment_review'].includes(
         order.order_status
       )
     ).length;
-  }
 
   if (!table) return;
 
-  if (orders.length === 0) {
+  if (orderList.length === 0) {
     table.innerHTML = `
       <tr>
-        <td colspan="5">ยังไม่มีคำสั่งซื้อ</td>
+        <td colspan="5" class="empty">ยังไม่มีคำสั่งซื้อ</td>
       </tr>
     `;
 
     return;
   }
 
-  table.innerHTML = orders.map(order => `
+  table.innerHTML = orderList.map(order => `
     <tr>
-      <td>${escapeHTML(order.order_number)}</td>
-      <td>${escapeHTML(order.customer_name)}</td>
-      <td>${escapeHTML(order.phone)}</td>
+      <td>
+        <strong>${escapeHTML(order.order_number)}</strong>
+        <br>
+        <button
+          type="button"
+          class="small-button"
+          data-order-action="view"
+          data-id="${escapeHTML(order.id)}"
+        >
+          ดูรายละเอียด
+        </button>
+      </td>
+
+      <td>
+        ${escapeHTML(order.customer_name)}
+        <br>
+        <small>${escapeHTML(order.phone)}</small>
+      </td>
+
+      <td>${formatDate(order.created_at)}</td>
+
       <td>${formatPrice(order.total_amount)} บาท</td>
-      <td>${escapeHTML(getOrderStatusLabel(order.order_status))}</td>
+
+      <td>
+        ${escapeHTML(getOrderStatusLabel(order.order_status))}
+      </td>
     </tr>
   `).join('');
+}
+
+// =====================================
+// VIEW ORDER DETAILS
+// =====================================
+
+async function openOrderDetails(order) {
+  createOrderModal();
+
+  const modal = getElement('orderDetailModal');
+  const content = getElement('orderDetailContent');
+
+  modal.style.display = 'block';
+
+  content.innerHTML = '<p>กำลังโหลดรายการสินค้า...</p>';
+
+  getElement('editingOrderId').value = order.id;
+
+  getElement('orderStatusSelect').value =
+    order.order_status || 'pending';
+
+  getElement('orderAdminNote').value =
+    order.admin_note || '';
+
+  const { data: items, error } = await supabaseClient
+    .from('order_items')
+    .select(`
+      id,
+      product_id,
+      product_name,
+      product_image,
+      unit_price,
+      quantity,
+      subtotal
+    `)
+    .eq('order_id', order.id)
+    .order('id', { ascending: true });
+
+  if (error) throw error;
+
+  const address = order.shipping_address || {};
+
+  const addressText = [
+    address.address,
+    address.subdistrict ? 'ตำบล' + address.subdistrict : '',
+    address.district ? 'อำเภอ' + address.district : '',
+    address.province ? 'จังหวัด' + address.province : '',
+    address.postcode
+  ].filter(Boolean).join(' ');
+
+  const itemHTML = (items || []).map(item => `
+    <div style="
+      display:flex;
+      gap:12px;
+      padding:12px 0;
+      border-bottom:1px solid #edf1ec;
+      align-items:center;
+    ">
+      ${
+        item.product_image
+          ? `<img
+              src="${escapeHTML(item.product_image)}"
+              alt=""
+              style="width:65px;height:65px;object-fit:cover;border-radius:8px"
+            >`
+          : ''
+      }
+
+      <div style="flex:1">
+        <strong>${escapeHTML(item.product_name)}</strong>
+        <p>จำนวน ${Number(item.quantity)} ชิ้น</p>
+        <small>ราคาต่อชิ้น ${formatPrice(item.unit_price)} บาท</small>
+      </div>
+
+      <strong>${formatPrice(item.subtotal)} บาท</strong>
+    </div>
+  `).join('');
+
+  content.innerHTML = `
+    <div style="line-height:2">
+
+      <h3>ข้อมูลคำสั่งซื้อ</h3>
+
+      <p>
+        <strong>เลขที่คำสั่งซื้อ:</strong>
+        ${escapeHTML(order.order_number)}
+      </p>
+
+      <p>
+        <strong>วันที่สั่งซื้อ:</strong>
+        ${formatDate(order.created_at)}
+      </p>
+
+      <hr style="margin:15px 0">
+
+      <h3>ข้อมูลลูกค้า</h3>
+
+      <p><strong>ชื่อ:</strong>
+        ${escapeHTML(order.customer_name)}</p>
+
+      <p><strong>เบอร์โทรศัพท์:</strong>
+        ${escapeHTML(order.phone)}</p>
+
+      <p><strong>อีเมล:</strong>
+        ${escapeHTML(order.email || '-')}</p>
+
+      <p><strong>ที่อยู่จัดส่ง:</strong><br>
+        ${escapeHTML(addressText || '-')}</p>
+
+      <p><strong>หมายเหตุจากลูกค้า:</strong><br>
+        ${escapeHTML(order.customer_note || '-').replace(/\n/g, '<br>')}</p>
+
+      <hr style="margin:15px 0">
+
+      <h3>รายการสินค้า</h3>
+
+      ${itemHTML || '<p>ไม่พบรายการสินค้า</p>'}
+
+      <div style="margin-top:15px;line-height:2">
+
+        <p>
+          ยอดรวมสินค้า:
+          <strong>${formatPrice(order.subtotal)} บาท</strong>
+        </p>
+
+        <p>
+          ค่าจัดส่ง:
+          <strong>${formatPrice(order.shipping_fee)} บาท</strong>
+        </p>
+
+        <p style="font-size:20px">
+          ยอดรวมทั้งหมด:
+          <strong>${formatPrice(order.total_amount)} บาท</strong>
+        </p>
+
+      </div>
+
+    </div>
+  `;
+}
+
+// =====================================
+// HANDLE ORDER CLICK
+// =====================================
+
+async function handleOrderAction(event) {
+  const button = event.target.closest(
+    'button[data-order-action="view"]'
+  );
+
+  if (!button) return;
+
+  const order = orderList.find(
+    item => String(item.id) === String(button.dataset.id)
+  );
+
+  if (!order) return;
+
+  button.disabled = true;
+
+  try {
+    await openOrderDetails(order);
+  } catch (error) {
+    showMessage('ไม่สามารถเปิดรายละเอียดคำสั่งซื้อได้: ' + error.message);
+  } finally {
+    button.disabled = false;
+  }
+}
+
+// =====================================
+// CLOSE ORDER MODAL
+// =====================================
+
+function closeOrderModal() {
+  const modal = getElement('orderDetailModal');
+
+  if (modal) {
+    modal.style.display = 'none';
+  }
+}
+
+// =====================================
+// SAVE ORDER STATUS
+// =====================================
+
+async function saveOrderStatus(event) {
+  event.preventDefault();
+
+  const button = getElement('saveOrderButton');
+
+  const id = getElement('editingOrderId').value;
+  const status = getElement('orderStatusSelect').value;
+  const note = getElement('orderAdminNote').value.trim();
+
+  const allowedStatuses = ORDER_STATUSES.map(item => item[0]);
+
+  if (!id) {
+    showMessage('ไม่พบรหัสคำสั่งซื้อ');
+    return;
+  }
+
+  if (!allowedStatuses.includes(status)) {
+    showMessage('สถานะคำสั่งซื้อไม่ถูกต้อง');
+    return;
+  }
+
+  button.disabled = true;
+  button.textContent = 'กำลังบันทึก...';
+
+  try {
+    const { error } = await supabaseClient
+      .from('orders')
+      .update({
+        order_status: status,
+        admin_note: note,
+        updated_at: new Date().toISOString()
+      })
+      .eq('id', id);
+
+    if (error) throw error;
+
+    showMessage('อัปเดตสถานะคำสั่งซื้อเรียบร้อยแล้ว');
+
+    closeOrderModal();
+
+    await loadOrders();
+
+  } catch (error) {
+    showMessage('บันทึกสถานะไม่สำเร็จ: ' + error.message);
+
+  } finally {
+    button.disabled = false;
+    button.textContent = 'บันทึกการเปลี่ยนแปลง';
+  }
 }
 
 // =====================================
@@ -420,7 +774,7 @@ async function loadCustomRequests() {
 
   table.innerHTML = `
     <tr>
-      <td colspan="8">กำลังโหลดข้อมูล...</td>
+      <td colspan="6" class="empty">กำลังโหลดข้อมูล...</td>
     </tr>
   `;
 
@@ -453,7 +807,7 @@ async function loadCustomRequests() {
   if (customRequestList.length === 0) {
     table.innerHTML = `
       <tr>
-        <td colspan="8">ยังไม่มีคำขอสั่งทำสินค้า</td>
+        <td colspan="6" class="empty">ยังไม่มีคำขอสั่งทำสินค้า</td>
       </tr>
     `;
 
@@ -463,17 +817,23 @@ async function loadCustomRequests() {
   table.innerHTML = customRequestList.map(request => `
     <tr>
       <td>${escapeHTML(request.request_number)}</td>
-      <td>${escapeHTML(request.customer_name)}</td>
-      <td>${escapeHTML(request.phone)}</td>
+
+      <td>
+        ${escapeHTML(request.customer_name)}
+        <br>
+        <small>${escapeHTML(request.phone)}</small>
+      </td>
+
       <td>${escapeHTML(request.product_type)}</td>
+
       <td>${Number(request.quantity || 1)}</td>
+
       <td>${escapeHTML(getCustomStatusLabel(request.status))}</td>
-      <td>${formatDate(request.created_at)}</td>
 
       <td>
         <button
           type="button"
-          class="action-btn view-btn"
+          class="small-button"
           data-custom-action="view"
           data-id="${escapeHTML(request.id)}"
         >
@@ -523,7 +883,7 @@ async function loadCustomRequestImages(requestId) {
     }
 
     return `
-      <div class="custom-image-item">
+      <div style="margin:12px 0">
         <a
           href="${escapeHTML(imageUrl)}"
           target="_blank"
@@ -531,8 +891,8 @@ async function loadCustomRequestImages(requestId) {
         >
           <img
             src="${escapeHTML(imageUrl)}"
-            class="custom-reference-image"
             alt="รูปภาพตัวอย่างจากลูกค้า"
+            style="width:130px;height:130px;object-fit:cover;border-radius:8px"
           >
         </a>
 
@@ -711,7 +1071,7 @@ async function saveCustomRequest(event) {
 
   } finally {
     button.disabled = false;
-    button.textContent = 'บันทึกข้อมูลคำขอ';
+    button.textContent = 'บันทึกข้อมูล';
   }
 }
 
@@ -747,9 +1107,7 @@ function openProductModal(product = null) {
 
     getElement('productName').value = product.name || '';
 
-    if (getElement('productNameEn')) {
-      getElement('productNameEn').value = product.name_en || '';
-    }
+    getElement('productNameEn').value = product.name_en || '';
 
     getElement('productCategory').value =
       product.category_id || '';
@@ -769,8 +1127,8 @@ function openProductModal(product = null) {
     getElement('productionDays').value =
       product.production_days ?? '';
 
-    getElement('productActive').value =
-      String(product.is_active);
+    getElement('productActive').checked =
+      product.is_active === true;
 
     if (product.image_url) {
       preview.src = product.image_url;
@@ -779,7 +1137,7 @@ function openProductModal(product = null) {
 
   } else {
     getElement('fulfillmentType').value = 'preorder';
-    getElement('productActive').value = 'true';
+    getElement('productActive').checked = true;
   }
 
   updateProductionField();
@@ -885,9 +1243,7 @@ async function saveProduct(event) {
       throw new Error('กรุณากรอกชื่อสินค้า');
     }
 
-    const nameEn = getElement('productNameEn')
-      ? getElement('productNameEn').value.trim()
-      : '';
+    const nameEn = getElement('productNameEn').value.trim();
 
     const priceInput = getElement('productPrice').value.trim();
 
@@ -962,7 +1318,7 @@ async function saveProduct(event) {
       image_url: imageUrl,
       fulfillment_type: fulfillment,
       production_days: productionDays,
-      is_active: getElement('productActive').value === 'true',
+      is_active: getElement('productActive').checked,
       updated_at: new Date().toISOString()
     };
 
@@ -1103,7 +1459,6 @@ function previewProductImage(event) {
 
 function setupEvents() {
 
-  // กดปุ่มเลือกหมวดหมู่สินค้า
   getElement('categoryFilter')
     ?.addEventListener('click', event => {
       const button = event.target.closest('[data-category]');
@@ -1113,71 +1468,63 @@ function setupEvents() {
       filterProducts(button.dataset.category);
     });
 
-  // เพิ่มสินค้า
   getElement('addProductButton')
     ?.addEventListener('click', () => openProductModal());
 
-  // ปิดหน้าต่างสินค้า
-  getElement('cancelButton')
-    ?.addEventListener('click', closeProductModal);
-
-  // บันทึกสินค้า
-  getElement('productForm')
-    ?.addEventListener('submit', saveProduct);
-
-  // เปลี่ยนประเภทสินค้า
-  getElement('fulfillmentType')
-    ?.addEventListener('change', updateProductionField);
-
-  // แสดงตัวอย่างรูปภาพ
-  getElement('productImage')
-    ?.addEventListener('change', previewProductImage);
-
-  // แก้ไข / เปิดขาย / ปิดขาย
-  getElement('productTable')
-    ?.addEventListener('click', handleProductAction);
-
-  // คลิกพื้นที่ด้านนอกเพื่อปิดหน้าต่างสินค้า
+  // รองรับปุ่มปิดที่มี ID ซ้ำใน HTML เดิม
   getElement('productModal')
     ?.addEventListener('click', event => {
-      if (event.target.id === 'productModal') {
+      if (
+        event.target.id === 'productModal' ||
+        event.target.id === 'cancelButton'
+      ) {
         closeProductModal();
       }
     });
 
-  // ดูรายละเอียดคำขอสั่งทำ
+  getElement('productForm')
+    ?.addEventListener('submit', saveProduct);
+
+  getElement('fulfillmentType')
+    ?.addEventListener('change', updateProductionField);
+
+  getElement('productImage')
+    ?.addEventListener('change', previewProductImage);
+
+  getElement('productTable')
+    ?.addEventListener('click', handleProductAction);
+
+  // คำสั่งซื้อ
+  getElement('orderTable')
+    ?.addEventListener('click', handleOrderAction);
+
+  // คำขอสั่งทำ
   getElement('customRequestTable')
     ?.addEventListener('click', handleCustomRequestAction);
 
-  // รีเฟรชคำขอสั่งทำ
   getElement('refreshCustomRequestsButton')
     ?.addEventListener('click', async () => {
       try {
         await loadCustomRequests();
-
         showMessage('รีเฟรชรายการคำขอเรียบร้อยแล้ว');
-
       } catch (error) {
         showMessage('โหลดรายการคำขอไม่สำเร็จ: ' + error.message);
       }
     });
 
-  // บันทึกคำขอสั่งทำ
   getElement('customRequestForm')
     ?.addEventListener('submit', saveCustomRequest);
 
-  // ปิดหน้าต่างคำขอสั่งทำ
-  getElement('closeCustomRequestButton')
-    ?.addEventListener('click', closeCustomRequestModal);
-
   getElement('customRequestModal')
     ?.addEventListener('click', event => {
-      if (event.target.id === 'customRequestModal') {
+      if (
+        event.target.id === 'customRequestModal' ||
+        event.target.id === 'closeCustomRequestButton'
+      ) {
         closeCustomRequestModal();
       }
     });
 
-  // ออกจากระบบ
   getElement('logoutButton')
     ?.addEventListener('click', async () => {
       const { error } = await supabaseClient.auth.signOut();
@@ -1202,6 +1549,8 @@ async function startDashboard() {
     const allowed = await checkAdmin();
 
     if (!allowed) return;
+
+    createOrderModal();
 
     await loadCategories();
     await loadProducts();
