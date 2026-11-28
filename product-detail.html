@@ -3,14 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>รายละเอียดสินค้า | บ้านกรงนก</title>
-  <meta name="description" content="รายละเอียดกรงนกสวยงาม ซี่ดอกกรงนก ส่วนประกอบกรงนก และสะพานกรงนก บ้านกรงนก">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
@@ -52,7 +47,7 @@
     }
 
     .container {
-      max-width: 1050px;
+      max-width: 1000px;
       margin: auto;
       padding: 30px 20px;
     }
@@ -64,8 +59,13 @@
       text-decoration: none;
     }
 
-    .back-button:hover {
-      text-decoration: underline;
+    .cart-link {
+      display: inline-block;
+      float: right;
+      margin-bottom: 25px;
+      color: #39764A;
+      text-decoration: none;
+      font-weight: 500;
     }
 
     .product-detail {
@@ -76,19 +76,20 @@
       padding: 25px;
       border-radius: 18px;
       box-shadow: 0 3px 15px rgba(0,0,0,0.07);
+      clear: both;
     }
 
     .product-image {
       width: 100%;
-      height: 400px;
-      object-fit: contain;
+      height: 380px;
+      object-fit: cover;
       border-radius: 14px;
-      background: #F5F8F2;
+      background: #EDF4E9;
       display: block;
     }
 
     .no-image {
-      height: 400px;
+      height: 380px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -99,13 +100,7 @@
 
     .product-info h2 {
       font-size: 27px;
-      margin-bottom: 4px;
-    }
-
-    .english-name {
-      color: #829184;
-      font-size: 14px;
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .category {
@@ -122,12 +117,12 @@
 
     .price {
       color: #39764A;
-      font-size: 29px;
+      font-size: 28px;
       font-weight: 600;
       margin: 15px 0;
     }
 
-    .badge {
+    .preorder {
       display: inline-block;
       background: #EDF4E9;
       color: #39764A;
@@ -139,16 +134,31 @@
 
     .production {
       color: #666;
-      margin-bottom: 15px;
+      margin-bottom: 20px;
     }
 
-    .stock {
-      color: #666;
-      margin-bottom: 15px;
+    .add-cart-button {
+      display: block;
+      width: 100%;
+      text-align: center;
+      text-decoration: none;
+      padding: 13px;
+      border: none;
+      border-radius: 25px;
+      margin: 15px 0;
+      color: white;
+      background: #39764A;
+      font-family: inherit;
+      font-size: 17px;
+      cursor: pointer;
+    }
+
+    .add-cart-button:hover {
+      background: #285A38;
     }
 
     .contact-title {
-      margin-top: 20px;
+      margin-top: 25px;
       margin-bottom: 12px;
       font-size: 19px;
     }
@@ -182,7 +192,6 @@
     .error {
       color: #B3261E;
       font-size: 14px;
-      overflow-wrap: anywhere;
       margin-top: 10px;
     }
 
@@ -191,14 +200,12 @@
       padding: 22px;
       color: #777;
       font-size: 14px;
-      margin-top: 30px;
     }
 
     @media (max-width: 700px) {
       .product-detail {
         grid-template-columns: 1fr;
         padding: 18px;
-        gap: 22px;
       }
 
       .product-image,
@@ -227,22 +234,21 @@
     ← กลับไปหน้าสินค้าทั้งหมด
   </a>
 
+  <a href="./cart.html" class="cart-link">
+    🛒 ตะกร้าสินค้า
+  </a>
+
   <section id="productContent" class="product-detail">
-    <div class="message">
-      กำลังโหลดรายละเอียดสินค้า...
-    </div>
+    <div class="message">กำลังโหลดรายละเอียดสินค้า...</div>
   </section>
 
 </main>
 
 <footer>
   บ้านกรงนก | Baan Krong Nok
-  <br>
-  กรงนกสวยงามและส่วนประกอบกรงนก
 </footer>
 
 <script>
-  // SUPABASE CONNECTION
   const SUPABASE_URL =
     'https://acfrebknwxuybroilgqu.supabase.co';
 
@@ -257,7 +263,14 @@
   const productContent =
     document.getElementById('productContent');
 
-  // PRODUCT CATEGORIES
+  const CART_KEY = 'baanKrongNokCart';
+
+  const params = new URLSearchParams(
+    window.location.search
+  );
+
+  const productId = params.get('id');
+
   const categories = {
     1: 'กรงนกสวยงาม',
     2: 'ซี่ดอกกรงนก',
@@ -265,64 +278,8 @@
     4: 'สะพานกรงนก'
   };
 
-  // READ PRODUCT ID
-  const params = new URLSearchParams(
-    window.location.search
-  );
-
-  const productId = params.get('id');
-
-  // ESCAPE HTML
-  function escapeHTML(value) {
-    return String(value).replace(/[&<>"']/g, char => ({
-      '&': '&amp;',
-      '<': '&lt;',
-      '>': '&gt;',
-      '"': '&quot;',
-      "'": '&#039;'
-    })[char]);
-  }
-
-  // FORMAT PRICE
-  function formatPrice(price) {
-    if (price === null || price === '') {
-      return 'สอบถามราคา';
-    }
-
-    return '฿' + Number(price).toLocaleString('th-TH');
-  }
-
-  // PRODUCT TYPE
-  function getFulfillmentLabel(type) {
-    const labels = {
-      preorder: 'สินค้าพรีออเดอร์',
-      ready_stock: 'สินค้าพร้อมจำหน่าย',
-      custom: 'สินค้าสั่งทำพิเศษ'
-    };
-
-    return labels[type] || 'สอบถามรายละเอียดสินค้า';
-  }
-
-  // PRODUCTION TIME
-  function getProductionText(product) {
-    if (product.fulfillment_type === 'ready_stock') {
-      return 'สินค้าพร้อมจำหน่าย กรุณาสอบถามสถานะสินค้ากับทางร้าน';
-    }
-
-    if (
-      product.production_days !== null &&
-      product.production_days !== ''
-    ) {
-      return `ระยะเวลาผลิตประมาณ ${Number(product.production_days)} วัน`;
-    }
-
-    return 'ระยะเวลาผลิตขึ้นอยู่กับรายละเอียดสินค้า กรุณาสอบถามทางร้าน';
-  }
-
-  // LOAD PRODUCT
   async function loadProduct() {
     try {
-
       if (!productId || !/^\d+$/.test(productId)) {
         throw new Error('ไม่พบรหัสสินค้า');
       }
@@ -332,12 +289,10 @@
         .select(`
           id,
           name,
-          name_en,
           category_id,
           description,
           price,
           image_url,
-          stock,
           is_active,
           fulfillment_type,
           production_days
@@ -346,9 +301,7 @@
         .eq('is_active', true)
         .single();
 
-      if (error) {
-        throw error;
-      }
+      if (error) throw error;
 
       if (!data) {
         throw new Error('ไม่พบข้อมูลสินค้า');
@@ -360,33 +313,45 @@
 
       showProduct(data);
 
-      document.title =
-        `${data.name} | บ้านกรงนก`;
-
     } catch (error) {
-
-      console.error('Product error:', error);
+      console.error(error);
 
       productContent.innerHTML = `
         <div class="message">
           <h2>ไม่สามารถโหลดรายละเอียดสินค้าได้</h2>
-
-          <p class="error">
-            ${escapeHTML(error.message || String(error))}
-          </p>
-
+          <p class="error">${escapeHTML(error.message || String(error))}</p>
           <br>
-
-          <a href="./products.html">
-            กลับไปหน้าสินค้าทั้งหมด
-          </a>
+          <a href="./products.html">กลับไปหน้าสินค้าทั้งหมด</a>
         </div>
       `;
     }
   }
 
-  // SHOW PRODUCT
   function showProduct(product) {
+    const hasPrice =
+      product.price !== null &&
+      product.price !== '' &&
+      Number.isFinite(Number(product.price));
+
+    const price = hasPrice
+      ? '฿' + Number(product.price).toLocaleString('th-TH')
+      : 'สอบถามราคา';
+
+    let fulfillmentText = 'สินค้าพรีออเดอร์';
+
+    if (product.fulfillment_type === 'ready_stock') {
+      fulfillmentText = 'สินค้าพร้อมจำหน่าย';
+    } else if (product.fulfillment_type === 'custom') {
+      fulfillmentText = 'สินค้าสั่งทำตามแบบ';
+    }
+
+    let production = 'สอบถามระยะเวลาผลิตกับทางร้าน';
+
+    if (product.production_days !== null &&
+        product.production_days !== '') {
+      production =
+        `ระยะเวลาผลิตประมาณ ${Number(product.production_days)} วัน`;
+    }
 
     const imageHTML = product.image_url
       ? `
@@ -394,68 +359,42 @@
           src="${escapeHTML(product.image_url)}"
           alt="${escapeHTML(product.name)}"
           class="product-image"
-          id="mainProductImage"
+          onerror="this.outerHTML='<div class=&quot;no-image&quot;>ไม่สามารถแสดงรูปภาพสินค้าได้</div>'"
         >
       `
       : `
-        <div class="no-image">
-          ยังไม่มีรูปภาพสินค้า
-        </div>
+        <div class="no-image">ยังไม่มีรูปภาพสินค้า</div>
       `;
 
-    const englishName = product.name_en
-      ? `
-        <p class="english-name">
-          ${escapeHTML(product.name_en)}
-        </p>
-      `
-      : '';
-
-    const stockText =
-      product.stock !== null
-        ? `จำนวนสินค้า: ${Number(product.stock)}`
-        : '';
-
     productContent.innerHTML = `
-
       <div class="image-wrapper">
         ${imageHTML}
       </div>
 
       <div class="product-info">
-
         <h2>${escapeHTML(product.name)}</h2>
 
-        ${englishName}
-
         <p class="category">
-          หมวดหมู่:
-          ${escapeHTML(categories[Number(product.category_id)])}
+          หมวดหมู่: ${categories[Number(product.category_id)]}
         </p>
 
         <p class="description">
-          ${escapeHTML(
-            product.description || 'สินค้าจากร้านบ้านกรงนก'
-          )}
+          ${escapeHTML(product.description || 'สินค้าจากร้านบ้านกรงนก')}
         </p>
 
-        <p class="price">
-          ${formatPrice(product.price)}
-        </p>
+        <p class="price">${price}</p>
 
-        <span class="badge">
-          ${escapeHTML(getFulfillmentLabel(product.fulfillment_type))}
-        </span>
+        <span class="preorder">${fulfillmentText}</span>
 
-        <p class="production">
-          ${escapeHTML(getProductionText(product))}
-        </p>
+        <p class="production">${production}</p>
 
-        ${stockText ? `
-          <p class="stock">
-            ${escapeHTML(stockText)}
-          </p>
-        ` : ''}
+        <button
+          type="button"
+          class="add-cart-button"
+          id="addCartButton"
+        >
+          🛒 เพิ่มลงตะกร้า
+        </button>
 
         <h3 class="contact-title">
           สนใจสินค้าชิ้นนี้ ติดต่อร้านได้ที่
@@ -485,28 +424,70 @@
         >
           โทร 088-973-2402
         </a>
-
       </div>
     `;
 
-    const mainImage =
-      document.getElementById('mainProductImage');
+    document
+      .getElementById('addCartButton')
+      .addEventListener('click', () => addToCart(product));
+  }
 
-    if (mainImage) {
-      mainImage.addEventListener('error', function() {
-        const placeholder = document.createElement('div');
-        placeholder.className = 'no-image';
-        placeholder.textContent =
-          'ไม่สามารถแสดงรูปภาพสินค้าได้';
+  function addToCart(product) {
+    try {
+      let cart = [];
 
-        this.replaceWith(placeholder);
-      });
+      try {
+        cart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
+      } catch {
+        cart = [];
+      }
+
+      const existingItem = cart.find(
+        item => Number(item.id) === Number(product.id)
+      );
+
+      if (existingItem) {
+        existingItem.quantity =
+          (Number(existingItem.quantity) || 1) + 1;
+      } else {
+        cart.push({
+          id: product.id,
+          name: product.name,
+          price: product.price === null || product.price === ''
+            ? null
+            : Number(product.price),
+          image_url: product.image_url || '',
+          quantity: 1
+        });
+      }
+
+      localStorage.setItem(CART_KEY, JSON.stringify(cart));
+
+      const goToCart = confirm(
+        'เพิ่มสินค้าลงตะกร้าเรียบร้อยแล้ว ต้องการไปที่ตะกร้าสินค้าหรือไม่?'
+      );
+
+      if (goToCart) {
+        window.location.href = './cart.html';
+      }
+
+    } catch (error) {
+      console.error(error);
+      alert('ไม่สามารถเพิ่มสินค้าลงตะกร้าได้ กรุณาลองใหม่');
     }
   }
 
-  // START
-  loadProduct();
+  function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, char => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#039;'
+    })[char]);
+  }
 
+  loadProduct();
 </script>
 
 </body>
