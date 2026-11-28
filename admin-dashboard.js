@@ -1416,4 +1416,223 @@ function closeCustomRequestModal() {
 }
 
 // ======================================================
-// อัปเดตตัวเลขบนแดช
+// อัปเดตตัวเลขบนแดชบอร์ด
+// ======================================================
+
+function updateDashboardStats() {
+  $('productCount').textContent =
+    products.length;
+
+  $('activeProductCount').textContent =
+    products.filter(product => product.is_active).length;
+
+  $('orderCount').textContent =
+    orders.length;
+
+  $('pendingOrderCount').textContent =
+    orders.filter(order =>
+      [
+        'pending',
+        'awaiting_payment',
+        'payment_review'
+      ].includes(order.order_status)
+    ).length;
+}
+
+// ======================================================
+// ตั้งค่าปุ่มและเหตุการณ์ต่าง ๆ
+// ======================================================
+
+function setupEventListeners() {
+
+  // ปุ่มสินค้า
+  $('addProductButton').addEventListener(
+    'click',
+    () => openProductModal()
+  );
+
+  $('closeProductButton').addEventListener(
+    'click',
+    closeProductModal
+  );
+
+  $('cancelButton').addEventListener(
+    'click',
+    closeProductModal
+  );
+
+  $('productForm').addEventListener(
+    'submit',
+    saveProduct
+  );
+
+  // ออกจากระบบ
+  $('logoutButton').addEventListener(
+    'click',
+    logoutAdmin
+  );
+
+  // ตัวอย่างรูปภาพก่อนบันทึก
+  $('productImage').addEventListener(
+    'change',
+    event => {
+      const file = event.target.files?.[0];
+
+      if (!file) return;
+
+      const preview = $('imagePreview');
+
+      preview.src = URL.createObjectURL(file);
+      preview.style.display = 'block';
+    }
+  );
+
+  // ปิดหน้าต่างคำขอสั่งทำ
+  $('closeCustomRequestButton').addEventListener(
+    'click',
+    closeCustomRequestModal
+  );
+
+  $('closeCustomRequestButton2').addEventListener(
+    'click',
+    closeCustomRequestModal
+  );
+
+  $('customRequestForm').addEventListener(
+    'submit',
+    saveCustomRequest
+  );
+
+  // กรองหมวดหมู่สินค้า
+  $('categoryFilter').addEventListener(
+    'click',
+    event => {
+      const button = event.target.closest(
+        'button[data-category]'
+      );
+
+      if (button) {
+        filterProducts(button.dataset.category);
+      }
+    }
+  );
+
+  // ปุ่มในตารางสินค้า
+  $('productTable').addEventListener(
+    'click',
+    event => {
+      const button = event.target.closest(
+        'button[data-action]'
+      );
+
+      if (!button) return;
+
+      const { action, id } = button.dataset;
+
+      if (action === 'edit-product') {
+        const product = products.find(item =>
+          String(item.id) === String(id)
+        );
+
+        if (product) {
+          openProductModal(product);
+        }
+
+      } else if (action === 'toggle-product') {
+        toggleProduct(id);
+
+      } else if (action === 'delete-product') {
+        deleteProduct(id);
+      }
+    }
+  );
+
+  // ปุ่มดูรายละเอียดคำสั่งซื้อ
+  $('orderTable').addEventListener(
+    'click',
+    event => {
+      const button = event.target.closest(
+        'button[data-action="view-order"]'
+      );
+
+      if (button) {
+        viewOrder(button.dataset.id);
+      }
+    }
+  );
+
+  // ปุ่มดูรายละเอียดคำขอสั่งทำ
+  $('customRequestTable').addEventListener(
+    'click',
+    event => {
+      const button = event.target.closest(
+        'button[data-action="view-custom"]'
+      );
+
+      if (button) {
+        viewCustomRequest(button.dataset.id);
+      }
+    }
+  );
+}
+
+// ======================================================
+// เริ่มต้นระบบแดชบอร์ด
+// ======================================================
+
+async function initializeDashboard() {
+
+  const allowed = await checkAdmin();
+
+  if (!allowed) return;
+
+  createOrderModal();
+
+  setupEventListeners();
+
+  try {
+
+    await loadCategories();
+
+    const results = await Promise.allSettled([
+      loadProducts(),
+      loadOrders(),
+      loadCustomRequests()
+    ]);
+
+    results.forEach((result, index) => {
+
+      if (result.status === 'rejected') {
+        console.error(
+          'Dashboard data load failed:',
+          index,
+          result.reason
+        );
+      }
+
+    });
+
+  } catch (error) {
+
+    console.error(
+      'Dashboard initialization:',
+      error
+    );
+
+    showMessage(
+      'โหลดข้อมูลแดชบอร์ดไม่สำเร็จ: ' +
+      error.message,
+      'error'
+    );
+
+  }
+}
+
+// ======================================================
+// เรียกใช้งานเมื่อหน้าเว็บโหลดเสร็จ
+// ======================================================
+
+document.addEventListener(
+  'DOMContentLoaded',
+  initializeDashboard
+);
